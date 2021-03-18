@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
 import { register } from "../_redux/authCrud";
+import { TextField } from "@material-ui/core/";
 
 const initialValues = {
   fullname: "",
@@ -79,20 +80,14 @@ function Registration(props) {
     setLoading(false);
   };
 
-  const getInputClasses = (fieldname) => {
-    if (formik.touched[fieldname] && formik.errors[fieldname]) {
-      return "is-invalid";
-    }
-
-    if (formik.touched[fieldname] && !formik.errors[fieldname]) {
-      return "is-valid";
-    }
-
-    return "";
-  };
-
   const formik = useFormik({
     initialValues,
+    enableReinitialize: true,
+    validate: (values) => {
+      const errors = {};
+
+      return errors;
+    },
     validationSchema: RegistrationSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
       enableLoading();
@@ -139,98 +134,99 @@ function Registration(props) {
 
         {/* begin: Fullname */}
         <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="Full name"
-            type="text"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "fullname"
-            )}`}
-            name="fullname"
+          <TextField
             {...formik.getFieldProps("fullname")}
+            name="fullname"
+            label="Full name"
+            variant="outlined"
+            size="small"
+            required
+            fullWidth
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.fullname}
+            error={(formik.errors.fullname && formik.touched.fullname)}
+            helperText={(formik.errors.fullname && formik.touched.fullname) && formik.errors.fullname}
           />
-          {formik.touched.fullname && formik.errors.fullname ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.fullname}</div>
-            </div>
-          ) : null}
         </div>
         {/* end: Fullname */}
 
         {/* begin: Email */}
         <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="Email"
-            type="email"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "email"
-            )}`}
-            name="email"
+          <TextField
             {...formik.getFieldProps("email")}
+            name="email"
+            label="Email"
+            variant="outlined"
+            type="email"
+            size="small"
+            required
+            fullWidth
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            error={(formik.errors.email && formik.touched.email)}
+            helperText={(formik.errors.email && formik.touched.email) && formik.errors.email}
           />
-          {formik.touched.email && formik.errors.email ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.email}</div>
-            </div>
-          ) : null}
         </div>
         {/* end: Email */}
 
         {/* begin: Username */}
         <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="User name"
-            type="text"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "username"
-            )}`}
-            name="username"
+          <TextField
             {...formik.getFieldProps("username")}
+            name="username"
+            label="User name"
+            variant="outlined"
+            size="small"
+            required
+            fullWidth
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.username}
+            error={(formik.errors.username && formik.touched.username)}
+            helperText={(formik.errors.username && formik.touched.username) && formik.errors.username}
           />
-          {formik.touched.username && formik.errors.username ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.username}</div>
-            </div>
-          ) : null}
         </div>
         {/* end: Username */}
 
         {/* begin: Password */}
         <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="Password"
-            type="password"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "password"
-            )}`}
-            name="password"
+          <TextField
             {...formik.getFieldProps("password")}
+            name="password"
+            label="Password"
+            type="password"
+            variant="outlined"
+            size="small"
+            required
+            fullWidth
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            error={(formik.errors.password && formik.touched.password)}
+            helperText={(formik.errors.password && formik.touched.password) && formik.errors.password}
           />
-          {formik.touched.password && formik.errors.password ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.password}</div>
-            </div>
-          ) : null}
         </div>
         {/* end: Password */}
 
         {/* begin: Confirm Password */}
         <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="Confirm Password"
-            type="password"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "changepassword"
-            )}`}
-            name="changepassword"
+        <TextField
             {...formik.getFieldProps("changepassword")}
+            name="changepassword"
+            label="Confirm Password"
+            type="password"
+            variant="outlined"
+            size="small"
+            required
+            fullWidth
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.changepassword}
+            error={(formik.errors.changepassword && formik.touched.changepassword)}
+            helperText={(formik.errors.changepassword && formik.touched.changepassword) && formik.errors.changepassword}
           />
-          {formik.touched.changepassword && formik.errors.changepassword ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">
-                {formik.errors.changepassword}
-              </div>
-            </div>
-          ) : null}
         </div>
         {/* end: Confirm Password */}
 
@@ -244,7 +240,7 @@ function Registration(props) {
               {...formik.getFieldProps("acceptTerms")}
             />
             <Link to="/terms" target="_blank" className="mr-1" rel="noopener noreferrer">
-            I agree the Terms & Conditions
+              I agree the Terms & Conditions
             </Link>
             <span />
           </label>

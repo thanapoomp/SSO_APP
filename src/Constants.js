@@ -1,7 +1,7 @@
 export const APP_INFO = {
-  name: 'Standard Demo',
+  name: 'Siamsmile',
   version: '0.1',
-  since: '2020',
+  since: '2021',
   description: 'Siam smile',
   contactUrl: 'https://www.siamsmile.co.th'
 }
