@@ -3,8 +3,9 @@ import React from "react";
 import { Link, Switch, Redirect } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../../_metronic/_helpers";
 import { ContentRoute } from "../../../../_metronic/layout";
-import Login from "./Login";
-import Registration from "./Registration";
+// import Login from "./Login";
+import Login from "./Login_new";
+import Registration from "./Registration_new";
 import ForgotPassword from "./ForgotPassword";
 import "../../../../_metronic/_assets/sass/pages/login/classic/login-1.scss";
 import * as CONST from "../../../../Constants";
@@ -23,7 +24,7 @@ export function AuthPage() {
           <div
             className="login-aside d-flex flex-row-auto bgi-size-cover bgi-no-repeat p-10 p-lg-10"
             style={{
-              backgroundImage: `url(${toAbsoluteUrl("/media/bg/bg-4.jpg")})`,
+              backgroundImage: `url(${toAbsoluteUrl("/media/bg/pic.jpg")})`,
             }}
           >
             {/*begin: Aside Container*/}
@@ -33,7 +34,7 @@ export function AuthPage() {
                 <img
                   alt="Logo"
                   className="max-h-70px"
-                  src={toAbsoluteUrl("/media/logos/logo-letter-1.png")}
+                  src={toAbsoluteUrl("/media/logos/logoSM.png")}
                 />
               </Link>
               {/* end:: Aside header */}
@@ -52,7 +53,7 @@ export function AuthPage() {
               {/* start:: Aside footer for desktop */}
               <div className="d-none flex-column-auto d-lg-flex justify-content-between mt-10">
                 <div className="opacity-70 font-weight-bold	text-white">
-                  &copy; 2020 {CONST.APP_INFO.name}
+                  &copy; 2021 {CONST.APP_INFO.name}
                 </div>
                 <div className="d-flex">
                   <a
