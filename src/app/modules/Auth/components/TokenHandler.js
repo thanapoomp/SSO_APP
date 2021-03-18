@@ -74,7 +74,7 @@ function TokenHandler(props) {
     loginDetail.roles = authCrud.getRoles(token);
 
     dispatch(authAction.actions.renewToken(loginDetail));
-    console.log("renew");
+    // console.log("renew");
 
     //set time to renew
     setTimeToRenew(exp.add(minute_before_exp_to_renew * -1, "minute"));
