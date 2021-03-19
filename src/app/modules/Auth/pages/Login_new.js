@@ -65,6 +65,12 @@ function Login_new(props) {
   const formik = useFormik({
     initialValues,
     validationSchema: LoginSchema,
+    enableReinitialize: true,
+    validate: (values) => {
+      const errors = {};
+
+      return errors;
+    },
     onSubmit: (values, { setStatus, setSubmitting }) => {
       enableLoading();
       login(values.username, values.password)
@@ -112,6 +118,18 @@ function Login_new(props) {
   return (
     <div className="login-form login-signin" id="kt_login_signin_form">
       {/* begin::Head */}
+      <div className="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10">
+        <span className="font-weight-bold text-dark-50">
+          Don't have an account yet?
+        </span>
+        <Link
+          to="/auth/registration"
+          className="font-weight-bold ml-2"
+          id="kt_login_signup"
+        >
+          Sign Up!
+        </Link>
+      </div>
       <div className="text-center mb-10 mb-lg-20">
         <h3 className="font-size-h1">
           <FormattedMessage id="AUTH.LOGIN.TITLE" />
