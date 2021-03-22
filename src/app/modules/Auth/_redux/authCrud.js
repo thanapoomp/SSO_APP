@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 var dayjs = require("dayjs");
 // http://uat.siamsmile.co.th:9185/api/SSO/login
 export const LOGIN_URL = `${CONST.API_URL}/Auth/login`;
-export const REGISTER_URL = `/Auth/register`;
+export const REGISTER_URL = `${CONST.API_URL}/Auth/user/register`;
 export const REQUEST_PASSWORD_URL = `api/auth/forgot-password`;
 export const RENEW_TOKEN_URL = `${CONST.API_URL}/Auth/renew`
 
@@ -15,8 +15,8 @@ export function login(username, password, source) {
   return axios.post(LOGIN_URL, { username, password, source });
 }
 
-export function register(email, fullname, username, password) {
-  return axios.post(REGISTER_URL, { email, fullname, username, password });
+export function register(fullname, username, password, mapperId) {
+  return axios.post(REGISTER_URL, { fullname, username, password, mapperId });
 }
 
 export function requestPassword(email) {
