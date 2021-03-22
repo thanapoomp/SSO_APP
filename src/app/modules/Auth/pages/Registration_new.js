@@ -6,15 +6,16 @@ import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
 import { register } from "../_redux/authCrud";
-import { TextField } from "@material-ui/core/";
+import { TextField, Button } from "@material-ui/core/";
+import * as swal from "../../Common/components/SweetAlert";
 
 const initialValues = {
   fullname: "",
-  email: "",
+  sourceid: "a4f9ad8a-0109-4c27-ace4-dcff6e5691d4",
   username: "",
   password: "",
   changepassword: "",
-  acceptTerms: false,
+  mapperid: "000"
 };
 
 function Registration(props) {
@@ -22,15 +23,6 @@ function Registration(props) {
   const [loading, setLoading] = useState(false);
   const RegistrationSchema = Yup.object().shape({
     fullname: Yup.string()
-      .min(3, "Minimum 3 symbols")
-      .max(50, "Maximum 50 symbols")
-      .required(
-        intl.formatMessage({
-          id: "AUTH.VALIDATION.REQUIRED_FIELD",
-        })
-      ),
-    email: Yup.string()
-      .email("Wrong email format")
       .min(3, "Minimum 3 symbols")
       .max(50, "Maximum 50 symbols")
       .required(
@@ -67,9 +59,6 @@ function Registration(props) {
           "Password and Confirm Password didn't match"
         ),
       }),
-    acceptTerms: Yup.bool().required(
-      "You must accept the terms and conditions"
-    ),
   });
 
   const enableLoading = () => {
@@ -90,20 +79,24 @@ function Registration(props) {
     },
     validationSchema: RegistrationSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
+      debugger
       enableLoading();
-      register(values.email, values.fullname, values.username, values.password)
-        .then(({ data: { accessToken } }) => {
-          props.register(accessToken);
-          disableLoading();
+      register(values.mapperid, values.username, values.password, values.sourceid)
+        .then((res) => {
+          if (res.data.isSuccess) {
+            props.register(res.data);
+            disableLoading();
+          } else {
+            setSubmitting(false);
+            setStatus(res.data.message
+            );
+            disableLoading();
+          }
         })
-        .catch(() => {
-          setSubmitting(false);
-          setStatus(
-            intl.formatMessage({
-              id: "AUTH.VALIDATION.INVALID_LOGIN",
-            })
-          );
+        .catch((error) => {
           disableLoading();
+          setSubmitting(false);
+          setStatus(error.message);
         });
     },
   });
@@ -151,26 +144,6 @@ function Registration(props) {
         </div>
         {/* end: Fullname */}
 
-        {/* begin: Email */}
-        <div className="form-group fv-plugins-icon-container">
-          <TextField
-            {...formik.getFieldProps("email")}
-            name="email"
-            label="Email"
-            variant="outlined"
-            type="email"
-            size="small"
-            required
-            fullWidth
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.email}
-            error={(formik.errors.email && formik.touched.email)}
-            helperText={(formik.errors.email && formik.touched.email) && formik.errors.email}
-          />
-        </div>
-        {/* end: Email */}
-
         {/* begin: Username */}
         <div className="form-group fv-plugins-icon-container">
           <TextField
@@ -189,6 +162,44 @@ function Registration(props) {
           />
         </div>
         {/* end: Username */}
+
+        {/* begin: mapperid */}
+        <div className="form-group fv-plugins-icon-container">
+          <TextField
+            {...formik.getFieldProps("username")}
+            name="mapperid"
+            label="mapperId"
+            variant="outlined"
+            size="small"
+            required
+            fullWidth
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.mapperid}
+            error={(formik.errors.mapperid && formik.touched.mapperid)}
+            helperText={(formik.errors.mapperid && formik.touched.mapperid) && formik.errors.mapperid}
+          />
+        </div>
+        {/* end: mapperid */}
+
+        {/* begin: sourceId */}
+        <div className="form-group fv-plugins-icon-container">
+          <TextField
+            {...formik.getFieldProps("username")}
+            name="sourceid"
+            label="sourceId"
+            variant="outlined"
+            size="small"
+            required
+            fullWidth
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.sourceid}
+            error={(formik.errors.sourceid && formik.touched.sourceid)}
+            helperText={(formik.errors.sourceid && formik.touched.sourceid) && formik.errors.sourceid}
+          />
+        </div>
+        {/* end: sourceId */}
 
         {/* begin: Password */}
         <div className="form-group fv-plugins-icon-container">
@@ -212,7 +223,7 @@ function Registration(props) {
 
         {/* begin: Confirm Password */}
         <div className="form-group fv-plugins-icon-container">
-        <TextField
+          <TextField
             {...formik.getFieldProps("changepassword")}
             name="changepassword"
             label="Confirm Password"
@@ -230,36 +241,16 @@ function Registration(props) {
         </div>
         {/* end: Confirm Password */}
 
-        {/* begin: Terms and Conditions */}
-        <div className="form-group">
-          <label className="checkbox">
-            <input
-              type="checkbox"
-              name="acceptTerms"
-              className="m-1"
-              {...formik.getFieldProps("acceptTerms")}
-            />
-            <Link to="/terms" target="_blank" className="mr-1" rel="noopener noreferrer">
-              I agree the Terms & Conditions
-            </Link>
-            <span />
-          </label>
-          {formik.touched.acceptTerms && formik.errors.acceptTerms ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.acceptTerms}</div>
-            </div>
-          ) : null}
-        </div>
-        {/* end: Terms and Conditions */}
         <div className="form-group d-flex flex-wrap flex-center">
-          <button
+          <Button
             type="submit"
-            disabled={formik.isSubmitting || !formik.values.acceptTerms}
-            className="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4"
+            onClick={formik.handleSubmit}
+            disabled={formik.isSubmitting}
+            className="btn btn-light-primary font-weight-bold px-9 py-4 my-3 mx-4"
           >
             <span>Submit</span>
             {loading && <span className="ml-3 spinner spinner-white"></span>}
-          </button>
+          </Button>
 
           <Link to="/auth/login">
             <button

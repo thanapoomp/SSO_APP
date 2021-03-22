@@ -108,10 +108,7 @@ function Login_new(props) {
             //Failed
             disableLoading();
             setSubmitting(false);
-            setStatus(
-              intl.formatMessage({
-                id: "AUTH.VALIDATION.INVALID_LOGIN",
-              })
+            setStatus(res.data.message
             );
           }
         })
