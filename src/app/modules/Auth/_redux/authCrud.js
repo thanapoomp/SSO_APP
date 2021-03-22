@@ -3,7 +3,7 @@ import * as CONST from "./../../../../Constants";
 import jwt_decode from "jwt-decode";
 
 var dayjs = require("dayjs");
-
+// http://uat.siamsmile.co.th:9185/api/SSO/login
 export const LOGIN_URL = `${CONST.API_URL}/Auth/login`;
 export const REGISTER_URL = `/Auth/register`;
 export const REQUEST_PASSWORD_URL = `api/auth/forgot-password`;
@@ -11,8 +11,8 @@ export const RENEW_TOKEN_URL = `${CONST.API_URL}/Auth/renew`
 
 export const ME_URL = `${CONST.API_URL}/Auth/renew`;
 
-export function login(username, password) {
-  return axios.post(LOGIN_URL, { username, password });
+export function login(username, password, source) {
+  return axios.post(LOGIN_URL, { username, password, source });
 }
 
 export function register(email, fullname, username, password) {

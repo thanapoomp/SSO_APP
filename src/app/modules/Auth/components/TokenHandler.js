@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import * as authCrud from "../_redux/authCrud";
 import * as authAction from "../_redux/authRedux";
 import { useDispatch } from "react-redux";
+import * as swal from '../../Common/components/SweetAlert'
 var dayjs = require("dayjs");
 
 function TokenHandler(props) {
@@ -14,6 +15,7 @@ function TokenHandler(props) {
     // catch local storage event from other page
     // log out listener
     window.addEventListener("storage", (e) => {
+
       //get local storage 'token'
       let authLocalStorage = JSON.parse(localStorage.getItem("persist:auth"));
       if (authLocalStorage.authToken === "null") {
@@ -42,12 +44,14 @@ function TokenHandler(props) {
 
   const renew = () => {
     authCrud
-      .renewToken()
-      .then((res) => {
-        if (res.data.isSuccess) {
+    .renewToken()
+    .then((res) => {
+      if (res.data.isSuccess) {
+          debugger
           updateState(res.data.data);
         } else {
-          alert(res.data.message);
+          swal.swalInfo("warning", res.data.message);
+          // alert(res.data.message);
           dispatch(authAction.actions.logout());
         }
       })
@@ -74,7 +78,7 @@ function TokenHandler(props) {
     loginDetail.roles = authCrud.getRoles(token);
 
     dispatch(authAction.actions.renewToken(loginDetail));
-    // console.log("renew");
+    console.log("renew");
 
     //set time to renew
     setTimeToRenew(exp.add(minute_before_exp_to_renew * -1, "minute"));

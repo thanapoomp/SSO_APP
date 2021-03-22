@@ -8,9 +8,9 @@ export const APP_INFO = {
 
 export const API_URL =
   !process.env.NODE_ENV || process.env.NODE_ENV === "development"
-    ? "http://uat.siamsmile.co.th:9188/api" //dev
+    ? "http://uat.siamsmile.co.th:9218/api" //dev
     : // ?  "http://localhost:54821/api" //dev
-      "http://uat.siamsmile.co.th:9188/api"; // Production
+      "http://uat.siamsmile.co.th:9218/api"; // Production
 
 
 export const ROLES = {

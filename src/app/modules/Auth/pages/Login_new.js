@@ -19,8 +19,11 @@ import { login, getUserByToken, getExp, getRoles } from "../_redux/authCrud";
 */
 
 const initialValues = {
-  username: "",
-  password: "",
+  
+    source: "smilesiam.Dev",
+    username: "devcrud",
+    password: "w,ji^h9yh'wifu"
+  
 };
 
 function Login_new(props) {
@@ -69,30 +72,35 @@ function Login_new(props) {
     validate: (values) => {
       const errors = {};
 
+      if (!values.source) {
+        errors.source = "Required field";
+      }
+
       return errors;
     },
     onSubmit: (values, { setStatus, setSubmitting }) => {
       enableLoading();
-      login(values.username, values.password)
+      login(values.username, values.password, values.source)
         .then((res) => {
           if (res.data.isSuccess) {
-            // debugger
+            debugger
             //Success
             disableLoading();
 
             let loginDetail = {}
 
             //get token
-            loginDetail.authToken = res.data.data
+            loginDetail.authToken = res.data;
+            console.log("authToken", loginDetail)
 
             //get user
-            loginDetail.user = getUserByToken(res.data.data)
+            loginDetail.user = getUserByToken(res.data.data);
 
             // get exp
             loginDetail.exp = getExp(res.data.data);
 
             //get roles
-            loginDetail.roles = getRoles(res.data.data)
+            loginDetail.roles = getRoles(res.data.data);
 
             props.login(loginDetail);
 
@@ -150,6 +158,23 @@ function Login_new(props) {
             <div className="alert-text font-weight-bold">{formik.status}</div>
           </div>
         )}
+
+        <div className="form-group fv-plugins-icon-container">
+          <TextField
+            {...formik.getFieldProps("source")}
+            name="source"
+            label="source"
+            variant="outlined"
+            size="small"
+            required
+            fullWidth
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.source}
+            error={(formik.errors.source && formik.touched.source)}
+            helperText={(formik.errors.source && formik.touched.source) && formik.errors.source}
+          />
+        </div>
 
         <div className="form-group fv-plugins-icon-container">
           <TextField
