@@ -15,7 +15,7 @@ import FormikDatePicker from "../components/FormikDatePicker";
 import FormikDateTimePicker from "../components/FormikDateTimePicker";
 import FormikTimePicker from "../components/FormikTimePicker";
 import FormikAutoComplete from "../components/FormikAutoComplete";
-import * as employeeAxios from '../../_EmployeeDemo/_redux/employeeAxios'
+// import * as employeeAxios from '../../_EmployeeDemo/_redux/employeeAxios'
 
 function WithTextField() {
   const [title, setTitle] = React.useState([
@@ -44,25 +44,25 @@ function WithTextField() {
 
   const [relatedEmployee, setRelatedEmployee] = React.useState({id: "", firstName: '' })
 
-  React.useEffect(() => {
-    // getRelatedEmployee
-    let id = 'e1b57a9c-23e3-409f-1c6a-08d8bcedf819'
-    employeeAxios.getEmployee(id)
-    .then((res)=>{
-      if (res.data.isSuccess) {
-        setRelatedEmployee({...relatedEmployee,id:res.data.data.id,firstName:res.data.data.firstName})
-      }else(
-        alert(res.data.message)
-      )
-    })
-    .catch((err) => {
-      alert(err.message)
-    })
-  }, [])
+  // React.useEffect(() => {
+  //   // getRelatedEmployee
+  //   let id = 'e1b57a9c-23e3-409f-1c6a-08d8bcedf819'
+  //   employeeAxios.getEmployee(id)
+  //   .then((res)=>{
+  //     if (res.data.isSuccess) {
+  //       setRelatedEmployee({...relatedEmployee,id:res.data.data.id,firstName:res.data.data.firstName})
+  //     }else(
+  //       alert(res.data.message)
+  //     )
+  //   })
+  //   .catch((err) => {
+  //     alert(err.message)
+  //   })
+  // }, [])
 
-  const loadEmployee = (firstName) => {
-    return employeeAxios.getEmployeeFilter('firstName',true,1,50,'',firstName,'')
-  }
+  // const loadEmployee = (firstName) => {
+  //   return employeeAxios.getEmployeeFilter('firstName',true,1,50,'',firstName,'')
+  // }
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -206,7 +206,7 @@ function WithTextField() {
           formik={formik}
           name="relatedToEmployee"
           label="Related"
-          axiosGet={loadEmployee.bind(this)}
+          // axiosGet={loadEmployee.bind(this)}
           valueFieldName="id"
           displayFieldName="firstName"
           minSearchLen={3}
