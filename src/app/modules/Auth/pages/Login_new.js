@@ -1,12 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { TextField } from "@material-ui/core/";
+import FormikDropdown from "../../../modules/_FormikUseFormik/components/FormikDropdown";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
 import { login, getUserByToken, getExp, getRoles } from "../_redux/authCrud";
+import * as CONST from "../../../../Constants";
+import Axios from "axios";
 
 /*
   INTL (i18n) docs:
@@ -19,14 +23,17 @@ import { login, getUserByToken, getExp, getRoles } from "../_redux/authCrud";
 */
 
 const initialValues = {
-  
-    source: "",
-    username: "",
-    password: ""
-  
+
+  source: 0,
+  username: "",
+  password: ""
+
 };
 
 function Login_new(props) {
+  const api_get_source_url = `${CONST.API_URL}/Auth/source/get`;
+
+  const [sourceList, setSourceList] = React.useState([]);
   const { intl } = props;
   const [loading, setLoading] = useState(false);
   const LoginSchema = Yup.object().shape({
@@ -51,18 +58,6 @@ function Login_new(props) {
 
   const disableLoading = () => {
     setLoading(false);
-  };
-
-  const getInputClasses = (fieldname) => {
-    if (formik.touched[fieldname] && formik.errors[fieldname]) {
-      return "is-invalid";
-    }
-
-    if (formik.touched[fieldname] && !formik.errors[fieldname]) {
-      return "is-valid";
-    }
-
-    return "";
   };
 
   const formik = useFormik({
@@ -117,7 +112,28 @@ function Login_new(props) {
           setStatus(error.message);
         });
     },
+
   });
+  
+  const loadSource = () => {
+    //Load Province
+    Axios.get(api_get_source_url)
+      .then((res) => {
+        if (res.data.isSuccess) {
+          setSourceList(res.data.data);
+          console.log(res.data.data);
+        } else {
+          alert(res.data.message);
+        }
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
+
+  React.useEffect(() => {
+    loadSource();
+  }, []);
 
   return (
     <div className="login-form login-signin" id="kt_login_signin_form">
@@ -156,19 +172,17 @@ function Login_new(props) {
         )}
 
         <div className="form-group fv-plugins-icon-container">
-          <TextField
-            {...formik.getFieldProps("source")}
+          <FormikDropdown
+            formik={formik}
             name="source"
             label="source"
             variant="outlined"
-            size="small"
             required
-            fullWidth
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.source}
-            error={(formik.errors.source && formik.touched.source)}
-            helperText={(formik.errors.source && formik.touched.source) && formik.errors.source}
+            size="small"
+            data={sourceList}
+            firstItemText="Select Source"
+            valueFieldName="sourceName"
+            displayFieldName="sourceName"
           />
         </div>
 

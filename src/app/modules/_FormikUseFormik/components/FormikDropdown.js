@@ -74,7 +74,7 @@ FormikDropdown.defaultProps = {
   displayFieldName: "name",
   firstItemText: "Do not forget to set firstItemText",
   disableFirstItem: true,
-  selectedCallback: () => {},
+  selectedCallback: () => { },
   disabled: false
 };
 

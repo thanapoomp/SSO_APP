@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { connect } from "react-redux";
@@ -7,29 +8,27 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
 import { register } from "../_redux/authCrud";
 import { TextField, Button } from "@material-ui/core/"
+import FormikDropdown from "../../../modules/_FormikUseFormik/components/FormikDropdown";
+import * as CONST from "../../../../Constants";
+import * as swal from "../../Common/components/SweetAlert";
+import Axios from "axios";
 
 const initialValues = {
-  fullname: "",
-  sourceid: "a4f9ad8a-0109-4c27-ace4-dcff6e5691d4",
+  sourceid: 0,
   username: "",
   password: "",
   changepassword: "",
-  mapperid: "000"
+  mapperid: ""
 };
 
 function Registration_new(props) {
+  const api_get_source_url = `${CONST.API_URL}/Auth/source/get`;
+
+  const [sourceList, setSourceList] = React.useState([]);
   const { intl } = props;
   const [loading, setLoading] = useState(false);
   const [Classe, setClasse] = useState(false)
   const RegistrationSchema = Yup.object().shape({
-    fullname: Yup.string()
-      .min(3, "Minimum 3 symbols")
-      .max(50, "Maximum 50 symbols")
-      .required(
-        intl.formatMessage({
-          id: "AUTH.VALIDATION.REQUIRED_FIELD",
-        })
-      ),
     username: Yup.string()
       .min(3, "Minimum 3 symbols")
       .max(50, "Maximum 50 symbols")
@@ -75,6 +74,14 @@ function Registration_new(props) {
     validate: (values) => {
       const errors = {};
 
+      if (!values.mapperid) {
+        errors.mapperid = "Required field";
+      }
+
+      if (!values.sourceid) {
+        errors.sourceid = "Required field";
+      }
+
       return errors;
     },
     validationSchema: RegistrationSchema,
@@ -105,6 +112,25 @@ function Registration_new(props) {
     },
   });
 
+  const loadSource = () => {
+    //Load Province
+    Axios.get(api_get_source_url)
+      .then((res) => {
+        if (res.data.isSuccess) {
+          setSourceList(res.data.data);
+        } else {
+          swal.swalError("Error", res.data.message);
+        }
+      })
+      .catch((err) => {
+        swal.swalError("Error", err.message);
+      });
+  };
+
+  React.useEffect(() => {
+    loadSource();
+  }, []);
+
   return (
     <div className="login-form login-signin" style={{ display: "block" }}>
       <div className="text-center mb-10 mb-lg-20">
@@ -129,25 +155,6 @@ function Registration_new(props) {
         )}
         {/* end: Alert */}
 
-        {/* begin: Fullname */}
-        <div className="form-group fv-plugins-icon-container">
-          <TextField
-            {...formik.getFieldProps("fullname")}
-            name="fullname"
-            label="Full name"
-            variant="outlined"
-            size="small"
-            required
-            fullWidth
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.fullname}
-            error={(formik.errors.fullname && formik.touched.fullname)}
-            helperText={(formik.errors.fullname && formik.touched.fullname) && formik.errors.fullname}
-          />
-        </div>
-        {/* end: Fullname */}
-
         {/* begin: Username */}
         <div className="form-group fv-plugins-icon-container">
           <TextField
@@ -170,9 +177,9 @@ function Registration_new(props) {
         {/* begin: mapperid */}
         <div className="form-group fv-plugins-icon-container">
           <TextField
-            {...formik.getFieldProps("username")}
+            {...formik.getFieldProps("mapperid")}
             name="mapperid"
-            label="mapperId"
+            label="Employee Id"
             variant="outlined"
             size="small"
             required
@@ -188,19 +195,18 @@ function Registration_new(props) {
 
         {/* begin: sourceId */}
         <div className="form-group fv-plugins-icon-container">
-          <TextField
-            {...formik.getFieldProps("username")}
+
+          <FormikDropdown
+            formik={formik}
             name="sourceid"
-            label="sourceId"
+            label="source"
             variant="outlined"
-            size="small"
             required
-            fullWidth
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.sourceid}
-            error={(formik.errors.sourceid && formik.touched.sourceid)}
-            helperText={(formik.errors.sourceid && formik.touched.sourceid) && formik.errors.sourceid}
+            size="small"
+            data={sourceList}
+            firstItemText="Select Source"
+            valueFieldName="id"
+            displayFieldName="sourceName"
           />
         </div>
         {/* end: sourceId */}
