@@ -199,10 +199,10 @@ function Registration_new(props) {
           <FormikDropdown
             formik={formik}
             name="sourceid"
-            label="source"
             variant="outlined"
+            label=""
+            id="demo-simple-select-outlined"
             required
-            size="small"
             data={sourceList}
             firstItemText="Select Source"
             valueFieldName="id"

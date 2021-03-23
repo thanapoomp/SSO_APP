@@ -20,6 +20,7 @@ function FormikDropdown(props) {
     >
       <InputLabel>{props.label}</InputLabel>
       <Select
+        variant={props.variant}
         name={props.name}
         value={props.formik.values[`${props.name}`]}
         onBlur={props.formik.handleBlur}
@@ -52,6 +53,7 @@ function FormikDropdown(props) {
 }
 
 FormikDropdown.propTypes = {
+  variant:PropTypes.string,
   formik: PropTypes.object,
   name: PropTypes.string,
   label: PropTypes.string,

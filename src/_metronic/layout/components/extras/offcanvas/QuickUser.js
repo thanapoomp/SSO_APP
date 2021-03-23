@@ -77,7 +77,7 @@ export function QuickUser() {
             {/* <Link to="/logout" className="btn btn-light-primary btn-bold">
                 Sign Out
               </Link> */}
-            <button className="btn btn-light-primary btn-bold" onClick={logoutClick}>Sign out</button>
+            <button className="btn btn-light-danger btn-bold" onClick={logoutClick}>Sign out</button>
           </div>
         </div>
 

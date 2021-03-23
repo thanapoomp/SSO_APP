@@ -175,10 +175,9 @@ function Login_new(props) {
           <FormikDropdown
             formik={formik}
             name="source"
-            label="source"
             variant="outlined"
+            label=""
             required
-            size="small"
             data={sourceList}
             firstItemText="Select Source"
             valueFieldName="sourceName"
