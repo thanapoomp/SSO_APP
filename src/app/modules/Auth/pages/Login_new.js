@@ -20,9 +20,9 @@ import { login, getUserByToken, getExp, getRoles } from "../_redux/authCrud";
 
 const initialValues = {
   
-    source: "smilesiam.Dev",
-    username: "devcrud",
-    password: "w,ji^h9yh'wifu"
+    source: "",
+    username: "",
+    password: ""
   
 };
 
@@ -91,7 +91,6 @@ function Login_new(props) {
 
             //get token
             loginDetail.authToken = res.data;
-            console.log("authToken", loginDetail)
 
             //get user
             loginDetail.user = getUserByToken(res.data.data);

@@ -3,6 +3,7 @@ import storage from "redux-persist/lib/storage";
 
 export const actionTypes = {
   Login: "[Login] Action",
+  Register: "[Register] Action",
   Logout: "[Logout] Action",
   RenewToken: "[Renew Token] Action",
 };
@@ -62,6 +63,7 @@ export const reducer = persistReducer(
 
 export const actions = {
   login: (payload) => ({ type: actionTypes.Login, payload }),
+  register: (payload) => ({ type: actionTypes.Register, payload }),
   logout: () => ({ type: actionTypes.Logout }),
   renewToken: (payload) => ({ type: actionTypes.RenewToken, payload }),
 };

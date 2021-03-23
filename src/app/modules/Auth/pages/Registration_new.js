@@ -6,8 +6,7 @@ import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
 import { register } from "../_redux/authCrud";
-import { TextField, Button } from "@material-ui/core/";
-import * as swal from "../../Common/components/SweetAlert";
+import { TextField, Button } from "@material-ui/core/"
 
 const initialValues = {
   fullname: "",
@@ -18,9 +17,10 @@ const initialValues = {
   mapperid: "000"
 };
 
-function Registration(props) {
+function Registration_new(props) {
   const { intl } = props;
   const [loading, setLoading] = useState(false);
+  const [Classe, setClasse] = useState(false)
   const RegistrationSchema = Yup.object().shape({
     fullname: Yup.string()
       .min(3, "Minimum 3 symbols")
@@ -84,16 +84,20 @@ function Registration(props) {
       register(values.mapperid, values.username, values.password, values.sourceid)
         .then((res) => {
           if (res.data.isSuccess) {
-            props.register(res.data);
+
+            props.register(res.data.data);
+            setClasse("success")
+            setStatus("Register Success ");
             disableLoading();
           } else {
+            setClasse("danger")
             setSubmitting(false);
-            setStatus(res.data.message
-            );
+            setStatus(res.data.message);
             disableLoading();
           }
         })
         .catch((error) => {
+          setClasse("danger")
           disableLoading();
           setSubmitting(false);
           setStatus(error.message);
@@ -119,7 +123,7 @@ function Registration(props) {
       >
         {/* begin: Alert */}
         {formik.status && (
-          <div className="mb-10 alert alert-custom alert-light-danger alert-dismissible">
+          <div className={`mb-10 alert alert-custom alert-light-${Classe} alert-dismissible`}>
             <div className="alert-text font-weight-bold">{formik.status}</div>
           </div>
         )}
@@ -266,4 +270,4 @@ function Registration(props) {
   );
 }
 
-export default injectIntl(connect(null, auth.actions)(Registration));
+export default injectIntl(connect(null, auth.actions)(Registration_new));
