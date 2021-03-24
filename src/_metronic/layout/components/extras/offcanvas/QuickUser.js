@@ -19,11 +19,16 @@ export function QuickUser() {
     history.push("/logout");
   };
 
-  let roles = [];
-
-  Object.keys(authReducer.roles).forEach(function (key) {
-    roles.push(`${authReducer.roles[key]},`);
-  });
+  const objRoles = () => {
+    let roles = [];
+    if (authReducer.roles) {
+      Object.keys(authReducer.roles).forEach(function (key) {
+        roles.push(`${authReducer.roles[key]},`);
+      });
+      return (roles);
+    }
+    return;
+  }
 
   return (
     <div id="kt_quick_user" className="offcanvas offcanvas-right offcanvas p-10">
@@ -63,7 +68,7 @@ export function QuickUser() {
               {authReducer.user}
             </a>
             <div className="text-muted mt-1">User : {authReducer.user}</div>
-            <div className="text-muted mt-1">Roles : {roles}</div>
+            <div className="text-muted mt-1">Roles : {objRoles()}</div>
             <div className="navi mt-2">
               <a href="#" className="navi-item">
                 <span className="navi-link p-0 pb-2">
