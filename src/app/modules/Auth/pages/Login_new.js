@@ -85,7 +85,7 @@ function Login_new(props) {
             let loginDetail = {}
 
             //get token
-            loginDetail.authToken = res.data;
+            loginDetail.authToken = res.data.data;
 
             //get user
             loginDetail.user = getUserByToken(res.data.data);

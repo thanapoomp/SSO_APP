@@ -19,8 +19,8 @@ export function login(username, password, source) {
 export function register(mapperId, username, password, sourceid) {
   return axios.post(REGISTER_URL, { mapperId, username, password, sourceid });
 }
-export function changePassword(mapperId, username, password, sourceid) {
-  return axios.post(CHANGPASSWORD_URL, { mapperId, username, password, sourceid });
+export function changePassword(oldPassword, oldConfirmPassword, newPassword, newConfirmPassword) {
+  return axios.post(CHANGPASSWORD_URL, { oldPassword, oldConfirmPassword, newPassword, newConfirmPassword });
 }
 
 export function requestPassword(email) {

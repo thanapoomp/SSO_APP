@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import { useFormik } from "formik";
+import { useHistory } from "react-router-dom";
 import { Grid, TextField, Card, CardContent, Button } from "@material-ui/core/";
 import { useSelector } from "react-redux";
 import { changePassword } from "../_redux/authCrud";
@@ -7,7 +9,7 @@ import * as swal from "../../Common/components/SweetAlert";
 
 function ChangePassword(props) {
 	const authReducer = useSelector(({ auth }) => auth)
-
+	const history = useHistory();
 	const formik = useFormik({
 		enableReinitialize: true,
 		validate: (values) => {
@@ -42,21 +44,17 @@ function ChangePassword(props) {
 
 	const handleSave = ({ setSubmitting }, values) => {
 		debugger
-		setSubmitting(false);
 		// console.log(authReducer);
 		// console.log(values);
-
-		let obj = {
-			oldPassword: values.password,
-			oldConfirmPassword: values.cfPassword,
-			newPassword: values.newPassword,
-			newConfirmPassword: values.cfNewPassword,
-		}
-		changePassword(obj)
+		changePassword(values.password, values.cfPassword, values.newPassword, values.cfNewPassword)
 			.then((res) => {
 				if (res.data.isSuccess) {
-					swal.swalSuccess("Success", `${res.data.data} success.`);
-					console.log(res.data);
+					setSubmitting(false);
+					swal.swalSuccess("Success", `success.`).then((res) => {
+						if (res.isConfirmed) {
+							history.push("/logout");
+						}
+					});
 				} else {
 					swal.swalError("Error", res.data.message);
 				}
@@ -65,6 +63,7 @@ function ChangePassword(props) {
 				//network error
 				swal.swalError("Error", err.message);
 			});
+
 	}
 
 	return (
