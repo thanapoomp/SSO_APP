@@ -10,6 +10,7 @@ export const REQUEST_PASSWORD_URL = `api/auth/forgot-password`;
 export const RENEW_TOKEN_URL = `${CONST.API_URL}/Auth/renew`
 export const CHANGPASSWORD_URL = `${CONST.API_URL}/Auth/user/changepassword`
 export const ASSIGN_ROLE_URL = `${CONST.API_URL}/Auth/role/assign`
+export const GET_USER_BYID_URL = `${CONST.API_URL}/Auth/role/getuserid`;
 
 export const ME_URL = `${CONST.API_URL}/Auth/renew`;
 
@@ -35,6 +36,10 @@ export function requestPassword(email) {
 export function getUserByToken(token) {
   let decoded = jwt_decode(token)['unique_name'];
   return decoded;
+}
+
+export function getUserById(id) {
+  return axios.get(`${GET_USER_BYID_URL}/${id}`);
 }
 
 export function getExp(token) {

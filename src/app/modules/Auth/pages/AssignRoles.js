@@ -3,7 +3,7 @@ import React from 'react'
 import { useFormik } from "formik";
 import { Grid, Button, Card, CardHeader, Checkbox, Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import FormikDropdown from "../../../modules/_FormikUseFormik/components/FormikDropdown";
-import { login, getUserByToken, getExp, getRoles } from "../_redux/authCrud";
+import { login, getUserByToken, getExp, getRoles, getUserById } from "../_redux/authCrud";
 import * as CONST from "../../../../Constants";
 import Axios from "axios";
 
@@ -16,11 +16,14 @@ function AssignRoles() {
 	const [left, setLeft] = React.useState([]);
 	const [right, setRight] = React.useState([]);
 	const [user, setUser] = React.useState([]);
+	const [userid, setUserid] = React.useState([]);
+	const [roles, setUserRoles] = React.useState([]);
 
 	const leftChecked = intersection(checked, left);
 	const rightChecked = intersection(checked, right);
 
 	const handleToggle = (value) => () => {
+		console.log(value)
 		const currentIndex = checked.indexOf(value);
 		const newChecked = [...checked];
 
@@ -31,6 +34,8 @@ function AssignRoles() {
 		}
 
 		setChecked(newChecked);
+		console.log("newChecked", newChecked);
+		console.log("currentIndex", currentIndex);
 	};
 
 	function not(a, b) {
@@ -44,42 +49,6 @@ function AssignRoles() {
 	function union(a, b) {
 		return [...a, ...not(b, a)];
 	}
-
-	const loadRole = () => {
-		//Load Role
-		Axios.get(api_get_role_url)
-			.then((res) => {
-				if (res.data.isSuccess) {
-					setLeft(res.data.data);
-					console.log(res.data.data);
-				} else {
-					alert(res.data.message);
-				}
-			})
-			.catch((err) => {
-				alert(err.message);
-			});
-	};
-
-	const loadUser = () => {
-		//Load Role
-		Axios.get(api_get_user_url)
-			.then((res) => {
-				if (res.data.isSuccess) {
-					setUser(res.data.data);
-				} else {
-					alert(res.data.message);
-				}
-			})
-			.catch((err) => {
-				alert(err.message);
-			});
-	};
-
-	React.useEffect(() => {
-		loadRole();
-		loadUser();
-	}, []);
 
 	const handleCheckedRight = () => {
 		setRight(right.concat(leftChecked));
@@ -103,50 +72,13 @@ function AssignRoles() {
 		}
 	};
 
-	const customList = (title, items) => (
-		<Card style={{ width: 280, height: 300, overflow: 'auto' }}>
-			<CardHeader
-				avatar={
-					<Checkbox
-						onClick={handleToggleAll(items)}
-						checked={numberOfChecked(items) === items.length && items.length !== 0}
-						indeterminate={numberOfChecked(items) !== items.length && numberOfChecked(items) !== 0}
-						disabled={items.length === 0}
-						inputProps={{ 'aria-label': 'all items selected' }}
-					/>
-				}
-				title={title}
-				subheader={`${numberOfChecked(items)}/${items.length} selected`}
-			/>
-			<Divider />
-			<List dense component="div" role="list">
-				{items.map((value) => {
-					const labelId = `transfer-list-all-item-${value.id}-label`;
-
-					return (
-						<ListItem key={value.id} role="listitem" button onClick={handleToggle(value)}>
-							<ListItemIcon>
-								<Checkbox
-									checked={checked.indexOf(value) !== -1}
-									tabIndex={-1}
-									disableRipple
-									inputProps={{ 'aria-labelledby': labelId }}
-								/>
-							</ListItemIcon>
-							<ListItemText id={labelId} primary={`${value.roleName}`} />
-						</ListItem>
-					);
-				})}
-				<ListItem />
-			</List>
-		</Card>
-	);
-
 	const formik = useFormik({
+		enableReinitialize: true,
 		initialValues: {
 			user: 0
+
 		},
-		enableReinitialize: true,
+
 		validate: (values) => {
 			const errors = {};
 
@@ -157,25 +89,11 @@ function AssignRoles() {
 			return errors;
 		},
 		onSubmit: (values, { setStatus, setSubmitting }) => {
-			login(values.username, values.password, values.source)
+			login()
 				.then((res) => {
 					if (res.data.isSuccess) {
 						debugger
-						//Success
 
-						let loginDetail = {}
-
-						//get token
-						loginDetail.authToken = res.data.data;
-
-						//get user
-						loginDetail.user = getUserByToken(res.data.data);
-
-						// get exp
-						loginDetail.exp = getExp(res.data.data);
-
-						//get roles
-						loginDetail.roles = getRoles(res.data.data);
 
 					} else {
 						//Failed
@@ -191,13 +109,101 @@ function AssignRoles() {
 		},
 
 	});
+
+	const loadRole = () => {
+		//Load Role
+		Axios.get(api_get_role_url)
+			.then((res) => {
+				if (res.data.isSuccess) {
+					setLeft(res.data.data);
+					console.log(res.data.data);
+				} else {
+					alert(res.data.message);
+				}
+			})
+			.catch((err) => {
+				alert(err.message);
+			});
+	};
+
+	const loadUser = () => {
+		//Load User
+		Axios.get(api_get_user_url)
+			.then((res) => {
+				if (res.data.isSuccess) {
+					setUser(res.data.data);
+				} else {
+					alert(res.data.message);
+				}
+			})
+			.catch((err) => {
+				alert(err.message);
+			});
+	};
+
+	const getUser = (id) => {
+		alert(id)
+		//Load User
+		getUserById(id)
+			.then((res) => {
+				if (res.data.isSuccess) {
+					setRight(res.data.data);
+				} else {
+					alert(res.data.message);
+				}
+			})
+			.catch((err) => {
+				alert(err.message);
+			});
+	};
+
+	React.useEffect(() => {
+		loadRole();
+		loadUser();
+	}, []);
+
 	return (
 		<Grid spacing={2} container
 			direction="row"
 			justify="center"
 			alignItems="center" >
 			<Grid item xs={12} lg={3}>
-				{customList('Role', left)}
+				<Card style={{ width: 280, height: 300, overflow: 'auto' }}>
+					<CardHeader
+						avatar={
+							<Checkbox
+								onClick={handleToggleAll(left)}
+								checked={numberOfChecked(left) === left.length && left.length !== 0}
+								indeterminate={numberOfChecked(left) !== left.length && numberOfChecked(left) !== 0}
+								disabled={left.length === 0}
+								inputProps={{ 'aria-label': 'all items selected' }}
+							/>
+						}
+						title="Roles"
+						subheader={`${numberOfChecked(left)}/${left.length} selected`}
+					/>
+					<Divider />
+					<List dense component="div" role="list">
+						{left.map((value) => {
+							const labelId = `transfer-list-all-item-${value.id}-label`;
+
+							return (
+								<ListItem key={value.id} role="listitem" button onClick={handleToggle(value)}>
+									<ListItemIcon>
+										<Checkbox
+											checked={checked.indexOf(value) !== -1}
+											tabIndex={-1}
+											disableRipple
+											inputProps={{ 'aria-labelledby': labelId }}
+										/>
+									</ListItemIcon>
+									<ListItemText id={labelId} primary={`${value.roleName}`} />
+								</ListItem>
+							);
+						})}
+						<ListItem />
+					</List>
+				</Card>
 			</Grid>
 			<Grid item xs={12} lg={1} container
 				direction="column">
@@ -207,6 +213,7 @@ function AssignRoles() {
 					onClick={handleCheckedRight}
 					disabled={leftChecked.length === 0}
 					aria-label="move selected right"
+					style={{ marginBottom: 10 }}
 				>
 					&gt;
           			</Button>
@@ -221,7 +228,7 @@ function AssignRoles() {
           			</Button>
 			</Grid>
 			<Grid spacing={2} item xs={12} lg={1} container
-				direction="column" style={{marginRight:20}}>
+				direction="column" style={{ marginRight: 20 }}>
 				<Card>
 					<FormikDropdown
 						formik={formik}
@@ -233,11 +240,52 @@ function AssignRoles() {
 						firstItemText="Select User"
 						valueFieldName="id"
 						displayFieldName="userName"
+						selectedCallback={(e) => {
+							alert(formik.values.user);
+							setUserid(JSON.stringify(formik.values.user));
+							console.log("userid", userid)
+							getUser(formik.values.user);
+						}}
 					/>
 				</Card>
 			</Grid>
 			<Grid item xs={12} lg={3}>
-				{customList('Role', right)}
+			<Card style={{ width: 280, height: 300, overflow: 'auto' }}>
+					<CardHeader
+						avatar={
+							<Checkbox
+								onClick={handleToggleAll(right)}
+								checked={numberOfChecked(right) === right.length && right.length !== 0}
+								indeterminate={numberOfChecked(right) !== right.length && numberOfChecked(right) !== 0}
+								disabled={right.length === 0}
+								inputProps={{ 'aria-label': 'all items selected' }}
+							/>
+						}
+						title="Roles"
+						subheader={`${numberOfChecked(right)}/${right.length} selected`}
+					/>
+					<Divider />
+					<List dense component="div" role="list">
+						{right.map((value) => {
+							const labelId = `transfer-list-all-item-${value.id}-label`;
+
+							return (
+								<ListItem key={value.id} role="listitem" button onClick={handleToggle(value)}>
+									<ListItemIcon>
+										<Checkbox
+											checked={checked.indexOf(value) !== -1}
+											tabIndex={-1}
+											disableRipple
+											inputProps={{ 'aria-labelledby': labelId }}
+										/>
+									</ListItemIcon>
+									<ListItemText id={labelId} primary={`${value.role.roleName}`} />
+								</ListItem>
+							);
+						})}
+						<ListItem />
+					</List>
+				</Card>
 			</Grid>
 		</Grid>
 	)

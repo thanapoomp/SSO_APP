@@ -19,13 +19,13 @@ export function QuickUser() {
     history.push("/logout");
   };
 
-  const objRoles = () => {
-    let roles = [];
+  const roles = () => {
+    let objRoles = [];
     if (authReducer.roles) {
       Object.keys(authReducer.roles).forEach(function (key) {
-        roles.push(`${authReducer.roles[key]},`);
+        objRoles.push(`${authReducer.roles[key]},`);
       });
-      return (roles);
+      return (objRoles);
     }
     return;
   }
@@ -68,7 +68,7 @@ export function QuickUser() {
               {authReducer.user}
             </a>
             <div className="text-muted mt-1">User : {authReducer.user}</div>
-            <div className="text-muted mt-1">Roles : {objRoles()}</div>
+            <div className="text-muted mt-1">Roles : {roles()}</div>
             <div className="navi mt-2">
               <a href="#" className="navi-item">
                 <span className="navi-link p-0 pb-2">
