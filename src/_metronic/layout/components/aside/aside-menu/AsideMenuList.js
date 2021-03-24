@@ -286,7 +286,7 @@ export function AsideMenuList({ layoutProps }) {
               >
                 <NavLink
                   className="menu-link menu-toggle"
-                  to="/google-material/inputs"
+                  to="/User/AssignRoles"
                 >
                   <i className="menu-bullet menu-bullet-dot">
                     <span />

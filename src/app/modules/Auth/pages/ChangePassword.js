@@ -52,6 +52,7 @@ function ChangePassword(props) {
 					setSubmitting(false);
 					swal.swalSuccess("Success", `success.`).then((res) => {
 						if (res.isConfirmed) {
+							//logout
 							history.push("/logout");
 						}
 					});

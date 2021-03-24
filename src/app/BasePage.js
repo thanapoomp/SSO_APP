@@ -11,6 +11,7 @@ import UseFormikWithDropdownCascade from './modules/_FormikUseFormik/pages/WithD
 import WithAllComponents from "./modules/_FormikUseFormik/pages/WithAllComponents";
 import ChangePassword from "./modules/Auth/pages/ChangePassword";
 import DissableUser from "./modules/Auth/pages/DissableUser";
+import AssignRoles from "./modules/Auth/pages/AssignRoles";
 
 export default function BasePage(props) {
   // useEffect(() => {
@@ -31,6 +32,7 @@ export default function BasePage(props) {
         <PrivateRoute exact path="/useFormik/all" roles={[ROLES.user]} component={WithAllComponents} />
         <PrivateRoute exact path="/User/ChangePassword" roles={[ROLES.developer]} component={ChangePassword} />
         <ContentRoute exact path="/User/DissableUser" component={DissableUser} />
+        <ContentRoute exact path="/User/AssignRoles" component={AssignRoles} />
         {/* End Demo part สามารถ comment ได้ */}
 
         <Route
