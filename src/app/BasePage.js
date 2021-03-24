@@ -26,7 +26,7 @@ export default function BasePage(props) {
         {/* <PrivateRoute exact path="/test" roles={[ROLES.admin,ROLES.developer]} component={Test} /> */}
         <ContentRoute exact path="/useFormik/textfield" component={UseFormikWithTextField} />
         <ContentRoute exact path="/useFormik/dropdown" component={UseFormikWithDropdownCascade} />
-        <ContentRoute exact path="/useFormik/all" component={WithAllComponents} />
+        <PrivateRoute exact path="/useFormik/all" roles={[ROLES.admin]} component={WithAllComponents} />
         {/* End Demo part สามารถ comment ได้ */}
 
         <Route
