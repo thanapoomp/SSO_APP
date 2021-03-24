@@ -9,6 +9,7 @@ import { ROLES } from "../Constants";
 import UseFormikWithTextField from './modules/_FormikUseFormik/pages/WithTextField'
 import UseFormikWithDropdownCascade from './modules/_FormikUseFormik/pages/WithDropdownCascade'
 import WithAllComponents from "./modules/_FormikUseFormik/pages/WithAllComponents";
+import ChangePassword from "./modules/Auth/pages/ChangePassword";
 
 export default function BasePage(props) {
   // useEffect(() => {
@@ -27,6 +28,7 @@ export default function BasePage(props) {
         <ContentRoute exact path="/useFormik/textfield" component={UseFormikWithTextField} />
         <ContentRoute exact path="/useFormik/dropdown" component={UseFormikWithDropdownCascade} />
         <PrivateRoute exact path="/useFormik/all" roles={[ROLES.admin]} component={WithAllComponents} />
+        <ContentRoute exact path="/User/ChangePassword" component={ChangePassword} />
         {/* End Demo part สามารถ comment ได้ */}
 
         <Route

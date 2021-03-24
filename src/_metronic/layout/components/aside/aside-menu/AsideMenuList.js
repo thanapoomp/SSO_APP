@@ -238,6 +238,100 @@ export function AsideMenuList({ layoutProps }) {
         </li>
         {/*End::1 newEmployee*/}
 
+        {/*begin::1 User*/}
+
+        <li className="menu-section ">
+          <h4 className="menu-text">User</h4>
+          <i className="menu-icon flaticon-more-v2"></i>
+        </li>
+
+        {/* end:: section */}
+        {/*begin::1 Level*/}
+        <li
+          className={`menu-item menu-item-submenu ${getMenuItemActive(
+            "/google-material",
+            true
+          )}`}
+          aria-haspopup="true"
+          data-menu-toggle="hover"
+        >
+          <NavLink className="menu-link menu-toggle" to="/google-material">
+            <span className="svg-icon menu-icon">
+              <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Cap-2.svg")} />
+            </span>
+            <span className="menu-text">UserManager</span>
+            <i className="menu-arrow" />
+          </NavLink>
+          <div className="menu-submenu ">
+            <i className="menu-arrow" />
+            <ul className="menu-subnav">
+              <li
+                className="menu-item  menu-item-parent"
+                aria-haspopup="true"
+              >
+                <span className="menu-link">
+                  <span className="menu-text">Level 1</span>
+                </span>
+              </li>
+
+              {/* Inputs */}
+              {/*begin::2 Level*/}
+              <li
+                className={`menu-item menu-item-submenu ${getMenuItemActive(
+                  "/google-material/inputs",
+                  true
+                )}`}
+                aria-haspopup="true"
+                data-menu-toggle="hover"
+              >
+                <NavLink
+                  className="menu-link menu-toggle"
+                  to="/google-material/inputs"
+                >
+                  <i className="menu-bullet menu-bullet-dot">
+                    <span />
+                  </i>
+                  <span className="menu-text">Register</span>
+                </NavLink>
+              </li>
+              <li
+                className={`menu-item  ${getMenuItemActive(
+                  "/google-material/inputs/autocomplete"
+                )}`}
+                aria-haspopup="true"
+              >
+                <NavLink
+                  className="menu-link menu-toggle"
+                  to="/User/ChangePassword"
+                >
+                  <i className="menu-bullet menu-bullet-dot">
+                    <span />
+                  </i>
+                  <span className="menu-text">ChangePassword</span>
+                </NavLink>
+              </li>
+              <li
+                className={`menu-item  ${getMenuItemActive(
+                  "/google-material/inputs/autocomplete"
+                )}`}
+                aria-haspopup="true"
+              >
+                <NavLink
+                  className="menu-link menu-toggle"
+                  to="/google-material/inputs"
+                >
+                  <i className="menu-bullet menu-bullet-dot">
+                    <span />
+                  </i>
+                  <span className="menu-text">Dissable</span>
+                </NavLink>
+              </li>
+              {/*end::2 Level*/}
+            </ul>
+          </div>
+        </li>
+        {/*End::1 User*/}
+
         {/* End Demo สามารถ comment ทิ้งได้ */}
 
 

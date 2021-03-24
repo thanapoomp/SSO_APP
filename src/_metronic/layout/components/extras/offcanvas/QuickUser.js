@@ -88,7 +88,7 @@ export function QuickUser() {
         <div className="navi navi-spacer-x-0 p-0">
           {/* <a href="/user/profile" className="navi-item"> */}
             
-          <Link href="/user/profile" className="navi-item">
+          <Link href="/User/ChangePassword" className="navi-item">
           
             <div className="navi-link">
               <div className="symbol symbol-40 bg-light mr-3">
@@ -103,7 +103,7 @@ export function QuickUser() {
                 </div>
               </div>
               <div className="navi-text">
-                <div className="font-weight-bold">My Profile</div>
+                <div className="font-weight-bold">ChangePassword</div>
                 <div className="text-muted">
                   Account settings and more
                     {" "}
