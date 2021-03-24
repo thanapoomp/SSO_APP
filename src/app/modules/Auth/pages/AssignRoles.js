@@ -1,16 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
+import { useFormik } from "formik";
 import { Grid, Button, Card, CardHeader, Checkbox, Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import FormikDropdown from "../../../modules/_FormikUseFormik/components/FormikDropdown";
+import { login, getUserByToken, getExp, getRoles } from "../_redux/authCrud";
 import * as CONST from "../../../../Constants";
 import Axios from "axios";
 
 function AssignRoles() {
 
 	const api_get_role_url = `${CONST.API_URL}/Auth/role/get`;
+	const api_get_user_url = `${CONST.API_URL}/Auth/user/getuser`;
 
 	const [checked, setChecked] = React.useState([]);
 	const [left, setLeft] = React.useState([]);
 	const [right, setRight] = React.useState([]);
+	const [user, setUser] = React.useState([]);
 
 	const leftChecked = intersection(checked, left);
 	const rightChecked = intersection(checked, right);
@@ -56,8 +61,24 @@ function AssignRoles() {
 			});
 	};
 
+	const loadUser = () => {
+		//Load Role
+		Axios.get(api_get_user_url)
+			.then((res) => {
+				if (res.data.isSuccess) {
+					setUser(res.data.data);
+				} else {
+					alert(res.data.message);
+				}
+			})
+			.catch((err) => {
+				alert(err.message);
+			});
+	};
+
 	React.useEffect(() => {
 		loadRole();
+		loadUser();
 	}, []);
 
 	const handleCheckedRight = () => {
@@ -120,10 +141,60 @@ function AssignRoles() {
 			</List>
 		</Card>
 	);
+
+	const formik = useFormik({
+		initialValues: {
+			user:0
+		},
+		enableReinitialize: true,
+		validate: (values) => {
+			const errors = {};
+
+			if (!values.source) {
+				errors.source = "Required field";
+			}
+
+			return errors;
+		},
+		onSubmit: (values, { setStatus, setSubmitting }) => {
+			login(values.username, values.password, values.source)
+				.then((res) => {
+					if (res.data.isSuccess) {
+						debugger
+						//Success
+
+						let loginDetail = {}
+
+						//get token
+						loginDetail.authToken = res.data.data;
+
+						//get user
+						loginDetail.user = getUserByToken(res.data.data);
+
+						// get exp
+						loginDetail.exp = getExp(res.data.data);
+
+						//get roles
+						loginDetail.roles = getRoles(res.data.data);
+
+					} else {
+						//Failed
+						setSubmitting(false);
+						setStatus(res.data.message
+						);
+					}
+				})
+				.catch((error) => {
+					setSubmitting(false);
+					setStatus(error.message);
+				});
+		},
+
+	});
 	return (
 		<Grid container spacing={2} justify="center" alignItems="center" >
-			<Grid item>{customList('Role', left)}</Grid>
-			<Grid item>
+			<Grid item xs={12} lg={5}>{customList('Role', left)}</Grid>
+			<Grid item xs={12} lg={5}>
 				<Grid container direction="column" alignItems="center">
 					<Button
 						variant="outlined"
@@ -145,7 +216,18 @@ function AssignRoles() {
           			</Button>
 				</Grid>
 			</Grid>
-			<Grid item>{customList('Role', right)}</Grid>
+			<FormikDropdown
+				formik={formik}
+				name="user"
+				variant="outlined"
+				label=""
+				required
+				data={user}
+				firstItemText="Select User"
+				valueFieldName="id"
+				displayFieldName="userName"
+			/>
+			<Grid item xs={12} lg={5}>{customList('Role', right)}</Grid>
 		</Grid>
 	)
 }

@@ -9,6 +9,7 @@ export const REGISTER_URL = `${CONST.API_URL}/Auth/user/register`;
 export const REQUEST_PASSWORD_URL = `api/auth/forgot-password`;
 export const RENEW_TOKEN_URL = `${CONST.API_URL}/Auth/renew`
 export const CHANGPASSWORD_URL = `${CONST.API_URL}/Auth/user/changepassword`
+export const ASSIGN_ROLE_URL = `${CONST.API_URL}/Auth/role/assign`
 
 export const ME_URL = `${CONST.API_URL}/Auth/renew`;
 
@@ -19,8 +20,12 @@ export function login(username, password, source) {
 export function register(mapperId, username, password, sourceid) {
   return axios.post(REGISTER_URL, { mapperId, username, password, sourceid });
 }
+
 export function changePassword(oldPassword, oldConfirmPassword, newPassword, newConfirmPassword) {
   return axios.post(CHANGPASSWORD_URL, { oldPassword, oldConfirmPassword, newPassword, newConfirmPassword });
+}
+export function assignRoles(payload) {
+  return axios.post(ASSIGN_ROLE_URL, { payload });
 }
 
 export function requestPassword(email) {
