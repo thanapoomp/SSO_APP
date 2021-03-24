@@ -144,7 +144,7 @@ function AssignRoles() {
 
 	const formik = useFormik({
 		initialValues: {
-			user:0
+			user: 0
 		},
 		enableReinitialize: true,
 		validate: (values) => {
@@ -192,42 +192,53 @@ function AssignRoles() {
 
 	});
 	return (
-		<Grid container spacing={2} justify="center" alignItems="center" >
-			<Grid item xs={12} lg={5}>{customList('Role', left)}</Grid>
-			<Grid item xs={12} lg={5}>
-				<Grid container direction="column" alignItems="center">
-					<Button
-						variant="outlined"
-						size="small"
-						onClick={handleCheckedRight}
-						disabled={leftChecked.length === 0}
-						aria-label="move selected right"
-					>
-						&gt;
-          			</Button>
-					<Button
-						variant="outlined"
-						size="small"
-						onClick={handleCheckedLeft}
-						disabled={rightChecked.length === 0}
-						aria-label="move selected left"
-					>
-						&lt;
-          			</Button>
-				</Grid>
+		<Grid spacing={2} container
+			direction="row"
+			justify="center"
+			alignItems="center" >
+			<Grid item xs={12} lg={3}>
+				{customList('Role', left)}
 			</Grid>
-			<FormikDropdown
-				formik={formik}
-				name="user"
-				variant="outlined"
-				label=""
-				required
-				data={user}
-				firstItemText="Select User"
-				valueFieldName="id"
-				displayFieldName="userName"
-			/>
-			<Grid item xs={12} lg={5}>{customList('Role', right)}</Grid>
+			<Grid item xs={12} lg={1} container
+				direction="column">
+				<Button
+					variant="outlined"
+					size="small"
+					onClick={handleCheckedRight}
+					disabled={leftChecked.length === 0}
+					aria-label="move selected right"
+				>
+					&gt;
+          			</Button>
+				<Button
+					variant="outlined"
+					size="small"
+					onClick={handleCheckedLeft}
+					disabled={rightChecked.length === 0}
+					aria-label="move selected left"
+				>
+					&lt;
+          			</Button>
+			</Grid>
+			<Grid spacing={2} item xs={12} lg={1} container
+				direction="column" style={{marginRight:20}}>
+				<Card>
+					<FormikDropdown
+						formik={formik}
+						name="user"
+						variant="outlined"
+						label=""
+						required
+						data={user}
+						firstItemText="Select User"
+						valueFieldName="id"
+						displayFieldName="userName"
+					/>
+				</Card>
+			</Grid>
+			<Grid item xs={12} lg={3}>
+				{customList('Role', right)}
+			</Grid>
 		</Grid>
 	)
 }

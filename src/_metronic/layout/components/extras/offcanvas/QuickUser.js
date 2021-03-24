@@ -5,7 +5,7 @@ import SVG from "react-inlinesvg";
 import { useHistory } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../../_helpers";
 import { useSelector } from "react-redux";
-import Link from '@material-ui/core/Link';
+import { NavLink } from "react-router-dom";
 
 export function QuickUser() {
   const authReducer = useSelector(({ auth }) => auth)
@@ -18,6 +18,12 @@ export function QuickUser() {
     }
     history.push("/logout");
   };
+
+  let roles = [];
+
+  Object.keys(authReducer.roles).forEach(function (key) {
+    roles.push(`${authReducer.roles[key]},`);
+  });
 
   return (
     <div id="kt_quick_user" className="offcanvas offcanvas-right offcanvas p-10">
@@ -44,7 +50,7 @@ export function QuickUser() {
           >
             <div className="symbol-label" style={{
               backgroundImage: `url(${toAbsoluteUrl(
-                "/media/users/300_21.jpg"
+                "/media/users/300_14.jpg"
               )})`
             }} />
             <i className="symbol-badge bg-success" />
@@ -57,7 +63,7 @@ export function QuickUser() {
               {authReducer.user}
             </a>
             <div className="text-muted mt-1">User : {authReducer.user}</div>
-            <div className="text-muted mt-1">Department : {authReducer.roles}</div>
+            <div className="text-muted mt-1">Roles : {roles}</div>
             <div className="navi mt-2">
               <a href="#" className="navi-item">
                 <span className="navi-link p-0 pb-2">
@@ -86,17 +92,16 @@ export function QuickUser() {
         <div className="separator separator-dashed mt-8 mb-5" />
 
         <div className="navi navi-spacer-x-0 p-0">
-          {/* <a href="/user/profile" className="navi-item"> */}
-            
-          <Link href="/User/ChangePassword" className="navi-item">
-          
+
+          <NavLink to="/User/ChangePassword" className="navi-item">
+
             <div className="navi-link">
               <div className="symbol symbol-40 bg-light mr-3">
                 <div className="symbol-label">
                   <span className="svg-icon svg-icon-md svg-icon-success">
                     <SVG
                       src={toAbsoluteUrl(
-                        "/media/svg/icons/General/Notification2.svg"
+                        "/media/svg/icons/General/Lock.svg"
                       )}
                     ></SVG>
                   </span>
@@ -113,168 +118,11 @@ export function QuickUser() {
                 </div>
               </div>
             </div>
-            </Link>
-          {/* </a> */}
+          </NavLink>
+        </div>
 
-          <a href="/user/profile" className="navi-item">
-          <div className="navi-link">
-            <div className="symbol symbol-40 bg-light mr-3">
-              <div className="symbol-label">
-                <span className="svg-icon svg-icon-md svg-icon-warning">
-                  <SVG
-                    src={toAbsoluteUrl(
-                      "/media/svg/icons/Shopping/Chart-bar1.svg"
-                    )}
-                  ></SVG>
-                </span>
-              </div>
-            </div>
-            <div className="navi-text">
-              <div className="font-weight-bold">My Messages</div>
-              <div className="text-muted">Inbox and tasks</div>
-            </div>
-          </div>
-          </a>
-
-        <a href="/user/profile" className="navi-item">
-          <div className="navi-link">
-            <div className="symbol symbol-40 bg-light mr-3">
-              <div className="symbol-label">
-                <span className="svg-icon svg-icon-md svg-icon-danger">
-                  <SVG
-                    src={toAbsoluteUrl(
-                      "/media/svg/icons/Files/Selected-file.svg"
-                    )}
-                  ></SVG>
-                </span>
-              </div>
-            </div>
-            <div className="navi-text">
-              <div className="font-weight-bold">My Activities</div>
-              <div className="text-muted">Logs and notifications</div>
-            </div>
-          </div>
-        </a>
-
-        <a href="/user/profile" className="navi-item">
-          <div className="navi-link">
-            <div className="symbol symbol-40 bg-light mr-3">
-              <div className="symbol-label">
-                <span className="svg-icon svg-icon-md svg-icon-primary">
-                  <SVG
-                    src={toAbsoluteUrl(
-                      "/media/svg/icons/Communication/Mail-opened.svg"
-                    )}
-                  ></SVG>
-                </span>
-              </div>
-            </div>
-            <div className="navi-text">
-              <div className="font-weight-bold">My Tasks</div>
-              <div className="text-muted">latest tasks and projects</div>
-            </div>
-          </div>
-        </a>
+        <div className="separator separator-dashed my-7"></div>
       </div>
-
-      <div className="separator separator-dashed my-7"></div>
-
-      <div>
-        <h5 className="mb-5">Recent Notifications</h5>
-
-        <div className="d-flex align-items-center bg-light-warning rounded p-5 gutter-b">
-          <span className="svg-icon svg-icon-warning mr-5">
-            <SVG
-              src={toAbsoluteUrl("/media/svg/icons/Home/Library.svg")}
-              className="svg-icon svg-icon-lg"
-            ></SVG>
-          </span>
-
-          <div className="d-flex flex-column flex-grow-1 mr-2">
-            <a
-              href="#"
-              className="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"
-            >
-              Another purpose persuade
-                </a>
-            <span className="text-muted font-size-sm">Due in 2 Days</span>
-          </div>
-
-          <span className="font-weight-bolder text-warning py-1 font-size-lg">
-            +28%
-            </span>
-        </div>
-
-        <div className="d-flex align-items-center bg-light-success rounded p-5 gutter-b">
-          <span className="svg-icon svg-icon-success mr-5">
-            <SVG
-              src={toAbsoluteUrl("/media/svg/icons/Communication/Write.svg")}
-              className="svg-icon svg-icon-lg"
-            ></SVG>
-          </span>
-          <div className="d-flex flex-column flex-grow-1 mr-2">
-            <a
-              href="#"
-              className="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"
-            >
-              Would be to people
-                </a>
-            <span className="text-muted font-size-sm">Due in 2 Days</span>
-          </div>
-
-          <span className="font-weight-bolder text-success py-1 font-size-lg">
-            +50%
-            </span>
-        </div>
-
-        <div className="d-flex align-items-center bg-light-danger rounded p-5 gutter-b">
-          <span className="svg-icon svg-icon-danger mr-5">
-            <SVG
-              src={toAbsoluteUrl(
-                "/media/svg/icons/Communication/Group-chat.svg"
-              )}
-              className="svg-icon svg-icon-lg"
-            ></SVG>
-          </span>
-          <div className="d-flex flex-column flex-grow-1 mr-2">
-            <a
-              href="#"
-              className="font-weight-normel text-dark-75 text-hover-primary font-size-lg mb-1"
-            >
-              Purpose would be to persuade
-                </a>
-            <span className="text-muted font-size-sm">Due in 2 Days</span>
-          </div>
-
-          <span className="font-weight-bolder text-danger py-1 font-size-lg">
-            -27%
-            </span>
-        </div>
-
-        <div className="d-flex align-items-center bg-light-info rounded p-5">
-          <span className="svg-icon svg-icon-info mr-5">
-            <SVG
-              src={toAbsoluteUrl("/media/svg/icons/General/Attachment2.svg")}
-              className="svg-icon svg-icon-lg"
-            ></SVG>
-          </span>
-
-          <div className="d-flex flex-column flex-grow-1 mr-2">
-            <a
-              href="#"
-              className="font-weight-normel text-dark-75 text-hover-primary font-size-lg mb-1"
-            >
-              The best product
-                </a>
-            <span className="text-muted font-size-sm">Due in 2 Days</span>
-          </div>
-
-          <span className="font-weight-bolder text-info py-1 font-size-lg">
-            +8%
-            </span>
-        </div>
-      </div>
-    </div>
     </div >
   );
 }
