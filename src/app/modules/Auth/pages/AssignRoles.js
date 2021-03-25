@@ -153,7 +153,7 @@ function AssignRoles() {
 						flatData.push(flatten(element));
 					});
 					console.log(flatData);
-					setRight(flatData);
+					setRight(res.data.data);
 				} else {
 					alert(res.data.message);
 				}
@@ -162,6 +162,12 @@ function AssignRoles() {
 				alert(err.message);
 			});
 	};
+
+	React.useEffect(() => {
+		if (formik.values.user !== 0) {
+			getUser(formik.values.user);
+		}
+	}, [formik.values.user]);
 
 	React.useEffect(() => {
 		loadRole();
@@ -212,7 +218,7 @@ function AssignRoles() {
 				</Card>
 			</Grid>
 			<Grid item xs={12} lg={1} container
-				direction="column" style={{marginLeft: 25}}>
+				direction="column" style={{ marginLeft: 25 }}>
 				<Button
 					variant="outlined"
 					size="small"
@@ -246,12 +252,6 @@ function AssignRoles() {
 						firstItemText="Select User"
 						valueFieldName="id"
 						displayFieldName="userName"
-						selectedCallback={(e) => {
-							alert(formik.values.user);
-							setUserid(JSON.stringify(formik.values.user));
-							console.log("userid", userid)
-							getUser(formik.values.user);
-						}}
 					/>
 				</Card>
 			</Grid>
@@ -273,10 +273,10 @@ function AssignRoles() {
 					<Divider />
 					<List dense component="div" role="list">
 						{right.map((value) => {
-							const labelId = `transfer-list-all-item-${value}.role.id}-label`;
+							const labelId = `transfer-list-all-item-${value.role.id}-label`;
 
 							return (
-								<ListItem key={`${value}.role.id`} role="listitem" button onClick={handleToggle(value)}>
+								<ListItem key={value.role.id} role="listitem" button onClick={handleToggle(value)}>
 									<ListItemIcon>
 										<Checkbox
 											checked={checked.indexOf(value) !== -1}
@@ -285,7 +285,7 @@ function AssignRoles() {
 											inputProps={{ 'aria-labelledby': labelId }}
 										/>
 									</ListItemIcon>
-									<ListItemText id={labelId} primary={`${value}.role.roleName}`} />
+									<ListItemText id={labelId} primary={value.role.roleName} />
 								</ListItem>
 							);
 						})}
