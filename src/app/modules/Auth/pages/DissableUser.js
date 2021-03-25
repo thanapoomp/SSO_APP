@@ -3,8 +3,9 @@
 import React from 'react'
 import UserTable from "mui-datatables";
 import { disableUser, getUserFilter } from "../_redux/authCrud";
-import { Grid, Typography, FormControlLabel, Switch, CircularProgress } from "@material-ui/core";
+import { Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
+import UserSearch from "../components/UserSearch";
 
 var flatten = require("flat");
 require("dayjs/locale/th");
@@ -124,6 +125,25 @@ function DissableUser() {
 			});
 	}
 
+	const handleSearchUser = (values) => {
+		debugger
+		if (values.sourceName === 0) {
+			values.sourceName = ""
+			setDataFilter({
+				...dataFilter,
+				page: 1,
+				searchValues: values
+			});
+		} else {
+			setDataFilter({
+				...dataFilter,
+				page: 1,
+				searchValues: values
+			});
+		}
+
+	}
+
 	const columns = [
 		{
 			name: "mapperId",
@@ -221,22 +241,33 @@ function DissableUser() {
 
 	return (
 		<div>
-			<UserTable
-				title={
-					<Typography variant="h6">
-						User Manager
+			<Grid container
+				direction="column"
+				justify="center"
+				alignItems="stretch">
+				<Card elevation={3} style={{ marginBottom: 5 }}>
+					<CardContent>
+						<UserSearch submit={handleSearchUser.bind(this)}></UserSearch>
+					</CardContent>
+				</Card>
+
+				<UserTable
+					title={
+						<Typography variant="h6">
+							User Manager
                                 {isLoading && (
-							<CircularProgress
-								size={24}
-								style={{ marginLeft: 15, position: "relative", top: 4 }}
-							/>
-						)}
-					</Typography>
-				}
-				data={data}
-				columns={columns}
-				options={options}
-			/>
+								<CircularProgress
+									size={24}
+									style={{ marginLeft: 15, position: "relative", top: 4 }}
+								/>
+							)}
+						</Typography>
+					}
+					data={data}
+					columns={columns}
+					options={options}
+				/>
+			</Grid>
 		</div>
 	)
 }

@@ -41,6 +41,11 @@ export function getUserByToken(token) {
   return decoded;
 }
 
+export function getUserGuidByToken(token) {
+  let decodedGuid = jwt_decode(token)['nameid'];
+  return decodedGuid;
+}
+
 export function getUserById(id) {
   return axios.get(`${GET_USER_BYID_URL}/${id}`);
 }

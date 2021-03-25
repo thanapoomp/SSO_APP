@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { connect } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
-import { login, getUserByToken, getExp, getRoles } from "../_redux/authCrud";
+import { login, getUserByToken, getExp, getRoles, getUserGuidByToken } from "../_redux/authCrud";
 import * as CONST from "../../../../Constants";
 import Axios from "axios";
 
@@ -89,6 +89,9 @@ function Login_new(props) {
 
             //get user
             loginDetail.user = getUserByToken(res.data.data);
+
+            //get user Guid
+            loginDetail.userGuid = getUserGuidByToken(res.data.data);
 
             // get exp
             loginDetail.exp = getExp(res.data.data);

@@ -28,6 +28,7 @@ export const swalError = (title, text) => {
     icon: "error",
     title,
     text,
+    allowOutsideClick: false
   });
 };
 
@@ -36,6 +37,7 @@ export const swalSuccess = (title, text) => {
       icon: "success",
       title,
       text,
+      allowOutsideClick: false
     });
   };
 
