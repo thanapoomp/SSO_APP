@@ -89,153 +89,162 @@ export function AsideMenuList({ layoutProps }) {
 
           {/* Menu Example */}
           {/* begin::section */}
-          <li className="menu-section ">
-            <h4 className="menu-text">Demo Menu</h4>
-            <i className="menu-icon flaticon-more-v2"></i>
-          </li>
+          {isShowMenu([ROLES.developer]) && (
+            <Hoc>
+              <li className="menu-section ">
+                <h4 className="menu-text">Demo Menu</h4>
+                <i className="menu-icon flaticon-more-v2"></i>
+              </li>
 
-          {/* end:: section */}
-          {/*begin::1 Level*/}
-          <li
-            className={`menu-item menu-item-submenu ${getMenuItemActive(
-              "/google-material",
-              true
-            )}`}
-            aria-haspopup="true"
-            data-menu-toggle="hover"
-          >
-            <NavLink className="menu-link menu-toggle" to="/google-material">
-              <span className="svg-icon menu-icon">
-                <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Cap-2.svg")} />
-              </span>
-              <span className="menu-text">Level 1</span>
-              <i className="menu-arrow" />
-            </NavLink>
-            <div className="menu-submenu ">
-              <i className="menu-arrow" />
-              <ul className="menu-subnav">
-                <li
-                  className="menu-item  menu-item-parent"
-                  aria-haspopup="true"
-                >
-                  <span className="menu-link">
-                    <span className="menu-text">Level 1</span>
+              {/* end:: section */}
+              {/*begin::1 Level*/}
+              <li
+                className={`menu-item menu-item-submenu ${getMenuItemActive(
+                  "/google-material",
+                  true
+                )}`}
+                aria-haspopup="true"
+                data-menu-toggle="hover"
+              >
+                <NavLink className="menu-link menu-toggle" to="/google-material">
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Cap-2.svg")} />
                   </span>
-                </li>
+                  <span className="menu-text">Level 1</span>
+                  <i className="menu-arrow" />
+                </NavLink>
+                <div className="menu-submenu ">
+                  <i className="menu-arrow" />
+                  <ul className="menu-subnav">
+                    <li
+                      className="menu-item  menu-item-parent"
+                      aria-haspopup="true"
+                    >
+                      <span className="menu-link">
+                        <span className="menu-text">Level 1</span>
+                      </span>
+                    </li>
 
-                {/* Inputs */}
-                {/*begin::2 Level*/}
-                <li
-                  className={`menu-item menu-item-submenu ${getMenuItemActive(
-                    "/google-material/inputs",
-                    true
-                  )}`}
-                  aria-haspopup="true"
-                  data-menu-toggle="hover"
-                >
-                  <NavLink
-                    className="menu-link menu-toggle"
-                    to="/google-material/inputs"
-                  >
-                    <i className="menu-bullet menu-bullet-dot">
-                      <span />
-                    </i>
-                    <span className="menu-text">Level 2</span>
-                    <i className="menu-arrow" />
-                  </NavLink>
-                  <div className="menu-submenu ">
-                    <i className="menu-arrow" />
-                    <ul className="menu-subnav">
-                      {/*begin::3 Level*/}
-                      <li
-                        className={`menu-item  ${getMenuItemActive(
-                          "/google-material/inputs/autocomplete"
-                        )}`}
-                        aria-haspopup="true"
+                    {/* Inputs */}
+                    {/*begin::2 Level*/}
+                    <li
+                      className={`menu-item menu-item-submenu ${getMenuItemActive(
+                        "/google-material/inputs",
+                        true
+                      )}`}
+                      aria-haspopup="true"
+                      data-menu-toggle="hover"
+                    >
+                      <NavLink
+                        className="menu-link menu-toggle"
+                        to="/google-material/inputs"
                       >
-                        <NavLink
-                          className="menu-link"
-                          to="/google-material/inputs/autocomplete"
-                        >
-                          <i className="menu-bullet menu-bullet-dot">
-                            <span />
-                          </i>
-                          <span className="menu-text">Level 3</span>
-                        </NavLink>
-                      </li>
-                      {/*end::3 Level*/}
+                        <i className="menu-bullet menu-bullet-dot">
+                          <span />
+                        </i>
+                        <span className="menu-text">Level 2</span>
+                        <i className="menu-arrow" />
+                      </NavLink>
+                      <div className="menu-submenu ">
+                        <i className="menu-arrow" />
+                        <ul className="menu-subnav">
+                          {/*begin::3 Level*/}
+                          <li
+                            className={`menu-item  ${getMenuItemActive(
+                              "/google-material/inputs/autocomplete"
+                            )}`}
+                            aria-haspopup="true"
+                          >
+                            <NavLink
+                              className="menu-link"
+                              to="/google-material/inputs/autocomplete"
+                            >
+                              <i className="menu-bullet menu-bullet-dot">
+                                <span />
+                              </i>
+                              <span className="menu-text">Level 3</span>
+                            </NavLink>
+                          </li>
+                          {/*end::3 Level*/}
 
-                      {/*begin::3 Level*/}
-                      <li
-                        className={`menu-item  ${getMenuItemActive("/alert")}`}
-                        aria-haspopup="true"
-                      >
-                        <NavLink className="menu-link" to="/alert">
-                          <i className="menu-bullet menu-bullet-dot">
-                            <span />
-                          </i>
-                          <span className="menu-text">alert</span>
-                        </NavLink>
-                      </li>
-                      {/*end::3 Level*/}
-                    </ul>
-                  </div>
-                </li>
-                {/*end::2 Level*/}
-              </ul>
-            </div>
-          </li>
-          {/*end::1 Level*/}
-          {/* End Menu Example */}
+
+                          {/*begin::3 Level*/}
+                          <li
+                            className={`menu-item  ${getMenuItemActive("/alert")}`}
+                            aria-haspopup="true"
+                          >
+                            <NavLink className="menu-link" to="/alert">
+                              <i className="menu-bullet menu-bullet-dot">
+                                <span />
+                              </i>
+                              <span className="menu-text">alert</span>
+                            </NavLink>
+                          </li>
+                          {/*end::3 Level*/}
+                        </ul>
+                      </div>
+                    </li>
+                    {/*end::2 Level*/}
+                  </ul>
+                </div>
+              </li>
+              {/*end::1 Level*/}
+              {/* End Menu Example */}
+            </Hoc>
+          )}
         </>
 
         {/* begin::section */}
-        <li className="menu-section ">
-          <h4 className="menu-text">UseFormik</h4>
-          <i className="menu-icon flaticon-more-v2"></i>
-        </li>
+        {isShowMenu([ROLES.developer]) && (
+          <Hoc>
+            <li className="menu-section ">
+              <h4 className="menu-text">UseFormik</h4>
+              <i className="menu-icon flaticon-more-v2"></i>
+            </li>
 
-        {/* end:: section */}
-        {/*begin::1 newEmployee*/}
-        <li
-          className={`menu-item ${getMenuItemActive("/useFormik/all", false)}`}
-          aria-haspopup="true"
-        >
-          <NavLink className="menu-link" to="/useFormik/all">
-            <span className="svg-icon menu-icon">
-              <Icon>star</Icon>
-            </span>
-            <span className="menu-text">All</span>
-          </NavLink>
-        </li>
-        {/*End::1 newEmployee*/}
+            {/* end:: section */}
+            {/*begin::1 newEmployee*/}
+            <li
+              className={`menu-item ${getMenuItemActive("/useFormik/all", false)}`}
+              aria-haspopup="true"
+            >
+              <NavLink className="menu-link" to="/useFormik/all">
+                <span className="svg-icon menu-icon">
+                  <Icon>star</Icon>
+                </span>
+                <span className="menu-text">All</span>
+              </NavLink>
+            </li>
+            {/*End::1 newEmployee*/}
 
 
-        {/*begin::1 newEmployee*/}
-        <li
-          className={`menu-item ${getMenuItemActive("/useFormik/textfield", false)}`}
-          aria-haspopup="true"
-        >
-          <NavLink className="menu-link" to="/useFormik/textfield">
-            <span className="svg-icon menu-icon">
-              <Icon>star</Icon>
-            </span>
-            <span className="menu-text">Text field</span>
-          </NavLink>
-        </li>
-        {/*End::1 newEmployee*/}
-        {/*begin::1 newEmployee*/}
-        <li
-          className={`menu-item ${getMenuItemActive("/useFormik/dropdown", false)}`}
-          aria-haspopup="true"
-        >
-          <NavLink className="menu-link" to="/useFormik/dropdown">
-            <span className="svg-icon menu-icon">
-              <Icon>star</Icon>
-            </span>
-            <span className="menu-text">Dropdown</span>
-          </NavLink>
-        </li>
+            {/*begin::1 newEmployee*/}
+            <li
+              className={`menu-item ${getMenuItemActive("/useFormik/textfield", false)}`}
+              aria-haspopup="true"
+            >
+              <NavLink className="menu-link" to="/useFormik/textfield">
+                <span className="svg-icon menu-icon">
+                  <Icon>star</Icon>
+                </span>
+                <span className="menu-text">Text field</span>
+              </NavLink>
+            </li>
+            {/*End::1 newEmployee*/}
+            {/*begin::1 newEmployee*/}
+            <li
+              className={`menu-item ${getMenuItemActive("/useFormik/dropdown", false)}`}
+              aria-haspopup="true"
+            >
+              <NavLink className="menu-link" to="/useFormik/dropdown">
+                <span className="svg-icon menu-icon">
+                  <Icon>star</Icon>
+                </span>
+                <span className="menu-text">Dropdown</span>
+              </NavLink>
+            </li>
+          </Hoc>
+        )}
         {/*End::1 newEmployee*/}
 
         {/*begin::1 User*/}
@@ -294,7 +303,7 @@ export function AsideMenuList({ layoutProps }) {
                   <span className="menu-text">Assign Roles </span>
                 </NavLink>
               </li>
-              <li
+              {/* <li
                 className={`menu-item  ${getMenuItemActive(
                   "/google-material/inputs/autocomplete"
                 )}`}
@@ -309,7 +318,7 @@ export function AsideMenuList({ layoutProps }) {
                   </i>
                   <span className="menu-text">ChangePassword</span>
                 </NavLink>
-              </li>
+              </li> */}
               <li
                 className={`menu-item  ${getMenuItemActive(
                   "/google-material/inputs/autocomplete"

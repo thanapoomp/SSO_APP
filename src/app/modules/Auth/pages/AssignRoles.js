@@ -7,6 +7,8 @@ import { login, getUserByToken, getExp, getRoles, getUserById } from "../_redux/
 import * as CONST from "../../../../Constants";
 import Axios from "axios";
 
+var flatten = require("flat");
+
 function AssignRoles() {
 
 	const api_get_role_url = `${CONST.API_URL}/Auth/role/get`;
@@ -17,7 +19,6 @@ function AssignRoles() {
 	const [right, setRight] = React.useState([]);
 	const [user, setUser] = React.useState([]);
 	const [userid, setUserid] = React.useState([]);
-	const [roles, setUserRoles] = React.useState([]);
 
 	const leftChecked = intersection(checked, left);
 	const rightChecked = intersection(checked, right);
@@ -142,12 +143,17 @@ function AssignRoles() {
 	};
 
 	const getUser = (id) => {
-		alert(id)
 		//Load User
 		getUserById(id)
 			.then((res) => {
 				if (res.data.isSuccess) {
-					setRight(res.data.data);
+					debugger
+					let flatData = [];
+					res.data.data.forEach((element) => {
+						flatData.push(flatten(element));
+					});
+					console.log(flatData);
+					setRight(flatData);
 				} else {
 					alert(res.data.message);
 				}
@@ -167,7 +173,7 @@ function AssignRoles() {
 			direction="row"
 			justify="center"
 			alignItems="center" >
-			<Grid item xs={12} lg={3}>
+			<Grid item xs={12} md={3} lg={3}>
 				<Card style={{ width: 280, height: 300, overflow: 'auto' }}>
 					<CardHeader
 						avatar={
@@ -206,7 +212,7 @@ function AssignRoles() {
 				</Card>
 			</Grid>
 			<Grid item xs={12} lg={1} container
-				direction="column">
+				direction="column" style={{marginLeft: 25}}>
 				<Button
 					variant="outlined"
 					size="small"
@@ -228,7 +234,7 @@ function AssignRoles() {
           			</Button>
 			</Grid>
 			<Grid spacing={2} item xs={12} lg={1} container
-				direction="column" style={{ marginRight: 20 }}>
+				direction="column" style={{ marginRight: 30 }}>
 				<Card>
 					<FormikDropdown
 						formik={formik}
@@ -250,7 +256,7 @@ function AssignRoles() {
 				</Card>
 			</Grid>
 			<Grid item xs={12} lg={3}>
-			<Card style={{ width: 280, height: 300, overflow: 'auto' }}>
+				<Card style={{ width: 280, height: 300, overflow: 'auto' }}>
 					<CardHeader
 						avatar={
 							<Checkbox
@@ -267,10 +273,10 @@ function AssignRoles() {
 					<Divider />
 					<List dense component="div" role="list">
 						{right.map((value) => {
-							const labelId = `transfer-list-all-item-${value.id}-label`;
+							const labelId = `transfer-list-all-item-${value}.role.id}-label`;
 
 							return (
-								<ListItem key={value.id} role="listitem" button onClick={handleToggle(value)}>
+								<ListItem key={`${value}.role.id`} role="listitem" button onClick={handleToggle(value)}>
 									<ListItemIcon>
 										<Checkbox
 											checked={checked.indexOf(value) !== -1}
@@ -279,7 +285,7 @@ function AssignRoles() {
 											inputProps={{ 'aria-labelledby': labelId }}
 										/>
 									</ListItemIcon>
-									<ListItemText id={labelId} primary={`${value.role.roleName}`} />
+									<ListItemText id={labelId} primary={`${value}.role.roleName}`} />
 								</ListItem>
 							);
 						})}
