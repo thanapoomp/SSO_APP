@@ -80,7 +80,6 @@ function DissableUser() {
 		search: false,
 		selectableRows: "none",
 		serverSide: true,
-		// resizableColumns: true,
 		count: totalRecords,
 		page: dataFilter.page - 1,
 		rowsPerPage: dataFilter.recordsPerPage,
@@ -108,8 +107,9 @@ function DissableUser() {
 		},
 	};
 
+	//disable user
 	const handleChange = (id) => {
-		debugger
+
 		disableUser(id)
 			.then((res) => {
 				if (res.data.isSuccess) {
@@ -126,7 +126,8 @@ function DissableUser() {
 	}
 
 	const handleSearchUser = (values) => {
-		debugger
+	
+		//เช็ค sourceName = 0 (กรุณาเลือก) ให้ sourceName เป็น ว่าง
 		if (values.sourceName === 0) {
 			values.sourceName = ""
 			setDataFilter({

@@ -92,22 +92,35 @@ function Registration_new(props) {
         .then((res) => {
           if (res.data.isSuccess) {
 
+            //save redux เหมือน dispatch
             props.register(res.data.data);
+
+            //add clase noti
             setClasse("success")
+
+            //ข้อความ noti
             setStatus("Register Success ");
             disableLoading();
           } else {
+
+            //add clase noti
             setClasse("danger")
-            setSubmitting(false);
+            //ข้อความ noti
             setStatus(res.data.message);
+
+            setSubmitting(false);
             disableLoading();
           }
         })
         .catch((error) => {
+
+          //add clase noti
           setClasse("danger")
-          disableLoading();
           setSubmitting(false);
+
+          //ข้อความ noti
           setStatus(error.message);
+          disableLoading();
         });
     },
   });

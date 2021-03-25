@@ -105,13 +105,15 @@ function Login_new(props) {
             //Failed
             disableLoading();
             setSubmitting(false);
-            setStatus(res.data.message
-            );
+
+            //ข้อความ noti
+            setStatus(res.data.message);
           }
         })
         .catch((error) => {
           disableLoading();
           setSubmitting(false);
+          //ข้อความ noti
           setStatus(error.message);
         });
     },
@@ -119,7 +121,7 @@ function Login_new(props) {
   });
   
   const loadSource = () => {
-    //Load Province
+    //Load Source
     Axios.get(api_get_source_url)
       .then((res) => {
         if (res.data.isSuccess) {

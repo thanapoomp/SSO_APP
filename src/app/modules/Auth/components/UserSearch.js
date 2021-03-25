@@ -40,7 +40,7 @@ function UserSearch(props) {
 		},
 
 		onSubmit: (values, { setSubmitting }) => {
-			// console.log("add stock", values);
+
 			props.submit(values);
 			setSubmitting(false);
 		},
@@ -51,7 +51,8 @@ function UserSearch(props) {
 	}, []);
 
 	const loadSource = () => {
-		//Load Province
+
+		//Load Source
 		Axios.get(api_get_source_url)
 			.then((res) => {
 				if (res.data.isSuccess) {
