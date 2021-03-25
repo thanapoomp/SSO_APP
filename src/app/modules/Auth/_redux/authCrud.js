@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as CONST from "./../../../../Constants";
 import jwt_decode from "jwt-decode";
+import {encodeURLWithParams} from '../../Common/components/ParamsEncode';
 
 var dayjs = require("dayjs");
 // http://uat.siamsmile.co.th:9185/api/SSO/login
@@ -11,6 +12,8 @@ export const RENEW_TOKEN_URL = `${CONST.API_URL}/Auth/renew`
 export const CHANGPASSWORD_URL = `${CONST.API_URL}/Auth/user/changepassword`
 export const ASSIGN_ROLE_URL = `${CONST.API_URL}/Auth/role/assign`
 export const GET_USER_BYID_URL = `${CONST.API_URL}/Auth/role/getuserid`;
+export const GET_USER_FILTER_URL = `${CONST.API_URL}/Auth/user/filter`;
+export const DISABLE_USER_URL = `${CONST.API_URL}/Auth/user/disable`;
 
 export const ME_URL = `${CONST.API_URL}/Auth/renew`;
 
@@ -42,6 +45,10 @@ export function getUserById(id) {
   return axios.get(`${GET_USER_BYID_URL}/${id}`);
 }
 
+export function disableUser(id) {
+  return axios.put(`${DISABLE_USER_URL}/${id}`);
+}
+
 export function getExp(token) {
   let decoded = jwt_decode(token);
   return dayjs.unix(decoded.exp);
@@ -50,6 +57,21 @@ export function getExp(token) {
 export function renewToken() {
   return axios.post(RENEW_TOKEN_URL)
 }
+
+export const getUserFilter = (orderingField, ascendingOrder, page, recordsPerPage, userName, sourceName, mapperId) => {
+  let payload = {
+    orderingField,
+    ascendingOrder,
+    page,
+    recordsPerPage,
+    userName,
+    sourceName,
+    mapperId
+  }
+
+  var r = axios.get(encodeURLWithParams(`${GET_USER_FILTER_URL}`, payload));
+  return r;
+};
 
 export function getRoles(token) {
   let decoded = jwt_decode(token);
