@@ -17,6 +17,7 @@ function AssignRoles() {
 	const [checked, setChecked] = React.useState([]);
 	const [left, setLeft] = React.useState([]);
 	const [right, setRight] = React.useState([]);
+
 	const [user, setUser] = React.useState([]);
 	const [userid, setUserid] = React.useState([]);
 
@@ -24,6 +25,7 @@ function AssignRoles() {
 	const rightChecked = intersection(checked, right);
 
 	const handleToggle = (value) => () => {
+		debugger
 		console.log(value)
 		const currentIndex = checked.indexOf(value);
 		const newChecked = [...checked];

@@ -127,8 +127,15 @@ function ChangePassword(props) {
 								helperText={(formik.errors.cfNewPassword && formik.touched.cfNewPassword) && formik.errors.cfNewPassword}
 							/>
 						</Grid>
-						<Grid item xs={12} lg={3}>
-							<Button type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Submit</Button>
+						<Grid
+							container
+							direction="row"
+							justify="center"
+							alignItems="center"
+						>
+							<Grid item xs={12} lg={3} >
+								<Button type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Submit</Button>
+							</Grid>
 						</Grid>
 					</Grid>
 				</CardContent>

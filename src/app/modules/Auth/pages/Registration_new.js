@@ -23,10 +23,12 @@ const initialValues = {
 
 function Registration_new(props) {
   const api_get_source_url = `${CONST.API_URL}/Auth/source/get`;
+  const api_get_employee_url = `${CONST.API_URL}/Auth/mapper/employee`;
 
   const [sourceList, setSourceList] = React.useState([]);
   const { intl } = props;
   const [loading, setLoading] = useState(false);
+  const [employee, setemployee] = useState(false);
   const [Classe, setClasse] = useState(false)
   const RegistrationSchema = Yup.object().shape({
     username: Yup.string()
@@ -125,6 +127,21 @@ function Registration_new(props) {
     },
   });
 
+  const checkEmployeeId = (id) => {
+    debugger
+    Axios.get(`${api_get_employee_url}/${id}`)
+      .then((res) => {
+        if (res.data.isSuccess) {
+          setemployee(false);
+        } else {
+          setemployee(true);
+        }
+      })
+      .catch((err) => {
+        swal.swalError("Error", err.message);
+      });
+  }
+
   const loadSource = () => {
     //Load Province
     Axios.get(api_get_source_url)
@@ -197,10 +214,11 @@ function Registration_new(props) {
             size="small"
             required
             fullWidth
-            onBlur={formik.handleBlur}
+            onBlur={() => { checkEmployeeId(formik.values.mapperid) }}
+            // onBlur={() => { checkEmployeeId(formik.values.mapperid) }}
             onChange={formik.handleChange}
             value={formik.values.mapperid}
-            error={(formik.errors.mapperid && formik.touched.mapperid)}
+            error={employee}
             helperText={(formik.errors.mapperid && formik.touched.mapperid) && formik.errors.mapperid}
           />
         </div>
