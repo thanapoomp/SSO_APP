@@ -10,7 +10,7 @@ import UseFormikWithTextField from './modules/_FormikUseFormik/pages/WithTextFie
 import UseFormikWithDropdownCascade from './modules/_FormikUseFormik/pages/WithDropdownCascade'
 import WithAllComponents from "./modules/_FormikUseFormik/pages/WithAllComponents";
 import ChangePassword from "./modules/Auth/pages/ChangePassword";
-import DissableUser from "./modules/Auth/pages/DissableUser";
+import UserTable from "./modules/Auth/pages/UserTable";
 import AssignRoles from "./modules/Auth/pages/AssignRoles";
 import AddSource from "./modules/Auth/pages/AddSource";
 import AddRoles from "./modules/Auth/pages/AddRoles";
@@ -33,7 +33,7 @@ export default function BasePage(props) {
         <ContentRoute exact path="/useFormik/dropdown" component={UseFormikWithDropdownCascade} />
         <PrivateRoute exact path="/useFormik/all" roles={[ROLES.developer]} component={WithAllComponents} />
         <PrivateRoute exact path="/User/ChangePassword" roles={[ROLES.developer]} component={ChangePassword} />
-        <ContentRoute exact path="/User/DissableUser" component={DissableUser} />
+        <ContentRoute exact path="/User/UserTable" component={UserTable} />
         <ContentRoute exact path="/User/AssignRoles" component={AssignRoles} />
         <ContentRoute exact path="/User/Source" component={AddSource} />
         <ContentRoute exact path="/User/Roles" component={AddRoles} />

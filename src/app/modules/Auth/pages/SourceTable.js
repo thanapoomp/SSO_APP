@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-imports */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
-import UserTable from "mui-datatables";
-import { disableUser, getUserFilter, enableUser } from "../_redux/authCrud";
+import SourceTables from "mui-datatables";
+import { disableSource, getSourceFilter, enableSource } from "../_redux/authCrud";
 import { Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
 import UserSearch from "../components/UserSearch";
@@ -12,7 +12,7 @@ require("dayjs/locale/th");
 var dayjs = require("dayjs");
 dayjs.locale("th");
 
-function DissableUser() {
+function SourceTable() {
 
 	const [data, setData] = React.useState([]);
 	const [totalRecords, setTotalRecords] = React.useState(0);
@@ -25,9 +25,7 @@ function DissableUser() {
 		orderingField: "",
 		ascendingOrder: true,
 		searchValues: {
-			userName: "",
-			sourceName: "",
-			mapperId: ""
+			sourceName: ""
 		}
 	});
 
@@ -38,14 +36,12 @@ function DissableUser() {
 
 	const loadData = () => {
 		debugger
-		getUserFilter(
+		getSourceFilter(
 			dataFilter.orderingField,
 			dataFilter.ascendingOrder,
 			dataFilter.page,
 			dataFilter.recordsPerPage,
-			dataFilter.searchValues.userName,
 			dataFilter.searchValues.sourceName,
-			dataFilter.searchValues.mapperId,
 		)
 			.then((res) => {
 
@@ -106,12 +102,12 @@ function DissableUser() {
 		},
 	};
 
-	//disable user enable user
+	//disable source enable source
 	const handleChange = (id, status) => {
 		debugger
 		if (id) {
 			if (status) {
-				disableUser(id)
+				disableSource(id)
 					.then((res) => {
 						if (res.data.isSuccess) {
 
@@ -129,7 +125,7 @@ function DissableUser() {
 
 			} else {
 
-				enableUser(id)
+				enableSource(id)
 					.then((res) => {
 						if (res.data.isSuccess) {
 
@@ -150,28 +146,17 @@ function DissableUser() {
 
 	const handleSearchUser = (values) => {
 
-		//เช็ค sourceName = 0 (กรุณาเลือก) ให้ sourceName เป็น ว่าง
-		if (values.sourceName === 0) {
-			values.sourceName = ""
-			setDataFilter({
-				...dataFilter,
-				page: 1,
-				searchValues: values
-			});
-
-		} else {
-			setDataFilter({
-				...dataFilter,
-				page: 1,
-				searchValues: values
-			});
-		}
+		setDataFilter({
+			...dataFilter,
+			page: 1,
+			searchValues: values
+		});
 	}
 
 	const columns = [
 		{
-			name: "mapperId",
-			label: "EmployeeId",
+			name: "id",
+			label: "Roles",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
@@ -187,8 +172,8 @@ function DissableUser() {
 			},
 		},
 		{
-			name: "source.sourceName",
-			label: "Source Name",
+			name: "name",
+			label: "RoleName",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
@@ -204,8 +189,8 @@ function DissableUser() {
 			},
 		},
 		{
-			name: "userName",
-			label: "UserName",
+			name: "createdById",
+			label: "createdBy",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
@@ -273,10 +258,10 @@ function DissableUser() {
 					</CardContent>
 				</Card>
 
-				<UserTable
+				<SourceTables
 					title={
 						<Typography variant="h6">
-							User Manager
+							Source
                                 {isLoading && (
 								<CircularProgress
 									size={24}
@@ -294,4 +279,4 @@ function DissableUser() {
 	)
 }
 
-export default DissableUser
+export default SourceTable
