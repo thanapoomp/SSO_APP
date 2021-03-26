@@ -6,8 +6,10 @@ import { useSelector } from "react-redux";
 import objectPath from "object-path";
 import { useHtmlClassService } from "../../_core/MetronicLayout";
 import { UserProfileDropdown } from "./dropdowns/UserProfileDropdown";
+// import { toAbsoluteUrl } from "../../../../_helpers";
+import { toAbsoluteUrl } from "../../../_helpers";
 export function QuickUserToggler() {
-  const  authReducer  = useSelector(({auth}) => auth)
+  const authReducer = useSelector(({ auth }) => auth)
   const uiService = useHtmlClassService();
   const layoutProps = useMemo(() => {
     return {
@@ -37,17 +39,24 @@ export function QuickUserToggler() {
                   {authReducer.user}
                 </span>
                 <span className="symbol symbol-35 symbol-light-success">
-                  <span className="symbol-label font-size-h5 font-weight-bold">
-                    {/* {authReducer.user} */}
-                  </span>
-                </span>
+                  {/* <span className="symbol-label font-size-h5 font-weight-bold">
+                    {authReducer.user}
+                  </span> */}
+                  <div className="symbol-label" style={{
+                    backgroundImage: `url(${toAbsoluteUrl(
+                      "/media/users/100_14.jpg"
+                    )})`
+                  }} />
+                  <i className="symbol-badge bg-success" />
+              </span>
               </>
-            </div>
+          </div>
           </div>
         </OverlayTrigger>
-      )}
+  )
+}
 
-      {!layoutProps.offcanvas && <UserProfileDropdown />}
+{ !layoutProps.offcanvas && <UserProfileDropdown /> }
     </>
   );
 }

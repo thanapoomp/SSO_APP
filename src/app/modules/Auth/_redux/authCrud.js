@@ -14,6 +14,7 @@ export const ASSIGN_ROLE_URL = `${CONST.API_URL}/Auth/role/assign`
 export const GET_USER_BYID_URL = `${CONST.API_URL}/Auth/role/getuserid`;
 export const GET_USER_FILTER_URL = `${CONST.API_URL}/Auth/user/filter`;
 export const DISABLE_USER_URL = `${CONST.API_URL}/Auth/user/disable`;
+export const ENABLE_USER_URL = `${CONST.API_URL}/Auth/user/enable`;
 
 export const ME_URL = `${CONST.API_URL}/Auth/renew`;
 
@@ -52,6 +53,10 @@ export function getUserById(id) {
 
 export function disableUser(id) {
   return axios.put(`${DISABLE_USER_URL}/${id}`);
+}
+
+export function enableUser(id) {
+  return axios.put(`${ENABLE_USER_URL}/${id}`);
 }
 
 export function getExp(token) {

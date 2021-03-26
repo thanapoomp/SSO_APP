@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import UserTable from "mui-datatables";
-import { disableUser, getUserFilter } from "../_redux/authCrud";
+import { disableUser, getUserFilter, enableUser } from "../_redux/authCrud";
 import { Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
 import UserSearch from "../components/UserSearch";
@@ -48,8 +48,7 @@ function DissableUser() {
 			dataFilter.searchValues.mapperId,
 		)
 			.then((res) => {
-				debugger
-				console.log(res)
+
 				if (res.data.isSuccess) {
 					//flatten data
 					// if (res.data.totalAmountRecords > 0) {
@@ -107,26 +106,50 @@ function DissableUser() {
 		},
 	};
 
-	//disable user
-	const handleChange = (id) => {
+	//disable user enable user
+	const handleChange = (id, status) => {
+		debugger
+		if (id) {
+			if (status) {
+				disableUser(id)
+					.then((res) => {
+						if (res.data.isSuccess) {
 
-		disableUser(id)
-			.then((res) => {
-				if (res.data.isSuccess) {
-					swal.swalSuccess("Success", `success.`)
-					loadData();
-				} else {
-					//Failed
-					swal.swalError("Error", res.data.message);
-				}
-			})
-			.catch((error) => {
-				swal.swalError("Error", error.message);
-			});
+							swal.swalSuccess("Success", `success.`);
+							loadData();
+						} else {
+
+							swal.swalError("Error", res.data.message);
+						}
+					})
+					.catch((error) => {
+						loadData();
+						swal.swalError("Error", error.message);
+					});
+
+			} else {
+
+				enableUser(id)
+					.then((res) => {
+						if (res.data.isSuccess) {
+
+							swal.swalSuccess("Success", `success.`);
+							loadData();
+						} else {
+
+							swal.swalError("Error", res.data.message);
+						}
+					})
+					.catch((error) => {
+						loadData();
+						swal.swalError("Error", error.message);
+					});
+			}
+		}
 	}
 
 	const handleSearchUser = (values) => {
-	
+
 		//เช็ค sourceName = 0 (กรุณาเลือก) ให้ sourceName เป็น ว่าง
 		if (values.sourceName === 0) {
 			values.sourceName = ""
@@ -135,6 +158,7 @@ function DissableUser() {
 				page: 1,
 				searchValues: values
 			});
+
 		} else {
 			setDataFilter({
 				...dataFilter,
@@ -142,7 +166,6 @@ function DissableUser() {
 				searchValues: values
 			});
 		}
-
 	}
 
 	const columns = [
@@ -228,10 +251,8 @@ function DissableUser() {
 				),
 				customBodyRenderLite: (dataIndex, rowIndex) => {
 					return (
-						<Grid
-							style={{ padding: 0, margin: 0, textAlign: "left" }}
-						>
-							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id) }} name="checkedA" />} />
+						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
+							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} name="checkedA" />} />
 						</Grid>
 					);
 				},
