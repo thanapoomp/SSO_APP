@@ -130,7 +130,7 @@ export function AsideMenuList({ layoutProps }) {
             <span className="svg-icon menu-icon">
               <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Cap-2.svg")} />
             </span>
-            <span className="menu-text">UserManager</span>
+            <span className="menu-text">User Manager</span>
             <i className="menu-arrow" />
           </NavLink>
           <div className="menu-submenu ">
@@ -165,22 +165,7 @@ export function AsideMenuList({ layoutProps }) {
                   <span className="menu-text">Assign Roles </span>
                 </NavLink>
               </li>
-              {/* <li
-                className={`menu-item  ${getMenuItemActive(
-                  "/google-material/inputs/autocomplete"
-                )}`}
-                aria-haspopup="true"
-              >
-                <NavLink
-                  className="menu-link menu-toggle"
-                  to="/User/ChangePassword"
-                >
-                  <i className="menu-bullet menu-bullet-dot">
-                    <span />
-                  </i>
-                  <span className="menu-text">ChangePassword</span>
-                </NavLink>
-              </li> */}
+
               <li
                 className={`menu-item  ${getMenuItemActive(
                   "/google-material/inputs/autocomplete"
@@ -194,7 +179,7 @@ export function AsideMenuList({ layoutProps }) {
                   <i className="menu-bullet menu-bullet-dot">
                     <span />
                   </i>
-                  <span className="menu-text">Dissable</span>
+                  <span className="menu-text">User</span>
                 </NavLink>
               </li>
               {/*end::2 Level*/}
@@ -202,6 +187,123 @@ export function AsideMenuList({ layoutProps }) {
           </div>
         </li>
         {/*End::1 User*/}
+        <li
+          className={`menu-item menu-item-submenu ${getMenuItemActive(
+            "/google-material",
+            true
+          )}`}
+          aria-haspopup="true"
+          data-menu-toggle="hover"
+        >
+          <NavLink className="menu-link menu-toggle" to="/google-material">
+            <span className="svg-icon menu-icon">
+              <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Cap-2.svg")} />
+            </span>
+            <span className="menu-text">Source Manager</span>
+            <i className="menu-arrow" />
+          </NavLink>
+          <div className="menu-submenu ">
+            <i className="menu-arrow" />
+            {/* end L1 */}
+            <ul className="menu-subnav">
+              <li
+                className={`menu-item menu-item-submenu ${getMenuItemActive(
+                  "/google-material/inputs",
+                  true
+                )}`}
+                aria-haspopup="true"
+                data-menu-toggle="hover"
+              >
+                <NavLink
+                  className="menu-link menu-toggle"
+                  to="/"
+                >
+                  <i className="menu-bullet menu-bullet-dot">
+                    <span />
+                  </i>
+                  <span className="menu-text">Source</span>
+                </NavLink>
+              </li>
+              <li
+                className={`menu-item  ${getMenuItemActive(
+                  "/google-material/inputs/autocomplete"
+                )}`}
+                aria-haspopup="true"
+              >
+                <NavLink
+                  className="menu-link menu-toggle"
+                  to="/User/Source"
+                >
+                  <i className="menu-bullet menu-bullet-dot">
+                    <span />
+                  </i>
+                  <span className="menu-text">Add Source</span>
+                </NavLink>
+              </li>
+              {/*end::2 Level*/}
+            </ul>
+          </div>
+        </li>
+
+        {/* begin Role */}
+        <li
+          className={`menu-item menu-item-submenu ${getMenuItemActive(
+            "/google-material",
+            true
+          )}`}
+          aria-haspopup="true"
+          data-menu-toggle="hover"
+        >
+          <NavLink className="menu-link menu-toggle" to="/google-material">
+            <span className="svg-icon menu-icon">
+              <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Cap-2.svg")} />
+            </span>
+            <span className="menu-text">Roles Manager</span>
+            <i className="menu-arrow" />
+          </NavLink>
+          <div className="menu-submenu ">
+            <i className="menu-arrow" />
+            {/* end L1 */}
+            <ul className="menu-subnav">
+              <li
+                className={`menu-item menu-item-submenu ${getMenuItemActive(
+                  "/google-material/inputs",
+                  true
+                )}`}
+                aria-haspopup="true"
+                data-menu-toggle="hover"
+              >
+                <NavLink
+                  className="menu-link menu-toggle"
+                  to="/"
+                >
+                  <i className="menu-bullet menu-bullet-dot">
+                    <span />
+                  </i>
+                  <span className="menu-text">Roles</span>
+                </NavLink>
+              </li>
+              <li
+                className={`menu-item  ${getMenuItemActive(
+                  "/google-material/inputs/autocomplete"
+                )}`}
+                aria-haspopup="true"
+              >
+                <NavLink
+                  className="menu-link menu-toggle"
+                  to="/User/Roles"
+                >
+                  <i className="menu-bullet menu-bullet-dot">
+                    <span />
+                  </i>
+                  <span className="menu-text">Add Role</span>
+                </NavLink>
+              </li>
+              {/*end::2 Level*/}
+            </ul>
+          </div>
+        </li>
+        {/* end Role */}
 
         {/* End Demo สามารถ comment ทิ้งได้ */}
 

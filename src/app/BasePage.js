@@ -12,6 +12,8 @@ import WithAllComponents from "./modules/_FormikUseFormik/pages/WithAllComponent
 import ChangePassword from "./modules/Auth/pages/ChangePassword";
 import DissableUser from "./modules/Auth/pages/DissableUser";
 import AssignRoles from "./modules/Auth/pages/AssignRoles";
+import AddSource from "./modules/Auth/pages/AddSource";
+import AddRoles from "./modules/Auth/pages/AddRoles";
 
 export default function BasePage(props) {
   // useEffect(() => {
@@ -33,6 +35,8 @@ export default function BasePage(props) {
         <PrivateRoute exact path="/User/ChangePassword" roles={[ROLES.developer]} component={ChangePassword} />
         <ContentRoute exact path="/User/DissableUser" component={DissableUser} />
         <ContentRoute exact path="/User/AssignRoles" component={AssignRoles} />
+        <ContentRoute exact path="/User/Source" component={AddSource} />
+        <ContentRoute exact path="/User/Roles" component={AddRoles} />
         {/* End Demo part สามารถ comment ได้ */}
 
         <Route

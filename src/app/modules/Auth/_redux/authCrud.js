@@ -15,6 +15,8 @@ export const GET_USER_BYID_URL = `${CONST.API_URL}/Auth/role/getuserid`;
 export const GET_USER_FILTER_URL = `${CONST.API_URL}/Auth/user/filter`;
 export const DISABLE_USER_URL = `${CONST.API_URL}/Auth/user/disable`;
 export const ENABLE_USER_URL = `${CONST.API_URL}/Auth/user/enable`;
+export const ADD_SOURCE_URL = `${CONST.API_URL}/Auth/source/add`;
+export const ADD_ROLES_URL = `${CONST.API_URL}/Auth/role/add`;
 
 export const ME_URL = `${CONST.API_URL}/Auth/renew`;
 
@@ -31,6 +33,14 @@ export function changePassword(oldPassword, oldConfirmPassword, newPassword, new
 }
 export function assignRoles(payload) {
   return axios.post(ASSIGN_ROLE_URL, { payload });
+}
+
+export function addSource(sourceName) {
+  return axios.post(ADD_SOURCE_URL, { sourceName });
+}
+
+export function addRoles(roleName) {
+  return axios.post(ADD_ROLES_URL, { roleName });
 }
 
 export function requestPassword(email) {
