@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { useFormik } from "formik";
@@ -127,19 +128,22 @@ function Registration_new(props) {
     },
   });
 
+  //check mapping employee
   const checkEmployeeId = (id) => {
-    debugger
-    Axios.get(`${api_get_employee_url}/${id}`)
-      .then((res) => {
-        if (res.data.isSuccess) {
-          setemployee(false);
-        } else {
-          setemployee(true);
-        }
-      })
-      .catch((err) => {
-        swal.swalError("Error", err.message);
-      });
+
+    if (id) {
+      Axios.get(`${api_get_employee_url}/${id}`)
+        .then((res) => {
+          if (res.data.isSuccess) {
+            setemployee(false);
+          } else {
+            setemployee(true);
+          }
+        })
+        .catch((err) => {
+          swal.swalError("Error", err.message);
+        });
+    }
   }
 
   const loadSource = () => {
@@ -215,10 +219,9 @@ function Registration_new(props) {
             required
             fullWidth
             onBlur={() => { checkEmployeeId(formik.values.mapperid) }}
-            // onBlur={() => { checkEmployeeId(formik.values.mapperid) }}
             onChange={formik.handleChange}
             value={formik.values.mapperid}
-            error={employee}
+            error={(`${formik.errors.mapperid && formik.touched.mapperid}`),employee}
             helperText={(formik.errors.mapperid && formik.touched.mapperid) && formik.errors.mapperid}
           />
         </div>
