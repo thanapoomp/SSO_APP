@@ -1,8 +1,12 @@
 /* eslint-disable no-restricted-imports */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
+import { connect,useDispatch } from "react-redux";
+import { injectIntl } from "react-intl";
 import UserTables from "mui-datatables";
+import { Link } from "react-router-dom";
 import { disableUser, getUserFilter, enableUser } from "../_redux/authCrud";
+import * as auth from "../_redux/authRedux";
 import { Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
 import UserSearch from "../components/UserSearch";
@@ -13,15 +17,13 @@ require("dayjs/locale/th");
 var dayjs = require("dayjs");
 dayjs.locale("th");
 
-function UserTable() {
+function UserTable(props) {
+
+	const dispatch = useDispatch()
 
 	const [data, setData] = React.useState([]);
 	const [totalRecords, setTotalRecords] = React.useState(0);
 	const [isLoading, setIsLoading] = React.useState(true);
-
-	const [userId, setUserId] = React.useState({
-		edit: 0,
-	});
 
 
 	const [dataFilter, setDataFilter] = React.useState({
@@ -42,8 +44,7 @@ function UserTable() {
 	}, [dataFilter]);
 
 	const handleEdit = (id) => {
-		alert(id);
-		setUserId({ ...userId, edit: id });
+		dispatch(auth.actions.edit(id));
 	};
 
 	const loadData = () => {
@@ -276,35 +277,38 @@ function UserTable() {
 				},
 			},
 		},
-		// {
-		// 	name: "",
-		// 	options: {
-		// 		filter: false,
-		// 		sort: false,
-		// 		empty: true,
-		// 		viewColumns: false,
-		// 		hight: 2,
-		// 		customBodyRenderLite: (dataIndex, rowIndex) => {
-		// 			return (
-		// 				<Grid
-		// 					container
-		// 					direction="row"
-		// 					justify="center"
-		// 					alignItems="center"
-		// 				>
-		// 					<EditButton
-		// 						style={{ marginRight: 20 }}
-		// 						onClick={() => {
-		// 							handleEdit(data[dataIndex].id);
-		// 						}}
-		// 					>
-		// 						Edit
-		//                   </EditButton>
-		// 				</Grid>
-		// 			);
-		// 		},
-		// 	},
-		// },
+		{
+			name: "",
+			options: {
+				filter: false,
+				sort: false,
+				empty: true,
+				viewColumns: false,
+				hight: 2,
+				customBodyRenderLite: (dataIndex, rowIndex) => {
+					return (
+						<Grid
+							container
+							direction="row"
+							justify="center"
+							alignItems="center"
+						>
+							<Link to="/User/AssignRolesV2">
+								<EditButton
+									style={{ marginRight: 20 }}
+
+									onClick={() => {
+										handleEdit(data[dataIndex].id);
+									}}
+								>
+									Assign Role
+		                  </EditButton>
+							</Link>
+						</Grid>
+					);
+				},
+			},
+		},
 	];
 
 
@@ -341,4 +345,4 @@ function UserTable() {
 	)
 }
 
-export default UserTable
+export default injectIntl(connect(null, auth.actions)(UserTable))

@@ -148,6 +148,22 @@ export function AsideMenuList({ layoutProps }) {
               {/* Inputs */}
               {/*begin::2 Level*/}
               <li
+                className={`menu-item  ${getMenuItemActive(
+                  "/google-material/inputs/autocomplete"
+                )}`}
+                aria-haspopup="true"
+              >
+                <NavLink
+                  className="menu-link menu-toggle"
+                  to="/User/UserTable"
+                >
+                  <i className="menu-bullet menu-bullet-dot">
+                    <span />
+                  </i>
+                  <span className="menu-text">User</span>
+                </NavLink>
+              </li>
+              <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
                   "/google-material/inputs",
                   true
@@ -163,23 +179,6 @@ export function AsideMenuList({ layoutProps }) {
                     <span />
                   </i>
                   <span className="menu-text">Assign Roles </span>
-                </NavLink>
-              </li>
-
-              <li
-                className={`menu-item  ${getMenuItemActive(
-                  "/google-material/inputs/autocomplete"
-                )}`}
-                aria-haspopup="true"
-              >
-                <NavLink
-                  className="menu-link menu-toggle"
-                  to="/User/UserTable"
-                >
-                  <i className="menu-bullet menu-bullet-dot">
-                    <span />
-                  </i>
-                  <span className="menu-text">User</span>
                 </NavLink>
               </li>
               {/*end::2 Level*/}

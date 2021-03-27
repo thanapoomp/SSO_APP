@@ -6,6 +6,7 @@ export const actionTypes = {
   Register: "[Register] Action",
   Logout: "[Logout] Action",
   RenewToken: "[Renew Token] Action",
+  EditId: "[Edit] Action",
 };
 
 const initialAuthState = {
@@ -13,6 +14,10 @@ const initialAuthState = {
   authToken: null,
   exp: null,
   roles: [],
+
+  edit: {
+    id: 0,
+  }
 };
 
 export const reducer = persistReducer(
@@ -55,6 +60,13 @@ export const reducer = persistReducer(
         };
       }
 
+      case actionTypes.EditId: {
+        return {
+          ...state,
+          edit: action.payload,
+        };
+      }
+
       default:
         return state;
     }
@@ -66,4 +78,5 @@ export const actions = {
   register: (payload) => ({ type: actionTypes.Register, payload }),
   logout: () => ({ type: actionTypes.Logout }),
   renewToken: (payload) => ({ type: actionTypes.RenewToken, payload }),
+  edit: (payload) => ({ type: actionTypes.EditId, payload }),
 };

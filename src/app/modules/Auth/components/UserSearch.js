@@ -57,7 +57,6 @@ function UserSearch(props) {
 			.then((res) => {
 				if (res.data.isSuccess) {
 					setSourceList(res.data.data);
-					console.log(res.data.data);
 				} else {
 					alert(res.data.message);
 				}

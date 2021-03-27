@@ -16,6 +16,7 @@ import AddSource from "./modules/Auth/pages/AddSource";
 import AddRoles from "./modules/Auth/pages/AddRoles";
 import SourceTable from "./modules/Auth/pages/SourceTable";
 import RoleTable from "./modules/Auth/pages/RoleTable";
+import AssignRolesV2 from "./modules/Auth/pages/AssignRolesV2";
 
 export default function BasePage(props) {
   // useEffect(() => {
@@ -41,6 +42,7 @@ export default function BasePage(props) {
         <ContentRoute exact path="/User/Roles" component={AddRoles} />
         <ContentRoute exact path="/User/RoleTable" component={RoleTable} />
         <ContentRoute exact path="/User/SourceTable" component={SourceTable} />
+        <ContentRoute exact path="/User/AssignRolesV2" component={AssignRolesV2} />
         {/* End Demo part สามารถ comment ได้ */}
 
         <Route
