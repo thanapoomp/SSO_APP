@@ -20,6 +20,7 @@ export const ENABLE_USER_URL = `${CONST.API_URL}/Auth/user/enable`;
 
 //source
 export const ADD_SOURCE_URL = `${CONST.API_URL}/Auth/source/add`;
+export const GET_SOURCE_FILTER_URL = `${CONST.API_URL}/Auth/source/filter`;
 export const DISABLE_SOURCE_URL = `${CONST.API_URL}/Auth/source/disable`;
 export const ENABLE_SOURCE_URL = `${CONST.API_URL}/Auth/source/enable`;
 
@@ -139,7 +140,7 @@ export const getSourceFilter = (orderingField, ascendingOrder, page, recordsPerP
     sourceName
   }
 
-  var r = axios.get(encodeURLWithParams(`${GET_ROLE_FILTER_URL}`, payload));
+  var r = axios.get(encodeURLWithParams(`${GET_SOURCE_FILTER_URL}`, payload));
   return r;
 };
 

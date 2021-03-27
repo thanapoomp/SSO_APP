@@ -134,7 +134,7 @@ function SourceTable() {
 						loadData();
 					});
 
-			} else {
+			} else if (status === false) {
 
 				enableSource(id)
 					.then((res) => {
@@ -152,6 +152,9 @@ function SourceTable() {
 					.finally(() => {
 						loadData();
 					});
+			} else {
+				swal.swalError("Error", "Status Undefined");
+				loadData();
 			}
 		}
 	}
@@ -168,7 +171,7 @@ function SourceTable() {
 	const columns = [
 		{
 			name: "id",
-			label: "Roles",
+			label: "SourceId",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
@@ -184,8 +187,8 @@ function SourceTable() {
 			},
 		},
 		{
-			name: "name",
-			label: "RoleName",
+			name: "sourceName",
+			label: "SourceName",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
@@ -201,7 +204,7 @@ function SourceTable() {
 			},
 		},
 		{
-			name: "createdById",
+			name: "createdBy.userName",
 			label: "createdBy",
 			options: {
 				sort: false,
@@ -247,14 +250,12 @@ function SourceTable() {
 					</Grid>
 				),
 				customBodyRenderLite: (dataIndex, rowIndex) => {
+					let g = {}
+					g = data[dataIndex].isActive === undefined ? true : false;
 					return (
 						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
-							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} name="checkedA" />} />
-							{data[dataIndex].isActive === true ? (
-								<span>true</span>
-							) : (
-								<span>false</span>
-							)}
+							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" />} />
+							{data[dataIndex].isActive === true ? (<span>true</span>) : data[dataIndex].isActive === false ? (<span>false</span>) : (<span>undefined</span>)}
 						</Grid>
 					);
 				},
@@ -299,7 +300,7 @@ function SourceTable() {
 				alignItems="stretch">
 				<Card elevation={3} style={{ marginBottom: 5 }}>
 					<CardContent>
-						<UserSearch submit={handleSearchUser.bind(this)}></UserSearch>
+						{/* <UserSearch submit={handleSearchUser.bind(this)}></UserSearch> */}
 					</CardContent>
 				</Card>
 

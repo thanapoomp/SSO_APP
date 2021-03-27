@@ -216,7 +216,7 @@ export function AsideMenuList({ layoutProps }) {
               >
                 <NavLink
                   className="menu-link menu-toggle"
-                  to="/"
+                  to="/User/SourceTable"
                 >
                   <i className="menu-bullet menu-bullet-dot">
                     <span />
@@ -275,7 +275,7 @@ export function AsideMenuList({ layoutProps }) {
               >
                 <NavLink
                   className="menu-link menu-toggle"
-                  to="/"
+                  to="/User/RoleTable"
                 >
                   <i className="menu-bullet menu-bullet-dot">
                     <span />

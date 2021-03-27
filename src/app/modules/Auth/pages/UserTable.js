@@ -265,14 +265,12 @@ function UserTable() {
 					</Grid>
 				),
 				customBodyRenderLite: (dataIndex, rowIndex) => {
+					let g = {}
+					g = data[dataIndex].isActive === undefined ? true : false;
 					return (
 						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
-							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} name="checkedA" />} />
-							{data[dataIndex].isActive === true ? (
-								<span>true</span>
-							) : (
-								<span>false</span>
-							)}
+							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" />} />
+							{data[dataIndex].isActive === true ? (<span>true</span>) : data[dataIndex].isActive === false ? (<span>false</span>) : (<span>undefined</span>)}
 						</Grid>
 					);
 				},
