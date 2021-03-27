@@ -6,6 +6,7 @@ import { disableSource, getSourceFilter, enableSource } from "../_redux/authCrud
 import { Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
 import UserSearch from "../components/UserSearch";
+import EditButton from '../../Common/components/Buttons/EditButton';
 
 var flatten = require("flat");
 require("dayjs/locale/th");
@@ -17,6 +18,10 @@ function SourceTable() {
 	const [data, setData] = React.useState([]);
 	const [totalRecords, setTotalRecords] = React.useState(0);
 	const [isLoading, setIsLoading] = React.useState(true);
+
+	const [sourceId, setSourceId] = React.useState({
+		edit: 0,
+	});
 
 
 	const [dataFilter, setDataFilter] = React.useState({
@@ -33,6 +38,11 @@ function SourceTable() {
 		//load data from api
 		loadData();
 	}, [dataFilter]);
+
+	const handleEdit = (id) => {
+		alert(id);
+		setSourceId({ ...sourceId, edit: id });
+	};
 
 	const loadData = () => {
 		debugger
@@ -111,16 +121,17 @@ function SourceTable() {
 					.then((res) => {
 						if (res.data.isSuccess) {
 
-							swal.swalSuccess("Success", `success.`);
-							loadData();
+							return true;
 						} else {
 
 							swal.swalError("Error", res.data.message);
 						}
 					})
 					.catch((error) => {
-						loadData();
 						swal.swalError("Error", error.message);
+					})
+					.finally(() => {
+						loadData();
 					});
 
 			} else {
@@ -129,16 +140,17 @@ function SourceTable() {
 					.then((res) => {
 						if (res.data.isSuccess) {
 
-							swal.swalSuccess("Success", `success.`);
-							loadData();
+							return true;
 						} else {
 
 							swal.swalError("Error", res.data.message);
 						}
 					})
 					.catch((error) => {
-						loadData();
 						swal.swalError("Error", error.message);
+					})
+					.finally(() => {
+						loadData();
 					});
 			}
 		}
@@ -238,6 +250,39 @@ function SourceTable() {
 					return (
 						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
 							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} name="checkedA" />} />
+							{data[dataIndex].isActive === true ? (
+								<span>true</span>
+							) : (
+								<span>false</span>
+							)}
+						</Grid>
+					);
+				},
+			},
+		},
+		{
+			name: "",
+			options: {
+				filter: false,
+				sort: false,
+				empty: true,
+				hight: 2,
+				customBodyRenderLite: (dataIndex, rowIndex) => {
+					return (
+						<Grid
+							container
+							direction="row"
+							justify="center"
+							alignItems="center"
+						>
+							<EditButton
+								style={{ marginRight: 20 }}
+								onClick={() => {
+									handleEdit(data[dataIndex].id);
+								}}
+							>
+								Edit
+                          </EditButton>
 						</Grid>
 					);
 				},

@@ -74,7 +74,7 @@ function UserSearch(props) {
 					<FormikTextField formik={formik} name="userName" label="userName" />
 				</Grid>
 				<Grid item xs={12} lg={3}>
-					<FormikTextField formik={formik} name="mapperId" label="mapperId" />
+					<FormikTextField formik={formik} name="mapperId" label="EmployeeCode" />
 				</Grid>
 				<Grid item xs={12} lg={3}>
 					<FormikDropdown
