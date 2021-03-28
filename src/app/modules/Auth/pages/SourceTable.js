@@ -282,7 +282,7 @@ function SourceTable() {
 									handleEdit(data[dataIndex].id);
 								}}
 							>
-								Edit
+								Get ID
                           </EditButton>
 						</Grid>
 					);

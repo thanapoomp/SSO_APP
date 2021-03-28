@@ -1,16 +1,17 @@
 /* eslint-disable no-restricted-imports */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
-import { connect,useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { injectIntl } from "react-intl";
 import UserTables from "mui-datatables";
 import { Link } from "react-router-dom";
 import { disableUser, getUserFilter, enableUser } from "../_redux/authCrud";
 import * as auth from "../_redux/authRedux";
-import { Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
+import { Button, Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
 import UserSearch from "../components/UserSearch";
-import EditButton from '../../Common/components/Buttons/EditButton';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import blue from '@material-ui/core/colors/blue';
 
 var flatten = require("flat");
 require("dayjs/locale/th");
@@ -82,40 +83,6 @@ function UserTable(props) {
 			});
 	};
 
-	const options = {
-
-		filter: false,
-		print: false,
-		download: false,
-		search: false,
-		selectableRows: "none",
-		serverSide: true,
-		count: totalRecords,
-		page: dataFilter.page - 1,
-		rowsPerPage: dataFilter.recordsPerPage,
-		onTableChange: (action, tableState) => {
-			switch (action) {
-				case "changePage":
-					setDataFilter({ ...dataFilter, page: tableState.page + 1 });
-					break;
-				case "sort":
-					setDataFilter({
-						...dataFilter,
-						orderingField: `${tableState.sortOrder.name}`,
-						ascendingOrder:
-							tableState.sortOrder.direction === "asc" ? true : false,
-					});
-					break;
-				case "changeRowsPerPage":
-					setDataFilter({
-						...dataFilter,
-						recordsPerPage: tableState.rowsPerPage,
-					});
-					break;
-				default:
-			}
-		},
-	};
 
 	//disable user enable user
 	const handleChange = (id, status) => {
@@ -182,7 +149,56 @@ function UserTable(props) {
 				searchValues: values
 			});
 		}
-	}
+	};
+
+	const options = {
+
+		filter: false,
+		print: false,
+		download: false,
+		search: false,
+		selectableRows: "none",
+		serverSide: true,
+		count: totalRecords,
+		page: dataFilter.page - 1,
+		rowsPerPage: dataFilter.recordsPerPage,
+		setRowProps: (row, dataIndex, rowIndex) => {
+			if (data[dataIndex].isActive === false) {
+				return {
+					style: {
+						background: '#d7ccc8'
+					}
+				};
+			}
+			// return {
+			// 	style: {
+			// 		background: '#fafafa'
+			// 	}
+			// };
+		},
+		onTableChange: (action, tableState) => {
+			switch (action) {
+				case "changePage":
+					setDataFilter({ ...dataFilter, page: tableState.page + 1 });
+					break;
+				case "sort":
+					setDataFilter({
+						...dataFilter,
+						orderingField: `${tableState.sortOrder.name}`,
+						ascendingOrder:
+							tableState.sortOrder.direction === "asc" ? true : false,
+					});
+					break;
+				case "changeRowsPerPage":
+					setDataFilter({
+						...dataFilter,
+						recordsPerPage: tableState.rowsPerPage,
+					});
+					break;
+				default:
+			}
+		},
+	};
 
 	const columns = [
 		{
@@ -259,7 +275,9 @@ function UserTable(props) {
 			name: "",
 			label: "isActive",
 			options: {
+				selectableRows: true,
 				sort: false,
+				
 				customHeadLabelRender: (columnMeta, updateDirection) => (
 					<Grid style={{ textAlign: "left" }}>
 						{columnMeta.label}
@@ -294,15 +312,18 @@ function UserTable(props) {
 							alignItems="center"
 						>
 							<Link to="/User/AssignRolesV2">
-								<EditButton
-									style={{ marginRight: 20 }}
-
+								<Button
+									// style={{ marginRight: 20 }}
+									style={{ backgroundColor: blue[400] }}
+									variant="contained"
+									startIcon={<SupervisorAccountIcon />}
+									color="secondary"
 									onClick={() => {
 										handleEdit(data[dataIndex].id);
 									}}
 								>
 									Assign Role
-		                  </EditButton>
+		                  </Button>
 							</Link>
 						</Grid>
 					);

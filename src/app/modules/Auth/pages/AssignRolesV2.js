@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import Axios from "axios";
 import * as CONST from "../../../../Constants";
 import { Grid, Card, CardActions, Checkbox, FormControlLabel, Button } from '@material-ui/core';
-import { getUserById, assignRoles } from "../_redux/authCrud";
+import { assignRoles } from "../_redux/authCrud";
 import FormikTextField from "../../../modules/_FormikUseFormik/components/FormikTextField";
 import * as swal from "../../Common/components/SweetAlert";
 import { useFormik } from "formik";
@@ -16,11 +16,10 @@ function AssignRolesV2(props) {
 	const history = useHistory();
 	const api_get_role_url = `${CONST.API_URL}/Auth/role/get`;
 	const [role, setRole] = useState([]);
-	const [user, setUser] = useState([]);
 
 	useEffect(() => {
 		if (authReducer.edit.id !== 0) {
-			getUser(authReducer.edit)
+
 			loadRole();
 		} else {
 
@@ -42,25 +41,6 @@ function AssignRolesV2(props) {
 			.catch((err) => {
 				alert(err.message);
 			});
-	};
-
-	const getUser = (id) => {
-		//Load User
-		getUserById(id)
-			.then((res) => {
-				if (res.data.isSuccess) {
-
-					setUser(res.data.data);
-					console.log("getUser", res.data.data);
-				} else {
-					alert(res.data.message);
-				}
-			})
-			.catch((err) => {
-				alert(err.message);
-			})
-			.finally(() => {
-			})
 	};
 
 	const formik = useFormik({
