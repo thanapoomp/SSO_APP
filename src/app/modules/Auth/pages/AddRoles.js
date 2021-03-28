@@ -23,7 +23,7 @@ function AddRoles() {
 		},
 	});
 
-	const handleSave = ({ setSubmitting, resetForm}, values) => {
+	const handleSave = ({ setSubmitting, resetForm }, values) => {
 		debugger
 		addRoles(values.rolesName)
 			.then((res) => {
@@ -44,10 +44,16 @@ function AddRoles() {
 
 	return (
 		<form onSubmit={formik.handleSubmit}>
+
 			<Card>
-				<CardContent>
-					<Grid container spacing={3}>
-						<Grid item xs={12} lg={3}>
+				<Grid container spacing={3}>
+					<Grid item xs={12} lg={3}>
+						<Grid
+							container
+							direction="row"
+							justify="center"
+							alignItems="center"
+						>
 							<TextField
 								name="rolesName"
 								label="Roles Name"
@@ -60,19 +66,13 @@ function AddRoles() {
 								helperText={(formik.errors.rolesName && formik.touched.rolesName) && formik.errors.rolesName}
 							/>
 						</Grid>
-						<Grid
-							container
-							direction="row"
-							justify="center"
-							alignItems="center"
-						>
-							<Grid item xs={12} lg={3} >
-								<Button type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Submit</Button>
-							</Grid>
-						</Grid>
 					</Grid>
-				</CardContent>
+					<Grid item xs={12} lg={3} >
+						<Button type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Submit</Button>
+					</Grid>
+				</Grid>
 			</Card>
+
 		</form>
 	)
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as CONST from "./../../../../Constants";
 import jwt_decode from "jwt-decode";
-import {encodeURLWithParams} from '../../Common/components/ParamsEncode';
+import { encodeURLWithParams } from '../../Common/components/ParamsEncode';
 
 var dayjs = require("dayjs");
 // http://uat.siamsmile.co.th:9185/api/SSO/login
@@ -44,8 +44,8 @@ export function changePassword(oldPassword, oldConfirmPassword, newPassword, new
   return axios.post(CHANGPASSWORD_URL, { oldPassword, oldConfirmPassword, newPassword, newConfirmPassword });
 }
 
-export function assignRoles(payload) {
-  return axios.post(ASSIGN_ROLE_URL, { payload });
+export function assignRoles(userId,rolesId) {
+  return axios.post(ASSIGN_ROLE_URL, { userId, rolesId });
 }
 
 export function requestPassword(email) {

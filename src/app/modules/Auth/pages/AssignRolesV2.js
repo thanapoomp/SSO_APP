@@ -5,22 +5,21 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
 import * as CONST from "../../../../Constants";
-import { Grid, Card, Checkbox, FormControlLabel } from '@material-ui/core';
-import { getUserById } from "../_redux/authCrud";
+import { Grid, Card, CardActions, CardContent, CardActionArea, Checkbox, FormControlLabel, Button } from '@material-ui/core';
+import { getUserById, assignRoles } from "../_redux/authCrud";
 import FormikTextField from "../../../modules/_FormikUseFormik/components/FormikTextField";
-import FormikCheckBox from "../../../modules/_FormikUseFormik/components/FormikCheckBox";
+import ViewButton from "../../../modules/Common/components/Buttons/ViewButton";
 import { useFormik } from "formik";
 
 function AssignRolesV2(props) {
 	const authReducer = useSelector(({ auth }) => auth)
 	const history = useHistory();
 	const api_get_role_url = `${CONST.API_URL}/Auth/role/get`;
-	const [role, setRole] = useState([])
-	const [user, setUser] = useState([])
-	const [isCheck, setisCheck] = useState(false)
+	const [role, setRole] = useState([]);
+	const [user, setUser] = useState([]);
 
 	useEffect(() => {
-		if (authReducer.edit !== 0) {
+		if (authReducer.edit.id !== 0) {
 			getUser(authReducer.edit)
 			loadRole();
 		} else {
@@ -51,9 +50,6 @@ function AssignRolesV2(props) {
 			.then((res) => {
 				if (res.data.isSuccess) {
 
-					// res.data.data.forEach((element) => {
-					// 	flatData.push(flatten(element));
-					// });
 					setUser(res.data.data);
 					console.log("getUser", res.data.data);
 				} else {
@@ -64,28 +60,14 @@ function AssignRolesV2(props) {
 				alert(err.message);
 			})
 			.finally(() => {
-				// gggg();
 			})
 	};
-
-
-	// const gggg = () => {
-	// 	debugger
-	// 	let objid = [];
-	// 	user.map((item) => (
-	// 		objid.push(item.roleId)
-	// 	));
-
-	// 	let ccc = role.filter(obj => obj.id !== objid)
-	// 	setisCheck(ccc)
-	// 	console.log("role.filter", role)
-
-	// };
 
 	const formik = useFormik({
 		enableReinitialize: true,
 		initialValues: {
-			userName: authReducer.edit,
+			userId: authReducer.edit,
+			rolesId: []
 		},
 		validate: (values) => {
 			const errors = {};
@@ -95,48 +77,64 @@ function AssignRolesV2(props) {
 
 		onSubmit: (values, { setSubmitting }) => {
 
-			props.submit(values);
-			setSubmitting(false);
+			console.log(values)
+			handleSave({ setSubmitting }, values);
 		},
 	});
 
-	const handleChange = (event) => {
-		console.log(event.target.checked);
-	};
+
+	const handleSave = ({ setSubmitting }, values) => {
+		debugger
+		setSubmitting(false);
+		assignRoles(values.userId, values.rolesId)
+			.then((res) => {
+				if (res.data.isSuccess) {
+					alert(res.data.message);
+					history.push("/User/UserTable");
+				} else {
+					alert(res.data.message);
+				}
+			})
+			.catch((err) => {
+				alert(err.message);
+			})
+			.finally(() => {
+			})
+
+	}
 
 	return (
 		<div>
-			<Grid
-				container
-				direction="row"
-				justify="center"
-				alignItems="center"
-			>
-
-				<Grid item xs={12} md={3} lg={6}>
-					<Card style={{ height: 400, overflow: 'auto', padding: 10 }}>
-						<FormikTextField formik={formik} name="userName" label="userName" disabled />
+			<Grid item xs={12} lg={6}>
+				<Card style={{ overflow: 'auto', padding: 10 }}>
+					<FormikTextField formik={formik} name="userId" label="userName" disabled />
+					<Grid
+						container
+						direction="row"
+						justify="center"
+						alignItems="center"
+					>
 						<Grid container spacing={1}>
 							{role.map((item) => (
 								<Grid item key={item.id}>
 									<FormControlLabel
 										control={
 											<Checkbox
-												name={item.roleName}
-												checked={isCheck}
+												formik={formik}
+												name="rolesId"
+												checked={formik.values[props.name]}
 												onChange={(e) => {
-													let newValue = [];
+													let newValue = [...formik.values.rolesId];
 													if (e.target.checked) {
-													  newValue.push(item.id);
+														newValue.push(item.id);
 													} else {
-													  const idx = newValue.indexOf(
-														item.id
-													  );
-													  newValue.splice(idx, 1)
-													  ;
+														const idx = newValue.indexOf(
+															item.id
+														);
+														newValue.splice(idx, 1)
+															;
 													}
-													// props.formik.setFieldValue(props.name, newValue)
-													console.log(newValue);
+													formik.setFieldValue('rolesId', newValue)
 												}}
 												color="primary"
 												inputProps={{ "aria-label": "primary checkbox" }}
@@ -146,13 +144,37 @@ function AssignRolesV2(props) {
 									/>
 								</Grid>
 							))}
-
 						</Grid>
-					</Card>
-				</Grid>
+					</Grid>
+
+					<Grid item xs={12} lg={12}>
+						<Grid
+							container
+							direction="row"
+							justify="flex-end"
+							alignItems="center"
+						>
+							<CardActions>
+								<Button variant="contained"
+									className="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4"
+									type="submit"
+									onClick={formik.handleSubmit}
+									// disabled={isSubmitting}
+									color="primary"
+								// startIcon={<AddShoppingCartIcon style={{ color: blue[50] }} />}
+								>
+									Save
+                    		</Button>
+
+							</CardActions>
+						</Grid>
+					</Grid>
+				</Card>
 			</Grid>
+
+
 			<br></br>
-			{/* values: {JSON.stringify(formik.values)} */}
+			values: { JSON.stringify(formik.values)}
 		</div >
 	)
 }
