@@ -10,13 +10,13 @@ function AddRoles() {
 		enableReinitialize: true,
 		validate: (values) => {
 			const errors = {};
-			if (!values.rolesName) {
-				errors.rolesName = "required";
+			if (!values.roleName) {
+				errors.roleName = "required";
 			}
 			return errors;
 		},
 		initialValues: {
-			rolesName: "",
+			roleName: "",
 		},
 		onSubmit: (values, { setSubmitting, resetForm }) => {
 			handleSave({ setSubmitting, resetForm }, values);
@@ -25,7 +25,7 @@ function AddRoles() {
 
 	const handleSave = ({ setSubmitting, resetForm }, values) => {
 		debugger
-		addRoles(values.rolesName)
+		addRoles(values.roleName)
 			.then((res) => {
 				if (res.data.isSuccess) {
 					setSubmitting(false);
@@ -44,35 +44,35 @@ function AddRoles() {
 
 	return (
 		<form onSubmit={formik.handleSubmit}>
-
 			<Card>
-				<Grid container spacing={3}>
-					<Grid item xs={12} lg={3}>
+				<CardContent>
+					<Grid container spacing={3}>
+						<Grid item xs={12} lg={3}>
+							<TextField
+								name="roleName"
+								label="Role Name"
+								required
+								fullWidth
+								onBlur={formik.handleBlur}
+								onChange={formik.handleChange}
+								value={formik.values.roleName}
+								error={(formik.errors.roleName && formik.touched.roleName)}
+								helperText={(formik.errors.roleName && formik.touched.roleName) && formik.errors.roleName}
+							/>
+						</Grid>
 						<Grid
 							container
 							direction="row"
 							justify="center"
 							alignItems="center"
 						>
-							<TextField
-								name="rolesName"
-								label="Roles Name"
-								required
-								fullWidth
-								onBlur={formik.handleBlur}
-								onChange={formik.handleChange}
-								value={formik.values.rolesName}
-								error={(formik.errors.rolesName && formik.touched.rolesName)}
-								helperText={(formik.errors.rolesName && formik.touched.rolesName) && formik.errors.rolesName}
-							/>
+							<Grid item xs={12} lg={3} >
+								<Button type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Submit</Button>
+							</Grid>
 						</Grid>
 					</Grid>
-					<Grid item xs={12} lg={3} >
-						<Button type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Submit</Button>
-					</Grid>
-				</Grid>
+				</CardContent>
 			</Card>
-
 		</form>
 	)
 }

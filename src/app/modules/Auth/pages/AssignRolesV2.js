@@ -5,10 +5,10 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
 import * as CONST from "../../../../Constants";
-import { Grid, Card, CardActions, CardContent, CardActionArea, Checkbox, FormControlLabel, Button } from '@material-ui/core';
+import { Grid, Card, CardActions, Checkbox, FormControlLabel, Button } from '@material-ui/core';
 import { getUserById, assignRoles } from "../_redux/authCrud";
 import FormikTextField from "../../../modules/_FormikUseFormik/components/FormikTextField";
-import ViewButton from "../../../modules/Common/components/Buttons/ViewButton";
+import * as swal from "../../Common/components/SweetAlert";
 import { useFormik } from "formik";
 
 function AssignRolesV2(props) {
@@ -89,8 +89,9 @@ function AssignRolesV2(props) {
 		assignRoles(values.userId, values.rolesId)
 			.then((res) => {
 				if (res.data.isSuccess) {
-					alert(res.data.message);
-					history.push("/User/UserTable");
+					swal.swalSuccess("Success", `success.`).then(() => {
+						history.push("/User/UserTable");
+					});;
 				} else {
 					alert(res.data.message);
 				}
@@ -99,7 +100,8 @@ function AssignRolesV2(props) {
 				alert(err.message);
 			})
 			.finally(() => {
-			})
+
+			});
 
 	}
 
@@ -171,10 +173,6 @@ function AssignRolesV2(props) {
 					</Grid>
 				</Card>
 			</Grid>
-
-
-			<br></br>
-			values: { JSON.stringify(formik.values)}
 		</div >
 	)
 }

@@ -293,7 +293,7 @@ function RoleTable() {
 				alignItems="stretch">
 				<Card elevation={3} style={{ marginBottom: 5 }}>
 					<CardContent>
-						<UserSearch submit={handleSearchUser.bind(this)}></UserSearch>
+						{/* <UserSearch submit={handleSearchUser.bind(this)}></UserSearch> */}
 					</CardContent>
 				</Card>
 

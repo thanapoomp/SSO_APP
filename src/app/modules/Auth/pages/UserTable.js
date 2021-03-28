@@ -48,7 +48,7 @@ function UserTable(props) {
 	};
 
 	const loadData = () => {
-		debugger
+
 		getUserFilter(
 			dataFilter.orderingField,
 			dataFilter.ascendingOrder,
