@@ -36,6 +36,7 @@ function FormikTextField(props) {
 FormikTextField.propTypes = {
   formik: PropTypes.object,
   name: PropTypes.string,
+  variant: PropTypes.string,
   label: PropTypes.string,
   disabled: PropTypes.bool
 };
@@ -45,7 +46,8 @@ FormikTextField.defaultProps = {
   formik: {},
   name: "Do not forget to set name",
   label: "Do not forget to set label",
-  disabled: false
+  disabled: false,
+
 };
 
 export default FormikTextField;

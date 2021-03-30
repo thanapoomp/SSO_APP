@@ -8,12 +8,11 @@ import SearchIcon from '@material-ui/icons/Search';
 import FormikTextField from "../../../modules/_FormikUseFormik/components/FormikTextField";
 import FormikDropdown from "../../../modules/_FormikUseFormik/components/FormikDropdown";
 import * as CONST from "../../../../Constants";
-import Axios from "axios";
+import { getSource } from "../_redux/authCrud";
 
 function UserSearch(props) {
 	const api_get_source_url = `${CONST.API_URL}/Auth/source/get`;
 	const [sourceList, setSourceList] = React.useState([]);
-
 	const [dataFilter, setDataFilter] = React.useState({
 		page: 1,
 		recordsPerPage: 10,
@@ -40,7 +39,7 @@ function UserSearch(props) {
 		},
 
 		onSubmit: (values, { setSubmitting }) => {
-
+			
 			props.submit(values);
 			setSubmitting(false);
 		},
@@ -53,7 +52,7 @@ function UserSearch(props) {
 	const loadSource = () => {
 
 		//Load Source
-		Axios.get(api_get_source_url)
+		getSource()
 			.then((res) => {
 				if (res.data.isSuccess) {
 					setSourceList(res.data.data);

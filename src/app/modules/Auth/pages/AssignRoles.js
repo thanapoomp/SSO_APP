@@ -3,7 +3,7 @@ import React from 'react'
 import { useFormik } from "formik";
 import { Grid, Button, Card, CardHeader, Checkbox, Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import FormikDropdown from "../../../modules/_FormikUseFormik/components/FormikDropdown";
-import { login, getUserByToken, getExp, getRoles, getUserById } from "../_redux/authCrud";
+import { login, getUserByToken, getExp, getRoles, getRoleByUserId } from "../_redux/authCrud";
 import * as CONST from "../../../../Constants";
 import Axios from "axios";
 
@@ -146,7 +146,7 @@ function AssignRoles() {
 
 	const getUser = (id) => {
 		//Load User
-		getUserById(id)
+		getRoleByUserId(id)
 			.then((res) => {
 				if (res.data.isSuccess) {
 					debugger

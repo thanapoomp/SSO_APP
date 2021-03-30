@@ -7,6 +7,7 @@ export const actionTypes = {
   Logout: "[Logout] Action",
   RenewToken: "[Renew Token] Action",
   EditId: "[Edit] Action",
+  SaveRole: "[SaveRole] Action",
 };
 
 const initialAuthState = {
@@ -15,15 +16,19 @@ const initialAuthState = {
   exp: null,
   roles: [],
 
-  edit: {
-    id: 0,
-  }
+
+  userGuid: 0,
+  employeeCode: 0,
+  roleId:[]
+
+
 };
 
 export const reducer = persistReducer(
   { storage, key: "auth", whitelist: ["user", "authToken", "exp", "roles"] },
   (state = initialAuthState, action) => {
     switch (action.type) {
+
       case actionTypes.Login: {
         return {
           ...state,
@@ -61,9 +66,20 @@ export const reducer = persistReducer(
       }
 
       case actionTypes.EditId: {
+        debugger
         return {
           ...state,
-          edit: action.payload,
+          userGuid: action.payload.userGuid,
+          employeeCode: action.payload.employeeCode,
+
+        };
+      }
+      case actionTypes.SaveRole: {
+        debugger
+        return {
+          ...state,
+          roleId: [...action.payload],
+
         };
       }
 
@@ -79,4 +95,5 @@ export const actions = {
   logout: () => ({ type: actionTypes.Logout }),
   renewToken: (payload) => ({ type: actionTypes.RenewToken, payload }),
   edit: (payload) => ({ type: actionTypes.EditId, payload }),
+  saveRoles: (payload) => ({ type: actionTypes.SaveRole, payload }),
 };

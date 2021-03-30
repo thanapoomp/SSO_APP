@@ -11,26 +11,31 @@ export const REQUEST_PASSWORD_URL = `api/auth/forgot-password`;
 export const RENEW_TOKEN_URL = `${CONST.API_URL}/Auth/renew`
 export const CHANGPASSWORD_URL = `${CONST.API_URL}/Auth/user/changepassword`
 export const ASSIGN_ROLE_URL = `${CONST.API_URL}/Auth/role/assign`
-export const GET_USER_BYID_URL = `${CONST.API_URL}/Auth/role/getuserid`;
+
 
 //user
 export const GET_USER_FILTER_URL = `${CONST.API_URL}/Auth/user/filter`;
 export const DISABLE_USER_URL = `${CONST.API_URL}/Auth/user/disable`;
 export const ENABLE_USER_URL = `${CONST.API_URL}/Auth/user/enable`;
+export const GET_USER_BYCODE_URL = `${CONST.API_URL}/Auth/mapper/employee`;
+export const GET_USER_BYID_URL = `${CONST.API_URL}/Auth/role/getuserid`;
 
 //source
 export const ADD_SOURCE_URL = `${CONST.API_URL}/Auth/source/add`;
 export const GET_SOURCE_FILTER_URL = `${CONST.API_URL}/Auth/source/filter`;
+export const GET_SOURCE_URL = `${CONST.API_URL}/Auth/source/get`;
 export const DISABLE_SOURCE_URL = `${CONST.API_URL}/Auth/source/disable`;
 export const ENABLE_SOURCE_URL = `${CONST.API_URL}/Auth/source/enable`;
 
 //role
 export const ADD_ROLE_URL = `${CONST.API_URL}/Auth/role/add`;
 export const GET_ROLE_FILTER_URL = `${CONST.API_URL}/Auth/role/filter`;
+export const GET_ROLE_URL = `${CONST.API_URL}/Auth/role/get`;
 export const DISABLE_ROLE_URL = `${CONST.API_URL}/Auth/role/disable`;
 export const ENABLE_ROLE_URL = `${CONST.API_URL}/Auth/role/enable`;
 
 export const ME_URL = `${CONST.API_URL}/Auth/renew`;
+///----------------end----------------///
 
 export function login(username, password, source) {
   return axios.post(LOGIN_URL, { username, password, source });
@@ -44,7 +49,7 @@ export function changePassword(oldPassword, oldConfirmPassword, newPassword, new
   return axios.post(CHANGPASSWORD_URL, { oldPassword, oldConfirmPassword, newPassword, newConfirmPassword });
 }
 
-export function assignRoles(userId,rolesId) {
+export function assignRoles(userId, rolesId) {
   return axios.post(ASSIGN_ROLE_URL, { userId, rolesId });
 }
 
@@ -64,9 +69,13 @@ export function getUserGuidByToken(token) {
 
 
 
-//User
-export function getUserById(id) {
+//-------User--------//
+export function getRoleByUserId(id) {
   return axios.get(`${GET_USER_BYID_URL}/${id}`);
+}
+
+export function getUserByCode(id) {
+  return axios.get(`${GET_USER_BYCODE_URL}/${id}`);
 }
 
 export function disableUser(id) {
@@ -91,21 +100,26 @@ export const getUserFilter = (orderingField, ascendingOrder, page, recordsPerPag
   var r = axios.get(encodeURLWithParams(`${GET_USER_FILTER_URL}`, payload));
   return r;
 };
+//-------end User---------//
 
-//Role
-export const getRoleFilter = (orderingField, ascendingOrder, page, recordsPerPage, roleName) => {
+//-----Role-----//
+export const getRoleFilter = (orderingField, ascendingOrder, page, recordsPerPage, roleName, isActive) => {
   let payload = {
     orderingField,
     ascendingOrder,
     page,
     recordsPerPage,
-    roleName
+    roleName,
+    isActive
   }
 
   var r = axios.get(encodeURLWithParams(`${GET_ROLE_FILTER_URL}`, payload));
   return r;
 };
 
+export function getRole() {
+  return axios.get(`${GET_ROLE_URL}`);
+}
 export function disableRole(id) {
   return axios.put(`${DISABLE_ROLE_URL}/${id}`);
 }
@@ -118,7 +132,9 @@ export function addRoles(roleName) {
   return axios.post(ADD_ROLE_URL, { roleName });
 }
 
-//Source
+//--------------end Role-------------------//
+
+//-------Source-------//
 export function addSource(sourceName) {
   return axios.post(ADD_SOURCE_URL, { sourceName });
 }
@@ -129,6 +145,10 @@ export function disableSource(id) {
 
 export function enableSource(id) {
   return axios.put(`${ENABLE_SOURCE_URL}/${id}`);
+}
+
+export function getSource() {
+  return axios.get(`${GET_SOURCE_URL}`);
 }
 
 export const getSourceFilter = (orderingField, ascendingOrder, page, recordsPerPage, sourceName) => {

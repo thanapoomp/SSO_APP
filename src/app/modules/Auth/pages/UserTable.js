@@ -44,8 +44,13 @@ function UserTable(props) {
 		loadData();
 	}, [dataFilter]);
 
-	const handleEdit = (id) => {
-		dispatch(auth.actions.edit(id));
+	const handleEdit = (userGuid, employeeCode, d) => {
+		debugger
+		let data = {
+			userGuid: userGuid,
+			employeeCode: employeeCode
+		}
+		dispatch(auth.actions.edit(data));
 	};
 
 	const loadData = () => {
@@ -113,7 +118,6 @@ function UserTable(props) {
 					.then((res) => {
 						if (res.data.isSuccess) {
 
-							// swal.swalSuccess("Success", `success.`);
 							return true;
 						} else {
 
@@ -133,7 +137,7 @@ function UserTable(props) {
 
 	const handleSearchUser = (values) => {
 
-		//เช็ค sourceName = 0 (กรุณาเลือก) ให้ sourceName เป็น ว่าง
+		//เช็ค sourceName = 0 ('กรุณาเลือก') ให้ sourceName เป็น ว่าง
 		if (values.sourceName === 0) {
 			values.sourceName = ""
 			setDataFilter({
@@ -170,11 +174,6 @@ function UserTable(props) {
 					}
 				};
 			}
-			// return {
-			// 	style: {
-			// 		background: '#fafafa'
-			// 	}
-			// };
 		},
 		onTableChange: (action, tableState) => {
 			switch (action) {
@@ -216,6 +215,34 @@ function UserTable(props) {
 						{value}
 					</Grid>
 				)
+			},
+		},
+		{
+			name: "",
+			label: "Name",
+			options: {
+				sort: false,
+				customHeadLabelRender: (columnMeta, updateDirection) => (
+					<Grid style={{ textAlign: "center" }}>
+						{columnMeta.label}
+					</Grid>
+				),
+				customBodyRenderLite: (dataIndex, rowIndex) => {
+
+					//check person is null
+					var obj = data[dataIndex].person
+					if (obj !== null) {
+						let fullName = `${data[dataIndex]["person.title"]}${data[dataIndex]["person.firstName"]} ${data[dataIndex]["person.lastName"]}`;
+						return (
+							<Grid style={{ textAlign: "center" }}>{fullName}</Grid>
+						)
+					} else {
+						return (
+							<Grid style={{ textAlign: "center" }}>-</Grid>
+						)
+					}
+
+				},
 			},
 		},
 		{
@@ -277,7 +304,7 @@ function UserTable(props) {
 			options: {
 				selectableRows: true,
 				sort: false,
-				
+
 				customHeadLabelRender: (columnMeta, updateDirection) => (
 					<Grid style={{ textAlign: "left" }}>
 						{columnMeta.label}
@@ -288,8 +315,9 @@ function UserTable(props) {
 					g = data[dataIndex].isActive === undefined ? true : false;
 					return (
 						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
+							{/* disable status undefined */}
 							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" />} />
-							{data[dataIndex].isActive === true ? (<span>true</span>) : data[dataIndex].isActive === false ? (<span>false</span>) : (<span>undefined</span>)}
+							{/* {data[dataIndex].isActive === true ? (<span>true</span>) : data[dataIndex].isActive === false ? (<span>false</span>) : (<span>undefined</span>)} */}
 						</Grid>
 					);
 				},
@@ -313,13 +341,12 @@ function UserTable(props) {
 						>
 							<Link to="/User/AssignRolesV2">
 								<Button
-									// style={{ marginRight: 20 }}
 									style={{ backgroundColor: blue[400] }}
 									variant="contained"
 									startIcon={<SupervisorAccountIcon />}
 									color="secondary"
 									onClick={() => {
-										handleEdit(data[dataIndex].id);
+										handleEdit(data[dataIndex].id, data[dataIndex].mapperId, data);
 									}}
 								>
 									Assign Role

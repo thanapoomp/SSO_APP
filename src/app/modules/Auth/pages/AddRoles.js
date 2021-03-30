@@ -5,7 +5,13 @@ import { Grid, TextField, Card, CardContent, Button } from "@material-ui/core/";
 import { addRoles } from "../_redux/authCrud";
 import * as swal from "../../Common/components/SweetAlert";
 
-function AddRoles() {
+function AddRoles(props) {
+	const [editId, setEditId] = React.useState([{}])
+
+	React.useEffect(() => {
+		alert(props.editId);
+
+	}, [editId])
 	const formik = useFormik({
 		enableReinitialize: true,
 		validate: (values) => {

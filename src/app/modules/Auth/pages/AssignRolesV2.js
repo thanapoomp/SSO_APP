@@ -1,53 +1,59 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from 'react'
-import { useSelector } from "react-redux";
+import React from 'react'
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Axios from "axios";
-import * as CONST from "../../../../Constants";
-import { Grid, Card, CardActions, Checkbox, FormControlLabel, Button } from '@material-ui/core';
-import { assignRoles } from "../_redux/authCrud";
-import FormikTextField from "../../../modules/_FormikUseFormik/components/FormikTextField";
+import { Grid, Card, CardActions, TextField, Typography, Button, Switch, withStyles } from '@material-ui/core';
+import { assignRoles, getRole, getUserByCode, getRoleByUserId } from "../_redux/authCrud";
+import FormikCheckBoxGroup from "../../../modules/_FormikUseFormik/components/FormikCheckBoxGroup";
+import AddButton from "../../../modules/Common/components/Buttons/AddButton";
+import UserDetail from "../../../modules/Auth/components/UserDetail";
 import * as swal from "../../Common/components/SweetAlert";
 import { useFormik } from "formik";
+import * as auth from "../_redux/authRedux";
 
 function AssignRolesV2(props) {
+
 	const authReducer = useSelector(({ auth }) => auth)
+	var employeeCode = authReducer.employeeCode;
+	var userGuid = authReducer.userGuid;
+
+
+	const dispatch = useDispatch()
 	const history = useHistory();
-	const api_get_role_url = `${CONST.API_URL}/Auth/role/get`;
-	const [role, setRole] = useState([]);
+	const [role, setRole] = React.useState([]);
+	const [userDetail, setUserDetail] = React.useState([]);
+	const [loading, setLoading] = React.useState(false);
 
-	useEffect(() => {
-		if (authReducer.edit.id !== 0) {
+	React.useEffect(() => {
+		console.log(authReducer);
+		debugger
 
-			loadRole();
+		if (userGuid) {
+
+			if (employeeCode) {
+
+				loadRole();
+				getRoleUserId(userGuid)
+			} else {
+
+				history.push("/User/UserTable");
+			}
+
 		} else {
 
 			history.push("/User/UserTable");
 		}
-	}, [authReducer.edit]);
+	}, [authReducer.employeeCode]);
 
-	const loadRole = () => {
-		//Load Role
-		Axios.get(api_get_role_url)
-			.then((res) => {
-				if (res.data.isSuccess) {
-					console.log("loadRole", res.data.data)
-					setRole(res.data.data);
-				} else {
-					alert(res.data.message);
-				}
-			})
-			.catch((err) => {
-				alert(err.message);
-			});
-	};
 
 	const formik = useFormik({
 		enableReinitialize: true,
 		initialValues: {
-			userId: authReducer.edit,
-			rolesId: []
+			userId: `${employeeCode} ${userDetail.fullName}`,
+
+			//default role user
+			rolesId: [...authReducer.roleId]
 		},
 		validate: (values) => {
 			const errors = {};
@@ -62,11 +68,10 @@ function AssignRolesV2(props) {
 		},
 	});
 
-
 	const handleSave = ({ setSubmitting }, values) => {
 		debugger
 		setSubmitting(false);
-		assignRoles(values.userId, values.rolesId)
+		assignRoles(userGuid, values.rolesId)
 			.then((res) => {
 				if (res.data.isSuccess) {
 					swal.swalSuccess("Success", `success.`).then(() => {
@@ -85,11 +90,74 @@ function AssignRolesV2(props) {
 
 	}
 
+	const loadRole = () => {
+		getRole()
+			.then((res) => {
+				if (res.data.isSuccess) {
+					console.log("loadRole", res.data.data)
+					setRole(res.data.data);
+					loadUserDetail(employeeCode)
+				} else {
+					alert(res.data.message);
+				}
+			})
+			.catch((err) => {
+				alert(err.message);
+			})
+			.finally(() => {
+			})
+	};
+
+	const loadUserDetail = (id) => {
+
+		getUserByCode(id)
+			.then((res) => {
+				if (res.data.isSuccess) {
+					// console.log("loadRole", res.data.data)
+					setUserDetail({ ...userDetail, fullName: `${res.data.data.title}${res.data.data.firstName} ${res.data.data.lastName} แผนก : ${res.data.data.department}` });
+				} else {
+					alert(res.data.message);
+				}
+			})
+			.catch((err) => {
+				alert(err.message);
+			})
+			.finally(() => {
+
+			})
+	};
+
+
+	//โหลด default role user
+	const getRoleUserId = (id) => {
+		debugger
+		getRoleByUserId(id)
+			.then((res) => {
+				if (res.data.isSuccess) {
+					let roles = []
+					//forEach push roleId 
+					res.data.data.forEach(element => {
+						roles.push(element.roleId)
+					});
+					//save roleId redux
+					dispatch(auth.actions.saveRoles(roles));
+				} else {
+					alert(res.data.message);
+				}
+			})
+			.catch((err) => {
+				alert(err.message);
+			})
+			.finally(() => {
+
+			})
+	};
+
 	return (
 		<div>
-			<Grid item xs={12} lg={6}>
+			<Grid item xs={12} lg={12}>
 				<Card style={{ overflow: 'auto', padding: 10 }}>
-					<FormikTextField formik={formik} name="userId" label="userName" disabled />
+					<Typography variant="h6" component="h2">{userDetail.fullName}</Typography>
 					<Grid
 						container
 						direction="row"
@@ -97,35 +165,15 @@ function AssignRolesV2(props) {
 						alignItems="center"
 					>
 						<Grid container spacing={1}>
-							{role.map((item) => (
-								<Grid item key={item.id}>
-									<FormControlLabel
-										control={
-											<Checkbox
-												formik={formik}
-												name="rolesId"
-												checked={formik.values[props.name]}
-												onChange={(e) => {
-													let newValue = [...formik.values.rolesId];
-													if (e.target.checked) {
-														newValue.push(item.id);
-													} else {
-														const idx = newValue.indexOf(
-															item.id
-														);
-														newValue.splice(idx, 1)
-															;
-													}
-													formik.setFieldValue('rolesId', newValue)
-												}}
-												color="primary"
-												inputProps={{ "aria-label": "primary checkbox" }}
-											/>
-										}
-										label={item.roleName}
-									/>
-								</Grid>
-							))}
+							<Grid item xs={12} lg={1}>
+								<FormikCheckBoxGroup
+									formik={formik}
+									name="rolesId"
+									label=""
+									displayFieldName="roleName"
+									data={role}
+								/>
+							</Grid>
 						</Grid>
 					</Grid>
 
@@ -133,21 +181,19 @@ function AssignRolesV2(props) {
 						<Grid
 							container
 							direction="row"
-							justify="flex-end"
+							justify="center"
 							alignItems="center"
 						>
 							<CardActions>
-								<Button variant="contained"
-									className="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4"
+								<AddButton
+									fullWidth
+									size="large"
 									type="submit"
 									onClick={formik.handleSubmit}
-									// disabled={isSubmitting}
 									color="primary"
-								// startIcon={<AddShoppingCartIcon style={{ color: blue[50] }} />}
 								>
 									Save
-                    		</Button>
-
+                    			</AddButton>
 							</CardActions>
 						</Grid>
 					</Grid>

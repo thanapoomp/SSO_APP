@@ -5,7 +5,8 @@ import RoleTables from "mui-datatables";
 import { disableRole, getRoleFilter, enableRole } from "../_redux/authCrud";
 import { Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
-import UserSearch from "../components/UserSearch";
+import { Link } from "react-router-dom";
+import RoleSearch from "../components/RoleSearch";
 import EditButton from '../../Common/components/Buttons/EditButton';
 
 var flatten = require("flat");
@@ -13,11 +14,12 @@ require("dayjs/locale/th");
 var dayjs = require("dayjs");
 dayjs.locale("th");
 
-function RoleTable() {
+function RoleTable(props) {
 
 	const [data, setData] = React.useState([]);
 	const [totalRecords, setTotalRecords] = React.useState(0);
 	const [isLoading, setIsLoading] = React.useState(true);
+	const [editId, setEditId] = React.useState([])
 
 
 	const [dataFilter, setDataFilter] = React.useState({
@@ -26,7 +28,8 @@ function RoleTable() {
 		orderingField: "",
 		ascendingOrder: true,
 		searchValues: {
-			rolesName: ""
+			roleName: "",
+			isActive: ""
 		}
 	});
 
@@ -36,8 +39,8 @@ function RoleTable() {
 	}, [dataFilter]);
 
 	const handleEdit = (id) => {
-		alert(id);
-		// setSourceId({ ...sourceId, edit: id });
+
+		props.setEditId(id);
 	};
 
 	const loadData = () => {
@@ -47,7 +50,8 @@ function RoleTable() {
 			dataFilter.ascendingOrder,
 			dataFilter.page,
 			dataFilter.recordsPerPage,
-			dataFilter.searchValues.rolesName,
+			dataFilter.searchValues.roleName,
+			dataFilter.searchValues.isActive,
 		)
 			.then((res) => {
 
@@ -73,40 +77,6 @@ function RoleTable() {
 			});
 	};
 
-	const options = {
-
-		filter: false,
-		print: false,
-		download: false,
-		search: false,
-		selectableRows: "none",
-		serverSide: true,
-		count: totalRecords,
-		page: dataFilter.page - 1,
-		rowsPerPage: dataFilter.recordsPerPage,
-		onTableChange: (action, tableState) => {
-			switch (action) {
-				case "changePage":
-					setDataFilter({ ...dataFilter, page: tableState.page + 1 });
-					break;
-				case "sort":
-					setDataFilter({
-						...dataFilter,
-						orderingField: `${tableState.sortOrder.name}`,
-						ascendingOrder:
-							tableState.sortOrder.direction === "asc" ? true : false,
-					});
-					break;
-				case "changeRowsPerPage":
-					setDataFilter({
-						...dataFilter,
-						recordsPerPage: tableState.rowsPerPage,
-					});
-					break;
-				default:
-			}
-		},
-	};
 
 	//disable role enable role
 	const handleChange = (id, status) => {
@@ -154,12 +124,57 @@ function RoleTable() {
 
 	const handleSearchUser = (values) => {
 
-		setDataFilter({
-			...dataFilter,
-			page: 1,
-			searchValues: values
-		});
+		if (values.isActive === 0) {
+			values.isActive = ""
+			setDataFilter({
+				...dataFilter,
+				page: 1,
+				searchValues: values
+			});
+
+		} else {
+			setDataFilter({
+				...dataFilter,
+				page: 1,
+				searchValues: values
+			});
+		}
 	}
+
+	const options = {
+
+		filter: false,
+		print: false,
+		download: false,
+		search: false,
+		selectableRows: "none",
+		serverSide: true,
+		count: totalRecords,
+		page: dataFilter.page - 1,
+		rowsPerPage: dataFilter.recordsPerPage,
+		onTableChange: (action, tableState) => {
+			switch (action) {
+				case "changePage":
+					setDataFilter({ ...dataFilter, page: tableState.page + 1 });
+					break;
+				case "sort":
+					setDataFilter({
+						...dataFilter,
+						orderingField: `${tableState.sortOrder.name}`,
+						ascendingOrder:
+							tableState.sortOrder.direction === "asc" ? true : false,
+					});
+					break;
+				case "changeRowsPerPage":
+					setDataFilter({
+						...dataFilter,
+						recordsPerPage: tableState.rowsPerPage,
+					});
+					break;
+				default:
+			}
+		},
+	};
 
 	const columns = [
 		{
@@ -269,14 +284,16 @@ function RoleTable() {
 							justify="center"
 							alignItems="center"
 						>
-							<EditButton
-								style={{ marginRight: 20 }}
-								onClick={() => {
-									handleEdit(data[dataIndex].id);
-								}}
-							>
-								Get ID
+							<Link to="/User/Roles">
+								<EditButton
+									style={{ marginRight: 20 }}
+									onClick={() => {
+										handleEdit(data[dataIndex].id);
+									}}
+								>
+									Get ID
                           </EditButton>
+							</Link>
 						</Grid>
 					);
 				},
@@ -293,7 +310,7 @@ function RoleTable() {
 				alignItems="stretch">
 				<Card elevation={3} style={{ marginBottom: 5 }}>
 					<CardContent>
-						{/* <UserSearch submit={handleSearchUser.bind(this)}></UserSearch> */}
+						<RoleSearch submit={handleSearchUser.bind(this)}></RoleSearch>
 					</CardContent>
 				</Card>
 
