@@ -6,9 +6,9 @@ import { useFormik } from "formik";
 import { Grid, Button } from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
 import FormikTextField from "../../_FormikUseFormik/components/FormikTextField";
-import FormikDropdown from "../../../modules/_FormikUseFormik/components/FormikDropdown";
+import FormikDropdown from "../../_FormikUseFormik/components/FormikDropdown";
 
-function RoleSearch(props) {
+function SourceSearch(props) {
 
 	const [isActive, setIsActive] = React.useState(
 		[
@@ -27,7 +27,7 @@ function RoleSearch(props) {
 	const formik = useFormik({
 		enableReinitialize: true,
 		initialValues: {
-			roleName: "",
+			sourceName: "",
 			isActive: 0
 		},
 		validate: (values) => {
@@ -47,7 +47,7 @@ function RoleSearch(props) {
 		<form onSubmit={formik.handleSubmit}>
 			<Grid container spacing={3}>
 				<Grid item xs={12} lg={3}>
-					<FormikTextField formik={formik} name="roleName" label="RoleName" />
+					<FormikTextField formik={formik} name="sourceName" label="SourceName" />
 				</Grid>
 				<Grid item xs={12} lg={3}>
 					<FormikDropdown
@@ -80,4 +80,4 @@ function RoleSearch(props) {
 	);
 }
 
-export default RoleSearch;
+export default SourceSearch;

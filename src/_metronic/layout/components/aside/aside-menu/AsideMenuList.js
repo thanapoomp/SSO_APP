@@ -17,13 +17,16 @@ export function AsideMenuList({ layoutProps }) {
 
   const isShowMenu = (roles) => {
     roles = roles === undefined ? [] : roles;
+
     if (roles.length > 0) {
       // check if route is restricted by role
-      let intersection = roles.filter((x) => authReducer.roles.includes(x));
-      return intersection.length > 0;
+      let hasRole = roles.indexOf(authReducer.roles);
+
+      return (hasRole !== -1)
     } else {
       return true;
     }
+
   };
 
   const getMenuItemActive = (url, hasSubmenu = false) => {
@@ -92,6 +95,7 @@ export function AsideMenuList({ layoutProps }) {
                 <span className="menu-text">Text field</span>
               </NavLink>
             </li>
+
             {/*End::1 newEmployee*/}
             {/*begin::1 newEmployee*/}
             <li
@@ -105,8 +109,10 @@ export function AsideMenuList({ layoutProps }) {
                 <span className="menu-text">Dropdown</span>
               </NavLink>
             </li>
+
           </Hoc>
         )}
+
         {/*End::1 newEmployee*/}
 
         {/*begin::1 User*/}

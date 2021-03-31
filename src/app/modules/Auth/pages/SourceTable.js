@@ -2,10 +2,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import SourceTables from "mui-datatables";
+import { useDispatch, useSelector } from "react-redux";
+import * as auth from "../_redux/authRedux";
+import { Link } from "react-router-dom";
 import { disableSource, getSourceFilter, enableSource } from "../_redux/authCrud";
 import { Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
-import UserSearch from "../components/UserSearch";
+import SourceSearch from "../components/SourceSearch";
 import EditButton from '../../Common/components/Buttons/EditButton';
 
 var flatten = require("flat");
@@ -15,13 +18,10 @@ dayjs.locale("th");
 
 function SourceTable() {
 
+	const dispatch = useDispatch()
 	const [data, setData] = React.useState([]);
 	const [totalRecords, setTotalRecords] = React.useState(0);
 	const [isLoading, setIsLoading] = React.useState(true);
-
-	const [sourceId, setSourceId] = React.useState({
-		edit: 0,
-	});
 
 
 	const [dataFilter, setDataFilter] = React.useState({
@@ -30,7 +30,8 @@ function SourceTable() {
 		orderingField: "",
 		ascendingOrder: true,
 		searchValues: {
-			sourceName: ""
+			sourceName: "",
+			isActive: ""
 		}
 	});
 
@@ -39,9 +40,13 @@ function SourceTable() {
 		loadData();
 	}, [dataFilter]);
 
-	const handleEdit = (id) => {
-		alert(id);
-		setSourceId({ ...sourceId, edit: id });
+	const handleEdit = (sourceId, sourceName) => {
+		debugger
+		let payload = {
+			sourceId: sourceId,
+			sourceName: sourceName
+		}
+		dispatch(auth.actions.editSource(payload));
 	};
 
 	const loadData = () => {
@@ -52,6 +57,7 @@ function SourceTable() {
 			dataFilter.page,
 			dataFilter.recordsPerPage,
 			dataFilter.searchValues.sourceName,
+			dataFilter.searchValues.isActive,
 		)
 			.then((res) => {
 
@@ -159,13 +165,23 @@ function SourceTable() {
 		}
 	}
 
-	const handleSearchUser = (values) => {
+	const handleSearch = (values) => {
+		debugger
+		if (values.isActive === 0) {
+			values.isActive = ""
+			setDataFilter({
+				...dataFilter,
+				page: 1,
+				searchValues: values
+			});
 
-		setDataFilter({
-			...dataFilter,
-			page: 1,
-			searchValues: values
-		});
+		} else {
+			setDataFilter({
+				...dataFilter,
+				page: 1,
+				searchValues: values
+			});
+		}
 	}
 
 	const columns = [
@@ -276,14 +292,16 @@ function SourceTable() {
 							justify="center"
 							alignItems="center"
 						>
-							<EditButton
-								style={{ marginRight: 20 }}
-								onClick={() => {
-									handleEdit(data[dataIndex].id);
-								}}
-							>
-								Get ID
+							<Link to="/User/EditSource">
+								<EditButton
+									style={{ marginRight: 20 }}
+									onClick={() => {
+										handleEdit(data[dataIndex].id, data[dataIndex].sourceName);
+									}}
+								>
+									Edit
                           </EditButton>
+							</Link>
 						</Grid>
 					);
 				},
@@ -300,7 +318,7 @@ function SourceTable() {
 				alignItems="stretch">
 				<Card elevation={3} style={{ marginBottom: 5 }}>
 					<CardContent>
-						{/* <UserSearch submit={handleSearchUser.bind(this)}></UserSearch> */}
+						<SourceSearch submit={handleSearch.bind(this)}></SourceSearch>
 					</CardContent>
 				</Card>
 

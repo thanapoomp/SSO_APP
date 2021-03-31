@@ -1,31 +1,43 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React from 'react'
+import { useSelector } from "react-redux";
 import { useFormik } from "formik";
+import { useHistory, useParams } from "react-router-dom";
 import { Grid, TextField, Card, CardContent, Button } from "@material-ui/core/";
-import { addRoles } from "../_redux/authCrud";
+import { editSource, getSourceByid } from "../_redux/authCrud";
 import * as swal from "../../Common/components/SweetAlert";
+import SaveButton from "../../Common/components/Buttons/SaveButton";
 
-function AddRoles(props) {
+function AddSource() {
+
+	const authReducer = useSelector(({ auth }) => auth)
+	var sourceName = authReducer.editSourceName;
+	var sourceId = authReducer.editSourceId;
+
+	const history = useHistory();
+
+	const [roleName, setRoleName] = React.useState([]);
 
 	React.useEffect(() => {
-		if (props.role !== 0) {
-			console.log(props.role);
-			alert("5555")
-		  }
+		debugger
+		if (sourceId === 0) {
+			history.push("/User/SourceTable");
+		}
 
-	}, [props.role])
+	}, [authReducer.editSourceId])
+
 	const formik = useFormik({
 		enableReinitialize: true,
 		validate: (values) => {
 			const errors = {};
-			if (!values.roleName) {
-				errors.roleName = "required";
+			if (!values.sourceName) {
+				errors.sourceName = "required";
 			}
 			return errors;
 		},
 		initialValues: {
-			roleName: "",
+			sourceName: authReducer.editSourceName
 		},
 		onSubmit: (values, { setSubmitting, resetForm }) => {
 			handleSave({ setSubmitting, resetForm }, values);
@@ -34,11 +46,16 @@ function AddRoles(props) {
 
 	const handleSave = ({ setSubmitting, resetForm }, values) => {
 		debugger
-		addRoles(values.roleName)
+		let playload = {
+			sourceName: values.sourceName
+		}
+
+		editSource(sourceId, playload)
 			.then((res) => {
 				if (res.data.isSuccess) {
 					setSubmitting(false);
-					swal.swalSuccess("Success", `success.`)
+					swal.swalSuccess("Success", `success.`);
+					history.push("/User/SourceTable");
 					resetForm(true);
 				} else {
 					swal.swalError("Error", res.data.message);
@@ -50,6 +67,7 @@ function AddRoles(props) {
 			});
 
 	}
+	let { id } = useParams();
 
 	return (
 		<form onSubmit={formik.handleSubmit}>
@@ -58,15 +76,15 @@ function AddRoles(props) {
 					<Grid container spacing={3}>
 						<Grid item xs={12} lg={3}>
 							<TextField
-								name="roleName"
-								label="Role Name"
+								name="sourceName"
+								label="Source Name"
 								required
 								fullWidth
 								onBlur={formik.handleBlur}
 								onChange={formik.handleChange}
-								value={formik.values.roleName}
-								error={(formik.errors.roleName && formik.touched.roleName)}
-								helperText={(formik.errors.roleName && formik.touched.roleName) && formik.errors.roleName}
+								value={formik.values.sourceName}
+								error={(formik.errors.sourceName && formik.touched.sourceName)}
+								helperText={(formik.errors.sourceName && formik.touched.sourceName) && formik.errors.sourceName}
 							/>
 						</Grid>
 						<Grid
@@ -76,7 +94,7 @@ function AddRoles(props) {
 							alignItems="center"
 						>
 							<Grid item xs={12} lg={3} >
-								<Button type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Submit</Button>
+								<SaveButton type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Submit</SaveButton>
 							</Grid>
 						</Grid>
 					</Grid>
@@ -86,4 +104,4 @@ function AddRoles(props) {
 	)
 }
 
-export default AddRoles
+export default AddSource

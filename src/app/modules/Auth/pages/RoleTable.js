@@ -2,6 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import RoleTables from "mui-datatables";
+import { useDispatch } from "react-redux";
+import * as auth from "../_redux/authRedux";
 import { disableRole, getRoleFilter, enableRole } from "../_redux/authCrud";
 import { Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
@@ -16,11 +18,10 @@ dayjs.locale("th");
 
 function RoleTable(props) {
 
+	const dispatch = useDispatch()
 	const [data, setData] = React.useState([]);
 	const [totalRecords, setTotalRecords] = React.useState(0);
 	const [isLoading, setIsLoading] = React.useState(true);
-	const [editId, setEditId] = React.useState([])
-
 
 	const [dataFilter, setDataFilter] = React.useState({
 		page: 1,
@@ -38,9 +39,13 @@ function RoleTable(props) {
 		loadData();
 	}, [dataFilter]);
 
-	const handleEdit = (id) => {
-
-		props.setEditId(id);
+	const handleEdit = (roleId, roleName) => {
+		debugger
+		let payload = {
+			roleId: roleId,
+			roleName: roleName
+		}
+		dispatch(auth.actions.editRole(payload));
 	};
 
 	const loadData = () => {
@@ -123,7 +128,7 @@ function RoleTable(props) {
 	}
 
 	const handleSearchUser = (values) => {
-
+		debugger
 		if (values.isActive === 0) {
 			values.isActive = ""
 			setDataFilter({
@@ -284,14 +289,14 @@ function RoleTable(props) {
 							justify="center"
 							alignItems="center"
 						>
-							<Link to="/User/Roles">
+							<Link to="/User/EditRoles">
 								<EditButton
 									style={{ marginRight: 20 }}
 									onClick={() => {
-										handleEdit(data[dataIndex].id);
+										handleEdit(data[dataIndex].id, data[dataIndex].roleName);
 									}}
 								>
-									Get ID
+									Edit
                           </EditButton>
 							</Link>
 						</Grid>

@@ -3,11 +3,10 @@
 import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Grid, Card, CardActions, TextField, Typography, Button, Switch, withStyles } from '@material-ui/core';
+import { Grid, Card, CardActions, Typography} from '@material-ui/core';
 import { assignRoles, getRole, getUserByCode, getRoleByUserId } from "../_redux/authCrud";
 import FormikCheckBoxGroup from "../../../modules/_FormikUseFormik/components/FormikCheckBoxGroup";
 import AddButton from "../../../modules/Common/components/Buttons/AddButton";
-import UserDetail from "../../../modules/Auth/components/UserDetail";
 import * as swal from "../../Common/components/SweetAlert";
 import { useFormik } from "formik";
 import * as auth from "../_redux/authRedux";

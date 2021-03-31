@@ -5,13 +5,14 @@ import { connect, useDispatch } from "react-redux";
 import { injectIntl } from "react-intl";
 import UserTables from "mui-datatables";
 import { Link } from "react-router-dom";
-import { disableUser, getUserFilter, enableUser } from "../_redux/authCrud";
+import { disableUser, getUserFilter, enableUser, reSetPassword } from "../_redux/authCrud";
 import * as auth from "../_redux/authRedux";
 import { Button, Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
 import UserSearch from "../components/UserSearch";
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import blue from '@material-ui/core/colors/blue';
+import { red, blue } from '@material-ui/core/colors';
+import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 
 var flatten = require("flat");
 require("dayjs/locale/th");
@@ -51,6 +52,28 @@ function UserTable(props) {
 			employeeCode: employeeCode
 		}
 		dispatch(auth.actions.edit(data));
+	};
+
+	const handleReset = (userGuid, code, title, firstName, lastName) => {
+		swal.swalInfo("Reset Password", `${code} ${title} ${firstName} ${lastName}`).then((res) => {
+			if (res.isConfirmed) {
+				debugger
+				reSetPassword(userGuid)
+					.then((res) => {
+						if (res.data.isSuccess) {
+							swal.swalSuccess("Success", `success.`)
+						} else {
+							alert(res.data.message);
+						}
+					})
+					.catch((err) => {
+						alert(err.message);
+					})
+					.finally(() => {
+						setIsLoading(false);
+					});
+			}
+		});
 	};
 
 	const loadData = () => {
@@ -202,7 +225,7 @@ function UserTable(props) {
 	const columns = [
 		{
 			name: "mapperId",
-			label: "EmployeeCode",
+			label: "รหัสพนักงาน",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
@@ -219,7 +242,7 @@ function UserTable(props) {
 		},
 		{
 			name: "",
-			label: "Name",
+			label: "ชื้อพนักงาน",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
@@ -247,7 +270,7 @@ function UserTable(props) {
 		},
 		{
 			name: "source.sourceName",
-			label: "Source Name",
+			label: "Source",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
@@ -280,7 +303,7 @@ function UserTable(props) {
 			},
 		},
 		{
-			name: "createdDate",
+			name: "วันที่สร้าง",
 			options: {
 				sort: false,
 				customBodyRenderLite: (dataIndex, rowIndex) => {
@@ -300,7 +323,7 @@ function UserTable(props) {
 		},
 		{
 			name: "",
-			label: "isActive",
+			label: "สถาณะ",
 			options: {
 				selectableRows: true,
 				sort: false,
@@ -317,7 +340,7 @@ function UserTable(props) {
 						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
 							{/* disable status undefined */}
 							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" />} />
-							{/* {data[dataIndex].isActive === true ? (<span>true</span>) : data[dataIndex].isActive === false ? (<span>false</span>) : (<span>undefined</span>)} */}
+							{data[dataIndex].isActive === true ? (<span>ใช้งาน</span>) : data[dataIndex].isActive === false ? (<span>ยกเลิก</span>) : (<span>undefined</span>)}
 						</Grid>
 					);
 				},
@@ -352,6 +375,36 @@ function UserTable(props) {
 									Assign Role
 		                  </Button>
 							</Link>
+						</Grid>
+					);
+				},
+			},
+		},
+		{
+			name: "",
+			options: {
+				filter: false,
+				sort: false,
+				empty: true,
+				viewColumns: false,
+				hight: 2,
+				customBodyRenderLite: (dataIndex, rowIndex) => {
+					return (
+						<Grid
+							container
+							direction="row"
+							justify="center"
+							alignItems="center"
+						>
+							<Button
+								startIcon={<RotateLeftIcon />}
+								style={{ backgroundColor: red[300] }}
+								onClick={() => {
+									handleReset(data[dataIndex].id, data[dataIndex].mapperId, data[dataIndex]["person.title"], data[dataIndex]["person.firstName"], data[dataIndex]["person.lastName"]);
+								}}
+							>
+								Reset Password
+		                  </Button>
 						</Grid>
 					);
 				},

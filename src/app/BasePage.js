@@ -14,6 +14,8 @@ import UserTable from "./modules/Auth/pages/UserTable";
 import AssignRoles from "./modules/Auth/pages/AssignRoles";
 import AddSource from "./modules/Auth/pages/AddSource";
 import AddRoles from "./modules/Auth/pages/AddRoles";
+import EditRoles from "./modules/Auth/pages/EditRoles";
+import EditSource from "./modules/Auth/pages/EditSource";
 import SourceTable from "./modules/Auth/pages/SourceTable";
 import RoleTable from "./modules/Auth/pages/RoleTable";
 import AssignRolesV2 from "./modules/Auth/pages/AssignRolesV2";
@@ -32,14 +34,16 @@ export default function BasePage(props) {
 
         {/* Start Demo part สามารถ comment ได้ */}
         {/* <PrivateRoute exact path="/test" roles={[ROLES.admin,ROLES.developer]} component={Test} /> */}
-        <ContentRoute exact path="/useFormik/textfield" component={UseFormikWithTextField} />
-        <ContentRoute exact path="/useFormik/dropdown" component={UseFormikWithDropdownCascade} />
+        <PrivateRoute exact path="/useFormik/textfield" roles={[ROLES.developer]} component={UseFormikWithTextField} />
+        <PrivateRoute exact path="/useFormik/dropdown" roles={[ROLES.developer]} component={UseFormikWithDropdownCascade} />
         <PrivateRoute exact path="/useFormik/all" roles={[ROLES.developer]} component={WithAllComponents} />
-        <PrivateRoute exact path="/User/ChangePassword" roles={[ROLES.developer]} component={ChangePassword} />
+        <PrivateRoute exact path="/User/ChangePassword" component={ChangePassword} />
         <ContentRoute exact path="/User/UserTable" component={UserTable} />
         <ContentRoute exact path="/User/AssignRoles" component={AssignRoles} />
         <ContentRoute exact path="/User/Source" component={AddSource} />
         <ContentRoute exact path="/User/Roles" component={AddRoles} />
+        <ContentRoute exact path="/User/EditRoles" component={EditRoles} />
+        <ContentRoute exact path="/User/EditSource" component={EditSource} />
         <ContentRoute exact path="/User/RoleTable" component={RoleTable} />
         <ContentRoute exact path="/User/SourceTable" component={SourceTable} />
         <ContentRoute exact path="/User/AssignRolesV2" component={AssignRolesV2} />

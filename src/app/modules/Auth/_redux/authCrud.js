@@ -19,13 +19,16 @@ export const DISABLE_USER_URL = `${CONST.API_URL}/Auth/user/disable`;
 export const ENABLE_USER_URL = `${CONST.API_URL}/Auth/user/enable`;
 export const GET_USER_BYCODE_URL = `${CONST.API_URL}/Auth/mapper/employee`;
 export const GET_USER_BYID_URL = `${CONST.API_URL}/Auth/role/getuserid`;
+export const RESET_PASSWORD = `${CONST.API_URL}/Auth/user/resetpassword`;
 
 //source
 export const ADD_SOURCE_URL = `${CONST.API_URL}/Auth/source/add`;
 export const GET_SOURCE_FILTER_URL = `${CONST.API_URL}/Auth/source/filter`;
 export const GET_SOURCE_URL = `${CONST.API_URL}/Auth/source/get`;
+export const GET_SOURCE_BYID_URL = `${CONST.API_URL}/Auth/source/sourcebyid`;
 export const DISABLE_SOURCE_URL = `${CONST.API_URL}/Auth/source/disable`;
 export const ENABLE_SOURCE_URL = `${CONST.API_URL}/Auth/source/enable`;
+export const EDIT_SOURCE_URL = `${CONST.API_URL}/Auth/source/update`;
 
 //role
 export const ADD_ROLE_URL = `${CONST.API_URL}/Auth/role/add`;
@@ -33,6 +36,7 @@ export const GET_ROLE_FILTER_URL = `${CONST.API_URL}/Auth/role/filter`;
 export const GET_ROLE_URL = `${CONST.API_URL}/Auth/role/get`;
 export const DISABLE_ROLE_URL = `${CONST.API_URL}/Auth/role/disable`;
 export const ENABLE_ROLE_URL = `${CONST.API_URL}/Auth/role/enable`;
+export const EDIT_ROLE_URL = `${CONST.API_URL}/Auth/role/update`;
 
 export const ME_URL = `${CONST.API_URL}/Auth/renew`;
 ///----------------end----------------///
@@ -72,6 +76,10 @@ export function getUserGuidByToken(token) {
 //-------User--------//
 export function getRoleByUserId(id) {
   return axios.get(`${GET_USER_BYID_URL}/${id}`);
+}
+
+export function reSetPassword(id) {
+  return axios.post(`${RESET_PASSWORD}/${id}`);
 }
 
 export function getUserByCode(id) {
@@ -120,6 +128,11 @@ export const getRoleFilter = (orderingField, ascendingOrder, page, recordsPerPag
 export function getRole() {
   return axios.get(`${GET_ROLE_URL}`);
 }
+
+export function editRole(id, payload) {
+  return axios.put(`${EDIT_ROLE_URL}/${id}`, payload);
+}
+
 export function disableRole(id) {
   return axios.put(`${DISABLE_ROLE_URL}/${id}`);
 }
@@ -139,6 +152,14 @@ export function addSource(sourceName) {
   return axios.post(ADD_SOURCE_URL, { sourceName });
 }
 
+export function editSource(id, payload) {
+  return axios.put(`${EDIT_SOURCE_URL}/${id}`, payload);
+}
+
+export function getSourceByid(id) {
+  return axios.get(`${GET_SOURCE_BYID_URL}/${id}`);
+}
+
 export function disableSource(id) {
   return axios.put(`${DISABLE_SOURCE_URL}/${id}`);
 }
@@ -151,13 +172,14 @@ export function getSource() {
   return axios.get(`${GET_SOURCE_URL}`);
 }
 
-export const getSourceFilter = (orderingField, ascendingOrder, page, recordsPerPage, sourceName) => {
+export const getSourceFilter = (orderingField, ascendingOrder, page, recordsPerPage, sourceName, isActive) => {
   let payload = {
     orderingField,
     ascendingOrder,
     page,
     recordsPerPage,
-    sourceName
+    sourceName,
+    isActive
   }
 
   var r = axios.get(encodeURLWithParams(`${GET_SOURCE_FILTER_URL}`, payload));
@@ -176,8 +198,11 @@ export function renewToken() {
 
 export function getRoles(token) {
   let decoded = jwt_decode(token);
+
   if (!decoded.role) {
     return []
   }
-  return decoded.role;
+
+  //push role ลง array(fix bug role --> "r","o","l","e")
+  return [...[], decoded.role];
 }

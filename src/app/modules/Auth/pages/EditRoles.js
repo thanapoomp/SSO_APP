@@ -2,19 +2,31 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import { useFormik } from "formik";
-import { Grid, TextField, Card, CardContent, Button } from "@material-ui/core/";
-import { addRoles } from "../_redux/authCrud";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Grid, TextField, Card, CardContent } from "@material-ui/core/";
+import { editRole } from "../_redux/authCrud";
 import * as swal from "../../Common/components/SweetAlert";
+import SaveButton from "../../Common/components/Buttons/SaveButton";
 
-function AddRoles(props) {
+function EditRoles(props) {
+	const authReducer = useSelector(({ auth }) => auth)
+	var roleName = authReducer.editRoleName;
+	var roleId = authReducer.editRoleId;
+
+	const history = useHistory();
 
 	React.useEffect(() => {
-		if (props.role !== 0) {
-			console.log(props.role);
-			alert("5555")
-		  }
+		debugger
+		console.log(authReducer)
+		if (!roleName) {
+			if (!roleId) {
 
-	}, [props.role])
+				history.push("/User/RoleTable");
+			}
+		}
+	}, [authReducer.editRoleName])
+
 	const formik = useFormik({
 		enableReinitialize: true,
 		validate: (values) => {
@@ -25,7 +37,7 @@ function AddRoles(props) {
 			return errors;
 		},
 		initialValues: {
-			roleName: "",
+			roleName: authReducer.editRoleName,
 		},
 		onSubmit: (values, { setSubmitting, resetForm }) => {
 			handleSave({ setSubmitting, resetForm }, values);
@@ -34,11 +46,15 @@ function AddRoles(props) {
 
 	const handleSave = ({ setSubmitting, resetForm }, values) => {
 		debugger
-		addRoles(values.roleName)
+		let playload = {
+			roleName: values.roleName
+		}
+		editRole(roleId, playload)
 			.then((res) => {
 				if (res.data.isSuccess) {
 					setSubmitting(false);
 					swal.swalSuccess("Success", `success.`)
+					history.push("/User/RoleTable");
 					resetForm(true);
 				} else {
 					swal.swalError("Error", res.data.message);
@@ -76,7 +92,7 @@ function AddRoles(props) {
 							alignItems="center"
 						>
 							<Grid item xs={12} lg={3} >
-								<Button type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Submit</Button>
+								<SaveButton type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Save</SaveButton>
 							</Grid>
 						</Grid>
 					</Grid>
@@ -86,4 +102,4 @@ function AddRoles(props) {
 	)
 }
 
-export default AddRoles
+export default EditRoles

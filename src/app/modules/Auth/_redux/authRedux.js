@@ -8,6 +8,8 @@ export const actionTypes = {
   RenewToken: "[Renew Token] Action",
   EditId: "[Edit] Action",
   SaveRole: "[SaveRole] Action",
+  EditRole: "[Edit Role] Action",
+  EditSource: "[Edit Source] Action",
 };
 
 const initialAuthState = {
@@ -19,7 +21,13 @@ const initialAuthState = {
 
   userGuid: 0,
   employeeCode: 0,
-  roleId:[]
+  roleId: [],
+
+  editRoleId: 0,
+  editRoleName:"",
+
+  editSourceId: 0,
+  editSourceName: "",
 
 
 };
@@ -74,6 +82,27 @@ export const reducer = persistReducer(
 
         };
       }
+
+      case actionTypes.EditRole: {
+        debugger
+        return {
+          ...state,
+          editRoleId: action.payload.roleId,
+          editRoleName: action.payload.roleName,
+
+        };
+      }
+
+      case actionTypes.EditSource: {
+        debugger
+        return {
+          ...state,
+          editSourceId: action.payload.sourceId,
+          editSourceName: action.payload.sourceName,
+
+        };
+      }
+
       case actionTypes.SaveRole: {
         debugger
         return {
@@ -94,6 +123,10 @@ export const actions = {
   register: (payload) => ({ type: actionTypes.Register, payload }),
   logout: () => ({ type: actionTypes.Logout }),
   renewToken: (payload) => ({ type: actionTypes.RenewToken, payload }),
+
+  //get assige role
   edit: (payload) => ({ type: actionTypes.EditId, payload }),
+  editRole: (payload) => ({ type: actionTypes.EditRole, payload }),
+  editSource: (payload) => ({ type: actionTypes.EditSource, payload }),
   saveRoles: (payload) => ({ type: actionTypes.SaveRole, payload }),
 };
