@@ -118,7 +118,7 @@ function SourceTable() {
 		},
 	};
 
-	//disable source enable source
+	//disable source enable source.
 	const handleChange = (id, status) => {
 		debugger
 		if (id) {
