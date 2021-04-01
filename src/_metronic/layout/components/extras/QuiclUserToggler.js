@@ -44,7 +44,7 @@ export function QuickUserToggler() {
                   </span> */}
                   <div className="symbol-label" style={{
                     backgroundImage: `url(${toAbsoluteUrl(
-                      "/media/users/100_14.jpg"
+                      "/media/users/default.jpg"
                     )})`
                   }} />
                   <i className="symbol-badge bg-success" />

@@ -76,6 +76,7 @@ function ChangePassword(props) {
 							<TextField
 								name="password"
 								label="Password"
+								type="password"
 								required
 								fullWidth
 								onBlur={formik.handleBlur}
@@ -90,6 +91,7 @@ function ChangePassword(props) {
 							<TextField
 								name="cfPassword"
 								label="ConfirmPassword"
+								type="password"
 								required
 								fullWidth
 								onBlur={formik.handleBlur}
@@ -104,6 +106,7 @@ function ChangePassword(props) {
 							<TextField
 								name="newPassword"
 								label="New Password"
+								type="password"
 								required
 								fullWidth
 								onBlur={formik.handleBlur}
@@ -118,6 +121,7 @@ function ChangePassword(props) {
 							<TextField
 								name="cfNewPassword"
 								label="Confirm New Password"
+								type="password"
 								required
 								fullWidth
 								onBlur={formik.handleBlur}

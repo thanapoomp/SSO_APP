@@ -198,11 +198,19 @@ export function renewToken() {
 
 export function getRoles(token) {
   let decoded = jwt_decode(token);
+  let result = [];
 
   if (!decoded.role) {
     return []
   }
 
+  
+    if (Array.isArray(decoded.role)) {
+      result = decoded.role
+    }else {
+      result.push(decoded.role)
+    }
+   
   //push role ลง array(fix bug role --> "r","o","l","e")
-  return [...[], decoded.role];
+  return result;
 }

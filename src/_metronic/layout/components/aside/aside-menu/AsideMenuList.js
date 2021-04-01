@@ -19,10 +19,15 @@ export function AsideMenuList({ layoutProps }) {
     roles = roles === undefined ? [] : roles;
 
     if (roles.length > 0) {
-      // check if route is restricted by role
-      let hasRole = roles.indexOf(authReducer.roles);
 
-      return (hasRole !== -1)
+      // check if route is restricted by role
+      for (let index = 0; index < authReducer.roles.length; index++) {
+        const element = authReducer.roles[index];
+        if (roles.indexOf(element) !== -1) {
+          return true;
+        }
+      }
+      return false
     } else {
       return true;
     }
@@ -61,7 +66,7 @@ export function AsideMenuList({ layoutProps }) {
 
         {/* begin::section */}
         {isShowMenu([ROLES.developer]) && (
-          <Hoc>
+          <>
             <li className="menu-section ">
               <h4 className="menu-text">UseFormik</h4>
               <i className="menu-icon flaticon-more-v2"></i>
@@ -110,7 +115,7 @@ export function AsideMenuList({ layoutProps }) {
               </NavLink>
             </li>
 
-          </Hoc>
+          </>
         )}
 
         {/*End::1 newEmployee*/}
