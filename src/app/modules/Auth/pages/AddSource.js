@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import { useFormik } from "formik";
-import { Grid, TextField, Card, CardContent, Button } from "@material-ui/core/";
+import { Grid, TextField, Card, CardContent } from "@material-ui/core/";
 import { addSource } from "../_redux/authCrud";
 import * as swal from "../../../modules/Common/components/SweetAlert";
+import SaveButton from '../../Common/components/Buttons/SaveButton'
 
 function AddSource() {
 	const formik = useFormik({
@@ -67,7 +68,7 @@ function AddSource() {
 							alignItems="center"
 						>
 							<Grid item xs={12} lg={3} >
-								<Button type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Submit</Button>
+								<SaveButton type="submit" color="primary" fullWidth variant="contained" style={{ marginTop: 10 }}>Submit</SaveButton>
 							</Grid>
 						</Grid>
 					</Grid>
