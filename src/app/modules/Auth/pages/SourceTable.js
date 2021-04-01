@@ -41,7 +41,7 @@ function SourceTable() {
 	}, [dataFilter]);
 
 	const handleEdit = (sourceId, sourceName) => {
-		debugger
+
 		let payload = {
 			sourceId: sourceId,
 			sourceName: sourceName
@@ -50,7 +50,7 @@ function SourceTable() {
 	};
 
 	const loadData = () => {
-		debugger
+
 		getSourceFilter(
 			dataFilter.orderingField,
 			dataFilter.ascendingOrder,
@@ -121,7 +121,7 @@ function SourceTable() {
 
 	//disable source enable source.
 	const handleChange = (id, status) => {
-		debugger
+
 		if (id) {
 			if (status) {
 				disableSource(id)
@@ -167,7 +167,7 @@ function SourceTable() {
 	}
 
 	const handleSearch = (values) => {
-		debugger
+
 		if (values.isActive === 0) {
 			values.isActive = ""
 			setDataFilter({

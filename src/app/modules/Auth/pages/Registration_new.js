@@ -88,7 +88,7 @@ function Registration_new(props) {
     },
     validationSchema: RegistrationSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
-      debugger
+
       enableLoading();
       register(values.mapperid, values.username, values.password, values.sourceid)
         .then((res) => {

@@ -20,7 +20,7 @@ function AddSource() {
 	const [roleName, setRoleName] = React.useState([]);
 
 	React.useEffect(() => {
-		debugger
+
 		if (sourceId === 0) {
 			history.push("/User/SourceTable");
 		}
@@ -45,7 +45,7 @@ function AddSource() {
 	});
 
 	const handleSave = ({ setSubmitting, resetForm }, values) => {
-		debugger
+
 		let playload = {
 			sourceName: values.sourceName
 		}

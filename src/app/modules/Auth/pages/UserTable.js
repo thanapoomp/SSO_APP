@@ -47,7 +47,7 @@ function UserTable(props) {
 	}, [dataFilter]);
 
 	const handleEdit = (userGuid, employeeCode, d) => {
-		debugger
+
 		let data = {
 			userGuid: userGuid,
 			employeeCode: employeeCode
@@ -58,7 +58,7 @@ function UserTable(props) {
 	const handleReset = (userGuid, code, title, firstName, lastName) => {
 		swal.swalInfo("Reset Password", `${code} ${title} ${firstName} ${lastName}`).then((res) => {
 			if (res.isConfirmed) {
-				debugger
+
 				reSetPassword(userGuid)
 					.then((res) => {
 						if (res.data.isSuccess) {
@@ -115,7 +115,7 @@ function UserTable(props) {
 
 	//disable user enable user
 	const handleChange = (id, status) => {
-		debugger
+
 		if (id) {
 			if (status) {
 				disableUser(id)
@@ -361,7 +361,7 @@ function UserTable(props) {
 					return (
 						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
 							{/* disable status undefined */}
-							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" color="primary"/>} />
+							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" color="primary" />} />
 							{data[dataIndex].isActive === true ? (<span>ใช้งาน</span>) : data[dataIndex].isActive === false ? (<span>ยกเลิก</span>) : (<span>undefined</span>)}
 						</Grid>
 					);

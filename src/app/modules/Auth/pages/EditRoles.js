@@ -17,7 +17,7 @@ function EditRoles(props) {
 	const history = useHistory();
 
 	React.useEffect(() => {
-		debugger
+
 		console.log(authReducer)
 		if (!roleName) {
 			if (!roleId) {
@@ -45,7 +45,7 @@ function EditRoles(props) {
 	});
 
 	const handleSave = ({ setSubmitting, resetForm }, values) => {
-		debugger
+
 		let playload = {
 			roleName: values.roleName
 		}

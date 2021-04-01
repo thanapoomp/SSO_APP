@@ -12,7 +12,7 @@ function AddRoles(props) {
 		if (props.role !== 0) {
 			console.log(props.role);
 			alert("5555")
-		  }
+		}
 
 	}, [props.role])
 	const formik = useFormik({
@@ -33,7 +33,7 @@ function AddRoles(props) {
 	});
 
 	const handleSave = ({ setSubmitting, resetForm }, values) => {
-		debugger
+
 		addRoles(values.roleName)
 			.then((res) => {
 				if (res.data.isSuccess) {

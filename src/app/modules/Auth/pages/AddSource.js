@@ -24,7 +24,7 @@ function AddSource() {
 	});
 
 	const handleSave = ({ setSubmitting, resetForm }, values) => {
-		debugger
+
 		addSource(values.sourceName)
 			.then((res) => {
 				if (res.data.isSuccess) {

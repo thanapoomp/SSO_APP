@@ -3,7 +3,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Grid, Card, CardActions, Typography} from '@material-ui/core';
+import { Grid, Card, CardActions, Typography } from '@material-ui/core';
 import { assignRoles, getRole, getUserByCode, getRoleByUserId } from "../_redux/authCrud";
 import FormikCheckBoxGroup from "../../../modules/_FormikUseFormik/components/FormikCheckBoxGroup";
 import SaveButton from "../../../modules/Common/components/Buttons/SaveButton";
@@ -22,11 +22,9 @@ function AssignRolesV2(props) {
 	const history = useHistory();
 	const [role, setRole] = React.useState([]);
 	const [userDetail, setUserDetail] = React.useState([]);
-	const [loading, setLoading] = React.useState(false);
 
 	React.useEffect(() => {
 		console.log(authReducer);
-		debugger
 
 		if (userGuid) {
 
@@ -68,7 +66,7 @@ function AssignRolesV2(props) {
 	});
 
 	const handleSave = ({ setSubmitting }, values) => {
-		debugger
+
 		setSubmitting(false);
 		assignRoles(userGuid, values.rolesId)
 			.then((res) => {
@@ -129,7 +127,7 @@ function AssignRolesV2(props) {
 
 	//โหลด default role user
 	const getRoleUserId = (id) => {
-		debugger
+
 		getRoleByUserId(id)
 			.then((res) => {
 				if (res.data.isSuccess) {

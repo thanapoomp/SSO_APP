@@ -78,7 +78,7 @@ function Login_new(props) {
       login(values.username, values.password, values.source)
         .then((res) => {
           if (res.data.isSuccess) {
-            debugger
+
             //Success
             disableLoading();
 
