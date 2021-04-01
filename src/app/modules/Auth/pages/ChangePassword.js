@@ -43,9 +43,7 @@ function ChangePassword(props) {
 	});
 
 	const handleSave = ({ setSubmitting }, values) => {
-		debugger
-		// console.log(authReducer);
-		// console.log(values);
+		
 		changePassword(values.password, values.cfPassword, values.newPassword, values.cfNewPassword)
 			.then((res) => {
 				if (res.data.isSuccess) {

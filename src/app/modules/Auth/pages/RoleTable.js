@@ -40,7 +40,7 @@ function RoleTable(props) {
 	}, [dataFilter]);
 
 	const handleEdit = (roleId, roleName) => {
-		debugger
+		
 		let payload = {
 			roleId: roleId,
 			roleName: roleName
@@ -49,7 +49,7 @@ function RoleTable(props) {
 	};
 
 	const loadData = () => {
-		debugger
+		
 		getRoleFilter(
 			dataFilter.orderingField,
 			dataFilter.ascendingOrder,
@@ -85,7 +85,7 @@ function RoleTable(props) {
 
 	//disable role enable role
 	const handleChange = (id, status) => {
-		debugger
+		
 		if (id) {
 			if (status) {
 				disableRole(id)
@@ -128,7 +128,7 @@ function RoleTable(props) {
 	}
 
 	const handleSearchUser = (values) => {
-		debugger
+		
 		if (values.isActive === 0) {
 			values.isActive = ""
 			setDataFilter({

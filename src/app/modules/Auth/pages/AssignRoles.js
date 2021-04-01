@@ -31,7 +31,7 @@ function AssignRoles() {
 	const rightChecked = intersection(checked, right);
 
 	const handleToggle = (value) => () => {
-		debugger
+		
 		console.log(value)
 		const currentIndex = checked.indexOf(value);
 		const newChecked = [...checked];
@@ -101,7 +101,7 @@ function AssignRoles() {
 			login()
 				.then((res) => {
 					if (res.data.isSuccess) {
-						debugger
+						
 
 
 					} else {
@@ -155,7 +155,7 @@ function AssignRoles() {
 		getRoleByUserId(id)
 			.then((res) => {
 				if (res.data.isSuccess) {
-					debugger
+					
 					let flatData = [];
 					res.data.data.forEach((element) => {
 						flatData.push(flatten(element));
