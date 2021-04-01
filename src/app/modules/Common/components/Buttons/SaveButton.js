@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-imports */
 import React from "react";
 import Button from "@material-ui/core/Button";
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import SaveIcon from '@material-ui/icons/Save';
 
 function SaveButton(props) {
   return (
@@ -9,7 +9,7 @@ function SaveButton(props) {
       {...props}
       variant="contained"
       color="primary"
-      startIcon={<AssignmentIndIcon />}
+      startIcon={<SaveIcon />}
     >{props.children}</Button>
   );
 }

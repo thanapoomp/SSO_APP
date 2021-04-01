@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { Grid, Card, CardActions, Typography} from '@material-ui/core';
 import { assignRoles, getRole, getUserByCode, getRoleByUserId } from "../_redux/authCrud";
 import FormikCheckBoxGroup from "../../../modules/_FormikUseFormik/components/FormikCheckBoxGroup";
-import AddButton from "../../../modules/Common/components/Buttons/AddButton";
+import SaveButton from "../../../modules/Common/components/Buttons/SaveButton";
 import * as swal from "../../Common/components/SweetAlert";
 import { useFormik } from "formik";
 import * as auth from "../_redux/authRedux";
@@ -184,7 +184,7 @@ function AssignRolesV2(props) {
 							alignItems="center"
 						>
 							<CardActions>
-								<AddButton
+								<SaveButton
 									fullWidth
 									size="large"
 									type="submit"
@@ -192,7 +192,7 @@ function AssignRolesV2(props) {
 									color="primary"
 								>
 									Save
-                    			</AddButton>
+                    			</SaveButton>
 							</CardActions>
 						</Grid>
 					</Grid>
