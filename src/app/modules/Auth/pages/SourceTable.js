@@ -94,6 +94,7 @@ function SourceTable() {
 		count: totalRecords,
 		page: dataFilter.page - 1,
 		rowsPerPage: dataFilter.recordsPerPage,
+		//เช็ค status
 		onTableChange: (action, tableState) => {
 			switch (action) {
 				case "changePage":
