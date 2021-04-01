@@ -55,7 +55,7 @@ export function QuickUser() {
           >
             <div className="symbol-label" style={{
               backgroundImage: `url(${toAbsoluteUrl(
-                "/media/users/300_14.jpg"
+                "/media/users/default.jpg"
               )})`
             }} />
             <i className="symbol-badge bg-success" />
