@@ -13,6 +13,7 @@ import UserSearch from "../components/UserSearch";
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import { red, blue } from '@material-ui/core/colors';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 
 var flatten = require("flat");
 require("dayjs/locale/th");
@@ -180,6 +181,9 @@ function UserTable(props) {
 
 	const options = {
 
+		draggableColumns: {
+			enabled: true,
+		},
 		filter: false,
 		print: false,
 		download: false,
@@ -190,12 +194,19 @@ function UserTable(props) {
 		page: dataFilter.page - 1,
 		rowsPerPage: dataFilter.recordsPerPage,
 		setRowProps: (row, dataIndex, rowIndex) => {
-			if (data[dataIndex].isActive === false) {
+			if (data[dataIndex].isActive === true) {
 				return {
 					style: {
-						background: '#d7ccc8'
+						background: '#e3f2fd'
 					}
 				};
+			} else {
+				return {
+					style: {
+						background: '#eeeeee'
+					}
+				};
+
 			}
 		},
 		onTableChange: (action, tableState) => {
@@ -221,6 +232,17 @@ function UserTable(props) {
 			}
 		},
 	};
+
+	const theme = createMuiTheme({
+		overrides: {
+			MUIDataTableBodyCell: {
+				root: {
+					// backgroundColor: "#e3f2fd",
+				}
+			}
+		},
+		typography: { useNextVariants: true },
+	});
 
 	const columns = [
 		{
@@ -375,30 +397,10 @@ function UserTable(props) {
 									Assign Role
 		                  </Button>
 							</Link>
-						</Grid>
-					);
-				},
-			},
-		},
-		{
-			name: "",
-			options: {
-				filter: false,
-				sort: false,
-				empty: true,
-				viewColumns: false,
-				hight: 2,
-				customBodyRenderLite: (dataIndex, rowIndex) => {
-					return (
-						<Grid
-							container
-							direction="row"
-							justify="center"
-							alignItems="center"
-						>
+
 							<Button
 								startIcon={<RotateLeftIcon />}
-								style={{ backgroundColor: red[300] }}
+								style={{ backgroundColor: red[200], marginLeft: 10 }}
 								onClick={() => {
 									handleReset(data[dataIndex].id, data[dataIndex].mapperId, data[dataIndex]["person.title"], data[dataIndex]["person.firstName"], data[dataIndex]["person.lastName"]);
 								}}
@@ -424,23 +426,24 @@ function UserTable(props) {
 						<UserSearch submit={handleSearchUser.bind(this)}></UserSearch>
 					</CardContent>
 				</Card>
-
-				<UserTables
-					title={
-						<Typography variant="h6">
-							User Manager
+				<MuiThemeProvider theme={theme}>
+					<UserTables
+						title={
+							<Typography variant="h6">
+								User Manager
                                 {isLoading && (
-								<CircularProgress
-									size={24}
-									style={{ marginLeft: 15, position: "relative", top: 4 }}
-								/>
-							)}
-						</Typography>
-					}
-					data={data}
-					columns={columns}
-					options={options}
-				/>
+									<CircularProgress
+										size={24}
+										style={{ marginLeft: 15, position: "relative", top: 4 }}
+									/>
+								)}
+							</Typography>
+						}
+						data={data}
+						columns={columns}
+						options={options}
+					/>
+				</MuiThemeProvider>
 			</Grid>
 		</div>
 	)
