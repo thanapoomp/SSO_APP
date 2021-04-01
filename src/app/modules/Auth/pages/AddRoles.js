@@ -7,7 +7,7 @@ import { addRoles } from "../_redux/authCrud";
 import * as swal from "../../Common/components/SweetAlert";
 
 function AddRoles(props) {
-	
+
 	const formik = useFormik({
 		enableReinitialize: true,
 		validate: (values) => {
