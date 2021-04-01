@@ -361,7 +361,7 @@ function UserTable(props) {
 					return (
 						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
 							{/* disable status undefined */}
-							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" />} />
+							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" color="primary"/>} />
 							{data[dataIndex].isActive === true ? (<span>ใช้งาน</span>) : data[dataIndex].isActive === false ? (<span>ยกเลิก</span>) : (<span>undefined</span>)}
 						</Grid>
 					);

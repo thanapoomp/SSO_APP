@@ -139,7 +139,7 @@ export function AsideMenuList({ layoutProps }) {
         >
           <NavLink className="menu-link menu-toggle" to="/google-material">
             <span className="svg-icon menu-icon">
-              <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Cap-2.svg")} />
+              <SVG src={toAbsoluteUrl("/media/svg/icons/General/User.svg")} />
             </span>
             <span className="menu-text">User Manager</span>
             <i className="menu-arrow" />
@@ -168,13 +168,13 @@ export function AsideMenuList({ layoutProps }) {
                   className="menu-link menu-toggle"
                   to="/User/UserTable"
                 >
-                  <i className="menu-bullet menu-bullet-dot">
-                    <span />
-                  </i>
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/General/User.svg")} />
+                  </span>
                   <span className="menu-text">User</span>
                 </NavLink>
               </li>
-              <li
+              {/* <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
                   "/google-material/inputs",
                   true
@@ -191,7 +191,7 @@ export function AsideMenuList({ layoutProps }) {
                   </i>
                   <span className="menu-text">Assign Roles </span>
                 </NavLink>
-              </li>
+              </li> */}
               {/*end::2 Level*/}
             </ul>
           </div>
@@ -207,7 +207,7 @@ export function AsideMenuList({ layoutProps }) {
         >
           <NavLink className="menu-link menu-toggle" to="/google-material">
             <span className="svg-icon menu-icon">
-              <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Cap-2.svg")} />
+              <SVG src={toAbsoluteUrl("/media/svg/icons/General/Shield-check.svg")} />
             </span>
             <span className="menu-text">Source Manager</span>
             <i className="menu-arrow" />
@@ -228,9 +228,9 @@ export function AsideMenuList({ layoutProps }) {
                   className="menu-link menu-toggle"
                   to="/User/SourceTable"
                 >
-                  <i className="menu-bullet menu-bullet-dot">
-                    <span />
-                  </i>
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/General/Shield-check.svg")} />
+                  </span>
                   <span className="menu-text">Source</span>
                 </NavLink>
               </li>
@@ -244,9 +244,9 @@ export function AsideMenuList({ layoutProps }) {
                   className="menu-link menu-toggle"
                   to="/User/Source"
                 >
-                  <i className="menu-bullet menu-bullet-dot">
-                    <span />
-                  </i>
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/General/Shield-check.svg")} />
+                  </span>
                   <span className="menu-text">Add Source</span>
                 </NavLink>
               </li>
@@ -266,7 +266,7 @@ export function AsideMenuList({ layoutProps }) {
         >
           <NavLink className="menu-link menu-toggle" to="/google-material">
             <span className="svg-icon menu-icon">
-              <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Cap-2.svg")} />
+              <SVG src={toAbsoluteUrl("/media/svg/icons/Code/Thunder-circle.svg")} />
             </span>
             <span className="menu-text">Roles Manager</span>
             <i className="menu-arrow" />
@@ -287,9 +287,9 @@ export function AsideMenuList({ layoutProps }) {
                   className="menu-link menu-toggle"
                   to="/User/RoleTable"
                 >
-                  <i className="menu-bullet menu-bullet-dot">
-                    <span />
-                  </i>
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/Code/Thunder-circle.svg")} />
+                  </span>
                   <span className="menu-text">Roles</span>
                 </NavLink>
               </li>
@@ -303,9 +303,9 @@ export function AsideMenuList({ layoutProps }) {
                   className="menu-link menu-toggle"
                   to="/User/Roles"
                 >
-                  <i className="menu-bullet menu-bullet-dot">
-                    <span />
-                  </i>
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/Code/Thunder-circle.svg")} />
+                  </span>
                   <span className="menu-text">Add Role</span>
                 </NavLink>
               </li>

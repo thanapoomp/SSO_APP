@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import { useFormik } from "formik";
@@ -7,9 +8,14 @@ import { login, getUserByToken, getExp, getRoles, getRoleByUserId } from "../_re
 import * as CONST from "../../../../Constants";
 import Axios from "axios";
 
+import Switch from '@material-ui/core/Switch';
+
 var flatten = require("flat");
 
 function AssignRoles() {
+
+	const [isEnabled, setIsEnabled] = React.useState(false);
+	const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
 	const api_get_role_url = `${CONST.API_URL}/Auth/role/get`;
 	const api_get_user_url = `${CONST.API_URL}/Auth/user/getuser`;
@@ -295,6 +301,17 @@ function AssignRoles() {
 					</List>
 				</Card>
 			</Grid>
+			<Grid item>Off</Grid>
+			<Grid item>
+				<Switch
+					trackColor={{ false: "#767577", true: "#81b0ff" }}
+					thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+					ios_backgroundColor="#3e3e3e"
+					onValueChange={toggleSwitch}
+					value={isEnabled}
+				/>
+			</Grid>
+			<Grid item>On</Grid>
 		</Grid>
 	)
 }
