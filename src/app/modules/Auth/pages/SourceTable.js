@@ -284,6 +284,7 @@ function SourceTable() {
 				filter: false,
 				sort: false,
 				empty: true,
+				viewColumns: false,
 				hight: 2,
 				customBodyRenderLite: (dataIndex, rowIndex) => {
 					return (

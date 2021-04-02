@@ -3,14 +3,15 @@ export const APP_INFO = {
   version: '0.1',
   since: '2021',
   description: 'Siam smile',
-  contactUrl: 'https://www.siamsmile.co.th'
+  contactUrl: 'https://auth.devsiamsmile.com'
+
 }
 
 export const API_URL =
   !process.env.NODE_ENV || process.env.NODE_ENV === "development"
-    ? "http://uat.siamsmile.co.th:9218/api" //dev
+    ? "https://auth.devsiamsmile.com" //dev
     : // ?  "http://localhost:54821/api" //dev
-      "http://uat.siamsmile.co.th:9218/api"; // Production
+    "https://auth.devsiamsmile.com"; // Production
 
 
 export const ROLES = {
