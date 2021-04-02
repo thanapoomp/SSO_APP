@@ -148,6 +148,9 @@ function RoleTable(props) {
 
 	const options = {
 
+		draggableColumns: {
+			enabled: true,
+		},
 		filter: false,
 		print: false,
 		download: false,
@@ -218,7 +221,7 @@ function RoleTable(props) {
 		},
 		{
 			name: "createdBy.userName",
-			label: "createdBy",
+			label: "สร้างโดย",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
@@ -235,6 +238,7 @@ function RoleTable(props) {
 		},
 		{
 			name: "createdDate",
+			label: "สร้างวันที่",
 			options: {
 				sort: false,
 				customBodyRenderLite: (dataIndex, rowIndex) => {
@@ -254,7 +258,7 @@ function RoleTable(props) {
 		},
 		{
 			name: "",
-			label: "isActive",
+			label: "สถานะ",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
@@ -268,7 +272,7 @@ function RoleTable(props) {
 					return (
 						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
 							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" />} />
-							{data[dataIndex].isActive === true ? (<span>true</span>) : data[dataIndex].isActive === false ? (<span>false</span>) : (<span>undefined</span>)}
+							{data[dataIndex].isActive === true ? (<span>ใช้งาน</span>) : data[dataIndex].isActive === false ? (<span>ยกเลิก</span>) : (<span>undefined</span>)}
 						</Grid>
 					);
 				},
