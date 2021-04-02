@@ -85,6 +85,22 @@ function SourceTable() {
 
 	const options = {
 
+		setRowProps: (row, dataIndex, rowIndex) => {
+			if (data[dataIndex].isActive === true) {
+				return {
+					style: {
+						background: '#e3f2fd'
+					}
+				};
+			} else {
+				return {
+					style: {
+						background: '#eeeeee'
+					}
+				};
+
+			}
+		},
 		draggableColumns: {
 			enabled: true,
 		},
