@@ -45,14 +45,14 @@ export function AsideMenuList({ layoutProps }) {
       {/* begin::Menu Nav */}
       <ul className={`menu-nav ${layoutProps.ulClasses}`}>
         {/* begin::section */}
-        <li className="menu-section ">
+        {/* <li className="menu-section ">
           <h4 className="menu-text">Menu</h4>
           <i className="menu-icon flaticon-more-v2"></i>
-        </li>
+        </li> */}
         {/* end:: section */}
 
         {/*begin::1 Level*/}
-        <li
+        {/* <li
           className={`menu-item ${getMenuItemActive("/dashboard", false)}`}
           aria-haspopup="true"
         >
@@ -62,7 +62,7 @@ export function AsideMenuList({ layoutProps }) {
             </span>
             <span className="menu-text">dashboard</span>
           </NavLink>
-        </li>
+        </li> */}
 
         {/* begin::section */}
         {isShowMenu([ROLES.developer]) && (

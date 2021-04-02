@@ -2,7 +2,7 @@
     "name": "demo1",
     "version": "7.1.0",
     "private": true,
-    "homepage": "http://uat.siamsmile.co.th:9145",
+    "homepage": "http://uat.siamsmile.co.th:9147",
     "scripts": {
         "start": "react-scripts start -o",
         "build": "react-scripts build",

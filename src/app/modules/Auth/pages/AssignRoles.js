@@ -4,7 +4,7 @@ import React from 'react'
 import { useFormik } from "formik";
 import { Grid, Button, Card, CardHeader, Checkbox, Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import FormikDropdown from "../../../modules/_FormikUseFormik/components/FormikDropdown";
-import { login, getUserByToken, getExp, getRoles, getRoleByUserId } from "../_redux/authCrud";
+import { login, getRoleByUserId } from "../_redux/authCrud";
 import * as CONST from "../../../../Constants";
 import Axios from "axios";
 
@@ -25,13 +25,12 @@ function AssignRoles() {
 	const [right, setRight] = React.useState([]);
 
 	const [user, setUser] = React.useState([]);
-	const [userid, setUserid] = React.useState([]);
 
 	const leftChecked = intersection(checked, left);
 	const rightChecked = intersection(checked, right);
 
 	const handleToggle = (value) => () => {
-		
+
 		console.log(value)
 		const currentIndex = checked.indexOf(value);
 		const newChecked = [...checked];
@@ -101,7 +100,7 @@ function AssignRoles() {
 			login()
 				.then((res) => {
 					if (res.data.isSuccess) {
-						
+
 
 
 					} else {
@@ -155,7 +154,7 @@ function AssignRoles() {
 		getRoleByUserId(id)
 			.then((res) => {
 				if (res.data.isSuccess) {
-					
+
 					let flatData = [];
 					res.data.data.forEach((element) => {
 						flatData.push(flatten(element));

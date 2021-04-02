@@ -29,8 +29,8 @@ export default function BasePage(props) {
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
       <Switch>
-        {<Redirect exact from="/" to="/dashboard" />}
-        <ContentRoute exact path="/dashboard" component={DashboardPage} />
+        {<Redirect exact from="/" to="/User/UserTable" />}
+        <ContentRoute exact path="/User/UserTable" component={UserTable} />
 
         {/* Start Demo part สามารถ comment ได้ */}
         {/* <PrivateRoute exact path="/test" roles={[ROLES.admin,ROLES.developer]} component={Test} /> */}
@@ -55,7 +55,7 @@ export default function BasePage(props) {
         />
 
         {/* nothing match - redirect to error */}
-        <Redirect to="/error"/>
+        <Redirect to="/error" />
       </Switch>
       <TokenHandler></TokenHandler>
     </Suspense>
