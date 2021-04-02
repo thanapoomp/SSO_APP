@@ -264,7 +264,7 @@ function UserTable(props) {
 		},
 		{
 			name: "",
-			label: "ชื้อพนักงาน",
+			label: "ชื่อพนักงาน",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
@@ -345,7 +345,7 @@ function UserTable(props) {
 		},
 		{
 			name: "",
-			label: "สถาณะ",
+			label: "สถานะ",
 			options: {
 				selectableRows: true,
 				sort: false,

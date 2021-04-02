@@ -39,14 +39,14 @@ export default function BasePage(props) {
         <PrivateRoute exact path="/useFormik/all" roles={[ROLES.developer]} component={WithAllComponents} />
         <PrivateRoute exact path="/User/ChangePassword" component={ChangePassword} />
         <ContentRoute exact path="/User/UserTable" component={UserTable} />
-        <ContentRoute exact path="/User/AssignRoles" component={AssignRoles} />
-        <ContentRoute exact path="/User/Source" component={AddSource} />
-        <ContentRoute exact path="/User/Roles" component={AddRoles} />
-        <ContentRoute exact path="/User/EditRoles" component={EditRoles} />
-        <ContentRoute exact path="/User/EditSource" component={EditSource} />
+        <PrivateRoute exact path="/User/AssignRoles" roles={[ROLES.developer, ROLES.admin]} component={AssignRoles} />
+        <PrivateRoute exact path="/User/Source" roles={[ROLES.developer, ROLES.admin]} component={AddSource} />
+        <PrivateRoute exact path="/User/Roles" roles={[ROLES.developer, ROLES.admin]} component={AddRoles} />
+        <PrivateRoute exact path="/User/EditRoles" roles={[ROLES.developer, ROLES.admin]} component={EditRoles} />
+        <PrivateRoute exact path="/User/EditSource" roles={[ROLES.developer, ROLES.admin]} component={EditSource} />
         <ContentRoute exact path="/User/RoleTable" component={RoleTable} />
         <ContentRoute exact path="/User/SourceTable" component={SourceTable} />
-        <ContentRoute exact path="/User/AssignRolesV2" component={AssignRolesV2} />
+        <PrivateRoute exact path="/User/AssignRolesV2" roles={[ROLES.developer, ROLES.admin]} component={AssignRolesV2} />
         {/* End Demo part สามารถ comment ได้ */}
 
         <Route

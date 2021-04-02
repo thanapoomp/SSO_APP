@@ -69,7 +69,7 @@ export function QuickUser() {
             </a>
             <div className="text-muted mt-1">User : {authReducer.user}</div>
             <div className="text-muted mt-1">Roles : {roles()}</div>
-            <div className="navi mt-2">
+            {/* <div className="navi mt-2">
               <a href="#" className="navi-item">
                 <span className="navi-link p-0 pb-2">
                   <span className="navi-icon mr-1">
@@ -86,7 +86,7 @@ export function QuickUser() {
                   </span>
                 </span>
               </a>
-            </div>
+            </div> */}
             {/* <Link to="/logout" className="btn btn-light-primary btn-bold">
                 Sign Out
               </Link> */}

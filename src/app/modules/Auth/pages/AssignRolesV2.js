@@ -91,7 +91,7 @@ function AssignRolesV2(props) {
 		getRole()
 			.then((res) => {
 				if (res.data.isSuccess) {
-					console.log("loadRole", res.data.data)
+
 					setRole(res.data.data);
 					loadUserDetail(employeeCode)
 				} else {

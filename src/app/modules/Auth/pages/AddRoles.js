@@ -9,12 +9,21 @@ import SaveButton from '../../Common/components/Buttons/SaveButton'
 
 function AddRoles(props) {
 
+	const validateLastName = (input) => {
+		debugger
+		return (input.charAt(0).toUpperCase())
+	}
+
 	const formik = useFormik({
 		enableReinitialize: true,
 		validate: (values) => {
 			const errors = {};
 			if (!values.roleName) {
 				errors.roleName = "required";
+			}
+
+			if (validateLastName(values.roleName)) {
+				errors.roleName = "First Upper Case";
 			}
 			return errors;
 		},
