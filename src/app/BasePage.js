@@ -19,6 +19,7 @@ import EditSource from "./modules/Auth/pages/EditSource";
 import SourceTable from "./modules/Auth/pages/SourceTable";
 import RoleTable from "./modules/Auth/pages/RoleTable";
 import AssignRolesV2 from "./modules/Auth/pages/AssignRolesV2";
+import AddGroupRole from "./modules/Auth/pages/AddGroupRoleTeamPage";
 
 export default function BasePage(props) {
   // useEffect(() => {
@@ -39,7 +40,7 @@ export default function BasePage(props) {
         <PrivateRoute exact path="/useFormik/all" roles={[ROLES.developer]} component={WithAllComponents} />
         <PrivateRoute exact path="/User/ChangePassword" component={ChangePassword} />
         <ContentRoute exact path="/User/UserTable" component={UserTable} />
-        <PrivateRoute exact path="/User/AssignRoles" roles={[ROLES.developer, ROLES.admin]} component={AssignRoles} />
+        <PrivateRoute exact path="/User/AddGroupRole" roles={[ROLES.developer, ROLES.admin]} component={AddGroupRole} />
         <PrivateRoute exact path="/User/Source" roles={[ROLES.developer, ROLES.admin]} component={AddSource} />
         <PrivateRoute exact path="/User/Roles" roles={[ROLES.developer, ROLES.admin]} component={AddRoles} />
         <PrivateRoute exact path="/User/EditRoles" roles={[ROLES.developer, ROLES.admin]} component={EditRoles} />

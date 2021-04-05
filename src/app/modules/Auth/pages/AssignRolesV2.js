@@ -75,11 +75,11 @@ function AssignRolesV2(props) {
 						history.push("/User/UserTable");
 					});;
 				} else {
-					alert(res.data.message);
+					swal.swalError("Error", res.data.message);
 				}
 			})
 			.catch((err) => {
-				alert(err.message);
+				swal.swalError("Error", err.message);
 			})
 			.finally(() => {
 

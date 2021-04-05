@@ -174,7 +174,7 @@ export function AsideMenuList({ layoutProps }) {
                   <span className="menu-text">User</span>
                 </NavLink>
               </li>
-              {/* <li
+              <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
                   "/google-material/inputs",
                   true
@@ -184,14 +184,14 @@ export function AsideMenuList({ layoutProps }) {
               >
                 <NavLink
                   className="menu-link menu-toggle"
-                  to="/User/AssignRoles"
+                  to="/User/AddGroupRole"
                 >
-                  <i className="menu-bullet menu-bullet-dot">
-                    <span />
-                  </i>
-                  <span className="menu-text">Assign Roles </span>
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/General/User.svg")} />
+                  </span>
+                  <span className="menu-text">Group Role</span>
                 </NavLink>
-              </li> */}
+              </li>
               {/*end::2 Level*/}
             </ul>
           </div>

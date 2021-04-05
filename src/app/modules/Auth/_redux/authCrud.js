@@ -32,6 +32,7 @@ export const EDIT_SOURCE_URL = `${CONST.API_URL}/Auth/source/update`;
 
 //role
 export const ADD_ROLE_URL = `${CONST.API_URL}/Auth/role/add`;
+export const ADD_TEAM_PAGE_ROLE_URL = `${CONST.API_URL}/Auth/rolegroup/assign`;
 export const GET_ROLE_FILTER_URL = `${CONST.API_URL}/Auth/role/filter`;
 export const GET_ROLE_URL = `${CONST.API_URL}/Auth/role/get`;
 export const DISABLE_ROLE_URL = `${CONST.API_URL}/Auth/role/disable`;
@@ -70,8 +71,6 @@ export function getUserGuidByToken(token) {
   let decodedGuid = jwt_decode(token)['nameid'];
   return decodedGuid;
 }
-
-
 
 //-------User--------//
 export function getRoleByUserId(id) {
@@ -145,6 +144,10 @@ export function addRoles(roleName) {
   return axios.post(ADD_ROLE_URL, { roleName });
 }
 
+export function addRolesGroup(userId, rolesId) {
+  return axios.post(ADD_TEAM_PAGE_ROLE_URL, { userId, rolesId });
+}
+
 //--------------end Role-------------------//
 
 //-------Source-------//
@@ -204,13 +207,12 @@ export function getRoles(token) {
     return []
   }
 
-  
-    if (Array.isArray(decoded.role)) {
-      result = decoded.role
-    }else {
-      result.push(decoded.role)
-    }
-   
+  if (Array.isArray(decoded.role)) {
+    result = decoded.role
+  } else {
+    result.push(decoded.role)
+  }
+
   //push role ลง array(fix bug role --> "r","o","l","e")
   return result;
 }

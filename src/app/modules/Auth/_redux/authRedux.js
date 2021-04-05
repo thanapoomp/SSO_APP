@@ -24,7 +24,7 @@ const initialAuthState = {
   roleId: [],
 
   editRoleId: 0,
-  editRoleName:"",
+  editRoleName: "",
 
   editSourceId: 0,
   editSourceName: "",
