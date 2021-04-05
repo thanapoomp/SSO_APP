@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { connect } from "react-redux";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
 import { register } from "../_redux/authCrud";
@@ -25,6 +25,7 @@ const initialValues = {
 function Registration_new(props) {
   const api_get_source_url = `${CONST.API_URL}/Auth/source/get`;
   const api_get_employee_url = `${CONST.API_URL}/Auth/mapper/employee`;
+  const history = useHistory();
 
   const [sourceList, setSourceList] = React.useState([]);
   const { intl } = props;
@@ -112,6 +113,10 @@ function Registration_new(props) {
 
             setSubmitting(false);
             disableLoading();
+
+            setInterval(() => {
+              history.push("/auth/login");
+            }, 2000);
           }
         })
         .catch((error) => {
@@ -123,7 +128,10 @@ function Registration_new(props) {
           //ข้อความ noti
           setStatus(error.message);
           disableLoading();
-        });
+        })
+        .finally(() => {
+
+        })
     },
   });
 
