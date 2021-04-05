@@ -56,7 +56,7 @@ function UserTable(props) {
 	};
 
 	const handleReset = (userGuid, code, title, firstName, lastName) => {
-		swal.swalInfo("Reset Password", `${code} ${title} ${firstName} ${lastName}`).then((res) => {
+		swal.swalInfoConfirm("Reset Password", `${code} ${title} ${firstName} ${lastName}`).then((res) => {
 			if (res.isConfirmed) {
 
 				reSetPassword(userGuid)

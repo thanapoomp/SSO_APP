@@ -3,6 +3,7 @@
     "version": "7.1.0",
     "private": true,
     "homepage": "https://login.devsiamsmile.com",
+    "proxy": "https://devauth.siamsmile.co.th/api",
     "scripts": {
         "start": "react-scripts start -o",
         "build": "react-scripts build",

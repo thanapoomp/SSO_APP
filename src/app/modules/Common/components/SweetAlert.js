@@ -10,7 +10,18 @@ export const swalInfo = (title, text) => {
     icon: "info",
     title,
     text,
-    allowOutsideClick: false
+    allowOutsideClick: false,
+  });
+};
+
+export const swalInfoConfirm = (title, text) => {
+  return Swal.fire({
+    icon: "info",
+    title,
+    text,
+    allowOutsideClick: false,
+    cancelButtonText: "No",
+    showCancelButton: true,
   });
 };
 

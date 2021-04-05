@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { connect } from "react-redux";
 import * as Yup from "yup";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect, Route } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
 import { register } from "../_redux/authCrud";
@@ -104,6 +104,11 @@ function Registration_new(props) {
             //ข้อความ noti
             setStatus("Register Success ");
             disableLoading();
+
+            //redeirec to login
+            setInterval(() => {
+              history.push("/auth/login");
+            }, 2200);
           } else {
 
             //add clase noti
@@ -113,10 +118,6 @@ function Registration_new(props) {
 
             setSubmitting(false);
             disableLoading();
-
-            setInterval(() => {
-              history.push("/auth/login");
-            }, 2000);
           }
         })
         .catch((error) => {

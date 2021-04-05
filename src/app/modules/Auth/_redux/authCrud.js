@@ -86,11 +86,11 @@ export function getUserByCode(id) {
 }
 
 export function disableUser(id) {
-  return axios.put(`${DISABLE_USER_URL}/${id}`);
+  return axios.put(`${DISABLE_USER_URL}/${id}`, { headers: { 'Access-Control-Allow-Origin': '*' } });
 }
 
 export function enableUser(id) {
-  return axios.put(`${ENABLE_USER_URL}/${id}`);
+  return axios.put(`${ENABLE_USER_URL}/${id}`, { headers: { 'Access-Control-Allow-Origin': '*' } });
 }
 
 export const getUserFilter = (orderingField, ascendingOrder, page, recordsPerPage, userName, sourceName, mapperId) => {
@@ -104,7 +104,7 @@ export const getUserFilter = (orderingField, ascendingOrder, page, recordsPerPag
     mapperId
   }
 
-  var r = axios.get(encodeURLWithParams(`${GET_USER_FILTER_URL}`, payload));
+  var r = axios.get(encodeURLWithParams(`${GET_USER_FILTER_URL}`, payload), { headers: { 'Access-Control-Allow-Origin': '*' } });
   return r;
 };
 //-------end User---------//
@@ -144,8 +144,8 @@ export function addRoles(roleName) {
   return axios.post(ADD_ROLE_URL, { roleName });
 }
 
-export function addRolesGroup(userId, rolesId) {
-  return axios.post(ADD_TEAM_PAGE_ROLE_URL, { userId, rolesId });
+export function addRolesGroup(roleGroupName, rolesId) {
+  return axios.post(ADD_TEAM_PAGE_ROLE_URL, { roleGroupName, rolesId });
 }
 
 //--------------end Role-------------------//
@@ -172,7 +172,7 @@ export function enableSource(id) {
 }
 
 export function getSource() {
-  return axios.get(`${GET_SOURCE_URL}`);
+  return axios.get(`${GET_SOURCE_URL}`, { headers: { 'Access-Control-Allow-Origin': '*' } });
 }
 
 export const getSourceFilter = (orderingField, ascendingOrder, page, recordsPerPage, sourceName, isActive) => {
@@ -185,7 +185,7 @@ export const getSourceFilter = (orderingField, ascendingOrder, page, recordsPerP
     isActive
   }
 
-  var r = axios.get(encodeURLWithParams(`${GET_SOURCE_FILTER_URL}`, payload));
+  var r = axios.get(encodeURLWithParams(`${GET_SOURCE_FILTER_URL}`, payload), { headers: { 'Access-Control-Allow-Origin': '*' } });
   return r;
 };
 

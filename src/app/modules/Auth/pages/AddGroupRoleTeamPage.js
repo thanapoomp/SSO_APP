@@ -44,12 +44,11 @@ function AddGroupRoleTeamPage() {
 
 	const handleSave = ({ setSubmitting }, values) => {
 
-		setSubmitting(false);
 		addRolesGroup(values.roleGroupName, values.rolesId)
 			.then((res) => {
 				if (res.data.isSuccess) {
-					swal.swalSuccess("Success", `success.`).then(() => {
-					});;
+					setSubmitting(false);
+					swal.swalSuccess("Success", `success.`);
 				} else {
 
 					swal.swalError("Error", res.data.message);
@@ -57,9 +56,6 @@ function AddGroupRoleTeamPage() {
 			})
 			.catch((err) => {
 				swal.swalError("Error", err.message);
-			})
-			.finally(() => {
-
 			});
 
 	}
