@@ -43,11 +43,11 @@ export default function BasePage(props) {
         <PrivateRoute exact path="/User/AddGroupRole" roles={[ROLES.developer, ROLES.admin]} component={AddGroupRole} />
         <PrivateRoute exact path="/User/Source" roles={[ROLES.developer, ROLES.admin]} component={AddSource} />
         <PrivateRoute exact path="/User/Roles" roles={[ROLES.developer, ROLES.admin]} component={AddRoles} />
-        <PrivateRoute exact path="/User/EditRoles" roles={[ROLES.developer, ROLES.admin]} component={EditRoles} />
-        <PrivateRoute exact path="/User/EditSource" roles={[ROLES.developer, ROLES.admin]} component={EditSource} />
+        <PrivateRoute exact path="/User/EditRoles/:id" roles={[ROLES.developer, ROLES.admin]} component={EditRoles} />
+        <PrivateRoute exact path="/User/EditSource/:id" roles={[ROLES.developer, ROLES.admin]} component={EditSource} />
         <ContentRoute exact path="/User/RoleTable" component={RoleTable} />
         <ContentRoute exact path="/User/SourceTable" component={SourceTable} />
-        <PrivateRoute exact path="/User/AssignRolesV2" roles={[ROLES.developer, ROLES.admin]} component={AssignRolesV2} />
+        <PrivateRoute exact path="/User/EditRoles/:userGuid/:employeeCode" roles={[ROLES.developer, ROLES.admin]} component={AssignRolesV2} />
         {/* End Demo part สามารถ comment ได้ */}
 
         <Route

@@ -24,7 +24,6 @@ const initialValues = {
 
 function Registration_new(props) {
   const api_get_source_url = `${CONST.API_URL}/Auth/source/get`;
-  const api_get_employee_url = `${CONST.API_URL}/Auth/mapper/employee`;
   const history = useHistory();
 
   const [sourceList, setSourceList] = React.useState([]);

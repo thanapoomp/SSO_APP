@@ -69,7 +69,7 @@ function Login(props) {
       login(values.username, values.password)
         .then((res) => {
           if (res.data.isSuccess) {
-            // debugger
+
             //Success
             disableLoading();
 
@@ -78,14 +78,14 @@ function Login(props) {
             //get token
             loginDetail.authToken = res.data.data
 
-             //get user
-             loginDetail.user = getUserByToken(res.data.data)
+            //get user
+            loginDetail.user = getUserByToken(res.data.data)
 
-             // get exp
-             loginDetail.exp = getExp(res.data.data);
+            // get exp
+            loginDetail.exp = getExp(res.data.data);
 
-             //get roles
-             loginDetail.roles = getRoles(res.data.data)
+            //get roles
+            loginDetail.roles = getRoles(res.data.data)
 
             props.login(loginDetail);
 

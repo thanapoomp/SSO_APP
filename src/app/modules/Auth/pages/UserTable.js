@@ -4,7 +4,7 @@ import React from 'react'
 import { connect, useDispatch } from "react-redux";
 import { injectIntl } from "react-intl";
 import UserTables from "mui-datatables";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { disableUser, getUserFilter, enableUser, reSetPassword } from "../_redux/authCrud";
 import * as auth from "../_redux/authRedux";
 import { Button, Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
@@ -23,7 +23,7 @@ dayjs.locale("th");
 function UserTable(props) {
 
 	const dispatch = useDispatch()
-
+	const history = useHistory()
 	const [data, setData] = React.useState([]);
 	const [totalRecords, setTotalRecords] = React.useState(0);
 	const [isLoading, setIsLoading] = React.useState(true);
@@ -64,11 +64,11 @@ function UserTable(props) {
 						if (res.data.isSuccess) {
 							swal.swalSuccess("Success", `success.`)
 						} else {
-							alert(res.data.message);
+							swal.swalError("Error", res.data.message);
 						}
 					})
 					.catch((err) => {
-						alert(err.message);
+						swal.swalError("Error", err.message);
 					})
 					.finally(() => {
 						setIsLoading(false);
@@ -101,11 +101,11 @@ function UserTable(props) {
 					// }
 					setTotalRecords(res.data.totalAmountRecords);
 				} else {
-					alert(res.data.message);
+					swal.swalError("Error", res.data.message);
 				}
 			})
 			.catch((err) => {
-				alert(err.message);
+				swal.swalError("Error", err.message);
 			})
 			.finally(() => {
 				setIsLoading(false);
@@ -122,6 +122,7 @@ function UserTable(props) {
 					.then((res) => {
 						if (res.data.isSuccess) {
 
+							loadData();
 							return true;
 						} else {
 
@@ -131,9 +132,6 @@ function UserTable(props) {
 					.catch((error) => {
 						loadData();
 						swal.swalError("Error", error.message);
-					})
-					.finally(() => {
-						loadData();
 					});
 
 			} else {
@@ -142,18 +140,15 @@ function UserTable(props) {
 					.then((res) => {
 						if (res.data.isSuccess) {
 
+							loadData();
 							return true;
 						} else {
-
 							swal.swalError("Error", res.data.message);
 						}
 					})
 					.catch((error) => {
 						loadData();
 						swal.swalError("Error", error.message);
-					})
-					.finally(() => {
-						loadData();
 					});
 			}
 		}
@@ -343,31 +338,31 @@ function UserTable(props) {
 				},
 			},
 		},
-		{
-			name: "",
-			label: "สถานะ",
-			options: {
-				selectableRows: true,
-				sort: false,
+		// {
+		// 	name: "",
+		// 	label: "สถานะ",
+		// 	options: {
+		// 		selectableRows: true,
+		// 		sort: false,
 
-				customHeadLabelRender: (columnMeta, updateDirection) => (
-					<Grid style={{ textAlign: "left" }}>
-						{columnMeta.label}
-					</Grid>
-				),
-				customBodyRenderLite: (dataIndex, rowIndex) => {
-					let g = {}
-					g = data[dataIndex].isActive === undefined ? true : false;
-					return (
-						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
-							{/* disable status undefined */}
-							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" color="primary" />} />
-							{data[dataIndex].isActive === true ? (<span>ใช้งาน</span>) : data[dataIndex].isActive === false ? (<span>ยกเลิก</span>) : (<span>undefined</span>)}
-						</Grid>
-					);
-				},
-			},
-		},
+		// 		customHeadLabelRender: (columnMeta, updateDirection) => (
+		// 			<Grid style={{ textAlign: "left" }}>
+		// 				{columnMeta.label}
+		// 			</Grid>
+		// 		),
+		// 		customBodyRenderLite: (dataIndex, rowIndex) => {
+		// 			let g = {}
+		// 			g = data[dataIndex].isActive === undefined ? true : false;
+		// 			return (
+		// 				<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
+		// 					{/* disable status undefined */}
+		// 					<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" color="primary" />} />
+		// 					{data[dataIndex].isActive === true ? (<span>ใช้งาน</span>) : data[dataIndex].isActive === false ? (<span>ยกเลิก</span>) : (<span>undefined</span>)}
+		// 				</Grid>
+		// 			);
+		// 		},
+		// 	},
+		// },
 		{
 			name: "",
 			options: {
@@ -384,19 +379,18 @@ function UserTable(props) {
 							justify="center"
 							alignItems="center"
 						>
-							<Link to="/User/AssignRolesV2">
-								<Button
-									style={{ backgroundColor: blue[400] }}
-									variant="contained"
-									startIcon={<SupervisorAccountIcon />}
-									color="secondary"
-									onClick={() => {
-										handleEdit(data[dataIndex].id, data[dataIndex].mapperId, data);
-									}}
-								>
-									Assign Role
+							<Button
+								style={{ backgroundColor: blue[400] }}
+								variant="contained"
+								startIcon={<SupervisorAccountIcon />}
+								color="secondary"
+								onClick={() => {
+									// handleEdit(data[dataIndex].id, data[dataIndex].mapperId, data);
+									history.push(`/User/EditRoles/${data[dataIndex].id}/${data[dataIndex].mapperId}`)
+								}}
+							>
+								Assign Role
 		                  </Button>
-							</Link>
 
 							<Button
 								startIcon={<RotateLeftIcon />}

@@ -2,12 +2,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import RoleTables from "mui-datatables";
-import { useDispatch } from "react-redux";
-import * as auth from "../_redux/authRedux";
-import { disableRole, getRoleFilter, enableRole } from "../_redux/authCrud";
-import { Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
+import { getRoleFilter } from "../_redux/authCrud";
+import { Grid, Typography, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import RoleSearch from "../components/RoleSearch";
 import EditButton from '../../Common/components/Buttons/EditButton';
 
@@ -18,7 +16,7 @@ dayjs.locale("th");
 
 function RoleTable(props) {
 
-	const dispatch = useDispatch()
+	const history = useHistory()
 	const [data, setData] = React.useState([]);
 	const [totalRecords, setTotalRecords] = React.useState(0);
 	const [isLoading, setIsLoading] = React.useState(true);
@@ -38,15 +36,6 @@ function RoleTable(props) {
 		//load data from api
 		loadData();
 	}, [dataFilter]);
-
-	const handleEdit = (roleId, roleName) => {
-
-		let payload = {
-			roleId: roleId,
-			roleName: roleName
-		}
-		dispatch(auth.actions.editRole(payload));
-	};
 
 	const loadData = () => {
 
@@ -71,61 +60,16 @@ function RoleTable(props) {
 					// }
 					setTotalRecords(res.data.totalAmountRecords);
 				} else {
-					alert(res.data.message);
+					swal.swalError("Error", res.data.message);
 				}
 			})
 			.catch((err) => {
-				alert(err.message);
+				swal.swalError("Error", err.message);
 			})
 			.finally(() => {
 				setIsLoading(false);
 			});
 	};
-
-
-	//disable role enable role
-	const handleChange = (id, status) => {
-
-		if (id) {
-			if (status) {
-				disableRole(id)
-					.then((res) => {
-						if (res.data.isSuccess) {
-
-							return true;
-						} else {
-
-							swal.swalError("Error", res.data.message);
-						}
-					})
-					.catch((error) => {
-						swal.swalError("Error", error.message);
-					})
-					.finally(() => {
-						loadData();
-					});
-
-			} else {
-
-				enableRole(id)
-					.then((res) => {
-						if (res.data.isSuccess) {
-
-							return true;
-						} else {
-
-							swal.swalError("Error", res.data.message);
-						}
-					})
-					.catch((error) => {
-						swal.swalError("Error", error.message);
-					})
-					.finally(() => {
-						loadData();
-					});
-			}
-		}
-	}
 
 	const handleSearchUser = (values) => {
 
@@ -274,28 +218,6 @@ function RoleTable(props) {
 		},
 		{
 			name: "",
-			label: "สถานะ",
-			options: {
-				sort: false,
-				customHeadLabelRender: (columnMeta, updateDirection) => (
-					<Grid style={{ textAlign: "left" }}>
-						{columnMeta.label}
-					</Grid>
-				),
-				customBodyRenderLite: (dataIndex, rowIndex) => {
-					let g = {}
-					g = data[dataIndex].isActive === undefined ? true : false;
-					return (
-						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
-							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" />} />
-							{data[dataIndex].isActive === true ? (<span>ใช้งาน</span>) : data[dataIndex].isActive === false ? (<span>ยกเลิก</span>) : (<span>undefined</span>)}
-						</Grid>
-					);
-				},
-			},
-		},
-		{
-			name: "",
 			options: {
 				filter: false,
 				sort: false,
@@ -310,16 +232,15 @@ function RoleTable(props) {
 							justify="center"
 							alignItems="center"
 						>
-							<Link to="/User/EditRoles">
-								<EditButton
-									style={{ marginRight: 20 }}
-									onClick={() => {
-										handleEdit(data[dataIndex].id, data[dataIndex].roleName);
-									}}
-								>
-									Edit
+							<EditButton
+								style={{ marginRight: 20 }}
+								onClick={() => {
+
+									history.push(`/User/EditRoles/${data[dataIndex].id}`)
+								}}
+							>
+								Edit
                           </EditButton>
-							</Link>
 						</Grid>
 					);
 				},

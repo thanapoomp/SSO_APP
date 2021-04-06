@@ -2,9 +2,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import SourceTables from "mui-datatables";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as auth from "../_redux/authRedux";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { disableSource, getSourceFilter, enableSource } from "../_redux/authCrud";
 import { Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
@@ -22,7 +22,7 @@ function SourceTable() {
 	const [data, setData] = React.useState([]);
 	const [totalRecords, setTotalRecords] = React.useState(0);
 	const [isLoading, setIsLoading] = React.useState(true);
-
+	const history = useHistory()
 
 	const [dataFilter, setDataFilter] = React.useState({
 		page: 1,
@@ -72,11 +72,12 @@ function SourceTable() {
 					// }
 					setTotalRecords(res.data.totalAmountRecords);
 				} else {
-					alert(res.data.message);
+
+					swal.swalError("Error", res.data.message);
 				}
 			})
 			.catch((err) => {
-				alert(err.message);
+				swal.swalError("Error", err.message);
 			})
 			.finally(() => {
 				setIsLoading(false);
@@ -137,53 +138,6 @@ function SourceTable() {
 			}
 		},
 	};
-
-	//disable source enable source.
-	const handleChange = (id, status) => {
-
-		if (id) {
-			if (status) {
-				disableSource(id)
-					.then((res) => {
-						if (res.data.isSuccess) {
-
-							return true;
-						} else {
-
-							swal.swalError("Error", res.data.message);
-						}
-					})
-					.catch((error) => {
-						swal.swalError("Error", error.message);
-					})
-					.finally(() => {
-						loadData();
-					});
-
-			} else if (status === false) {
-
-				enableSource(id)
-					.then((res) => {
-						if (res.data.isSuccess) {
-
-							return true;
-						} else {
-
-							swal.swalError("Error", res.data.message);
-						}
-					})
-					.catch((error) => {
-						swal.swalError("Error", error.message);
-					})
-					.finally(() => {
-						loadData();
-					});
-			} else {
-				swal.swalError("Error", "Status Undefined");
-				loadData();
-			}
-		}
-	}
 
 	const handleSearch = (values) => {
 
@@ -276,28 +230,28 @@ function SourceTable() {
 				},
 			},
 		},
-		{
-			name: "",
-			label: "สถานะ",
-			options: {
-				sort: false,
-				customHeadLabelRender: (columnMeta, updateDirection) => (
-					<Grid style={{ textAlign: "left" }}>
-						{columnMeta.label}
-					</Grid>
-				),
-				customBodyRenderLite: (dataIndex, rowIndex) => {
-					let g = {}
-					g = data[dataIndex].isActive === undefined ? true : false;
-					return (
-						<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
-							<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" />} />
-							{data[dataIndex].isActive === true ? (<span>ใช้งาน</span>) : data[dataIndex].isActive === false ? (<span>ยกเลิก</span>) : (<span>undefined</span>)}
-						</Grid>
-					);
-				},
-			},
-		},
+		// {
+		// 	name: "",
+		// 	label: "สถานะ",
+		// 	options: {
+		// 		sort: false,
+		// 		customHeadLabelRender: (columnMeta, updateDirection) => (
+		// 			<Grid style={{ textAlign: "left" }}>
+		// 				{columnMeta.label}
+		// 			</Grid>
+		// 		),
+		// 		customBodyRenderLite: (dataIndex, rowIndex) => {
+		// 			let g = {}
+		// 			g = data[dataIndex].isActive === undefined ? true : false;
+		// 			return (
+		// 				<Grid style={{ padding: 0, margin: 0, textAlign: "left" }}>
+		// 					<FormControlLabel control={<Switch checked={data[dataIndex].isActive} onChange={() => { handleChange(data[dataIndex].id, data[dataIndex].isActive) }} disabled={g} name="checkedA" />} />
+		// 					{data[dataIndex].isActive === true ? (<span>ใช้งาน</span>) : data[dataIndex].isActive === false ? (<span>ยกเลิก</span>) : (<span>undefined</span>)}
+		// 				</Grid>
+		// 			);
+		// 		},
+		// 	},
+		// },
 		{
 			name: "",
 			options: {
@@ -314,16 +268,14 @@ function SourceTable() {
 							justify="center"
 							alignItems="center"
 						>
-							<Link to="/User/EditSource">
-								<EditButton
-									style={{ marginRight: 20 }}
-									onClick={() => {
-										handleEdit(data[dataIndex].id, data[dataIndex].sourceName);
-									}}
-								>
-									Edit
+							<EditButton
+								style={{ marginRight: 20 }}
+								onClick={() => {
+									history.push(`/User/EditSource/${data[dataIndex].id}`)
+								}}
+							>
+								Edit
                           </EditButton>
-							</Link>
 						</Grid>
 					);
 				},

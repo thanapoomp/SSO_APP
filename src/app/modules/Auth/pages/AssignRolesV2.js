@@ -1,30 +1,54 @@
+/* eslint-disable no-restricted-imports */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { Grid, Card, CardActions, Typography } from '@material-ui/core';
-import { assignRoles, getRole, getUserByCode, getRoleByUserId } from "../_redux/authCrud";
+import { useHistory, useParams } from "react-router-dom";
+import { Grid, Card, CardActions, FormControlLabel, Switch, Button, CardContent, CardHeader } from '@material-ui/core';
+import { assignRoles, getRole, getUserByCode, getRoleByUserId, enableUser, disableUser, getRoleGroup } from "../_redux/authCrud";
 import FormikCheckBoxGroup from "../../../modules/_FormikUseFormik/components/FormikCheckBoxGroup";
 import SaveButton from "../../../modules/Common/components/Buttons/SaveButton";
 import * as swal from "../../Common/components/SweetAlert";
 import { useFormik } from "formik";
 import * as auth from "../_redux/authRedux";
+import { purple, blue } from '@material-ui/core/colors'
 
 function AssignRolesV2(props) {
 
 	const authReducer = useSelector(({ auth }) => auth)
-	var employeeCode = authReducer.employeeCode;
-	var userGuid = authReducer.userGuid;
+
+	let { userGuid, employeeCode } = useParams();
 
 
 	const dispatch = useDispatch()
 	const history = useHistory();
 	const [role, setRole] = React.useState([]);
 	const [userDetail, setUserDetail] = React.useState([]);
+	const [roleGroup, setRoleGroup] = React.useState([])
+	const [roleD, setRoleD] = React.useState([])
+
+	const [state, setState] = React.useState({
+		checkedA: false,
+	})
 
 	React.useEffect(() => {
-		console.log(authReducer);
+		getRoleGroup()
+			.then((res) => {
+
+				if (res.data.isSuccess) {
+
+					setRoleGroup(res.data.data)
+				} else {
+					//internal error
+					swal.swalError("Error", res.data.message);
+				}
+			}).catch((err) => {
+				//physical error
+				swal.swalError("Error", err.message);
+			})
+	}, [])
+
+	React.useEffect(() => {
 
 		if (userGuid) {
 
@@ -50,7 +74,9 @@ function AssignRolesV2(props) {
 			userId: `${employeeCode} ${userDetail.fullName}`,
 
 			//default role user
-			rolesId: [...authReducer.roleId]
+			// rolesId: [...authReducer.roleId]
+			rolesId: [...roleD]
+
 		},
 		validate: (values) => {
 			const errors = {};
@@ -60,7 +86,7 @@ function AssignRolesV2(props) {
 
 		onSubmit: (values, { setSubmitting }) => {
 
-			console.log(values)
+
 			handleSave({ setSubmitting }, values);
 		},
 	});
@@ -73,7 +99,7 @@ function AssignRolesV2(props) {
 				if (res.data.isSuccess) {
 					swal.swalSuccess("Success", `success.`).then(() => {
 						history.push("/User/UserTable");
-					});;
+					});
 				} else {
 					swal.swalError("Error", res.data.message);
 				}
@@ -87,6 +113,7 @@ function AssignRolesV2(props) {
 
 	}
 
+	//load role ทั้งหมด จาก api
 	const loadRole = () => {
 		getRole()
 			.then((res) => {
@@ -105,12 +132,13 @@ function AssignRolesV2(props) {
 			})
 	};
 
+	//load full name
 	const loadUserDetail = (id) => {
 
 		getUserByCode(id)
 			.then((res) => {
 				if (res.data.isSuccess) {
-					// console.log("loadRole", res.data.data)
+
 					setUserDetail({ ...userDetail, fullName: `${res.data.data.title}${res.data.data.firstName} ${res.data.data.lastName} แผนก : ${res.data.data.department}` });
 				} else {
 					alert(res.data.message);
@@ -124,7 +152,6 @@ function AssignRolesV2(props) {
 			})
 	};
 
-
 	//โหลด default role user
 	const getRoleUserId = (id) => {
 
@@ -132,7 +159,7 @@ function AssignRolesV2(props) {
 			.then((res) => {
 				if (res.data.isSuccess) {
 					let roles = []
-					//forEach push roleId 
+					//forEach push roleId
 					res.data.data.forEach(element => {
 						roles.push(element.roleId)
 					});
@@ -144,58 +171,120 @@ function AssignRolesV2(props) {
 			})
 			.catch((err) => {
 				alert(err.message);
-			})
-			.finally(() => {
+			});
+	};
 
-			})
+	const handleGet = (id) => {
+		if (roleGroup.length > 0) {
+			//เช็ค id roleGroup ต้อง != 0
+			if (roleGroup.id !== 0) {
+				//fine หา roleId จาก roleGroup id
+				let objRole = roleGroup.find(obj => obj.id === id);
+
+				if (objRole !== null) {
+					let objRoleId = []
+					objRole.roleGroupDetail.forEach(element => {
+						//push roleId 
+						objRoleId.push(element.role.id)
+					});
+					//set roleId เข้า state
+					setRoleD(objRoleId);
+				}
+			}
+		}
+	}
+
+	//disable enable source
+	const handleChange = (event) => {
+		setState({ ...state, [event.target.name]: event.target.checked });
+
+		// if (event.target.checked) {
+
+		// 	enableUser(userGuid)
+		// 		.then((res) => {
+		// 			if (res.data.isSuccess) {
+
+		// 				alert("true ok")
+		// 				return true;
+		// 			} else {
+
+		// 				swal.swalError("Error", res.data.message);
+		// 			}
+		// 		})
+		// 		.catch((error) => {
+		// 			swal.swalError("Error", error.message);
+		// 		});
+
+		// } else if (event.target.checked === false) {
+
+		// 	disableUser(userGuid)
+		// 		.then((res) => {
+		// 			if (res.data.isSuccess) {
+
+		// 				alert("false ok")
+		// 				return true;
+		// 			} else {
+
+		// 				swal.swalError("Error", res.data.message);
+		// 			}
+		// 		})
+		// 		.catch((error) => {
+		// 			swal.swalError("Error", error.message);
+		// 		});
+
+		// } else {
+		// 	swal.swalError("Error", "Status Undefined");
+
+		// }
+
 	};
 
 	return (
 		<div>
-			<Grid item xs={12} lg={12}>
-				<Card style={{ overflow: 'auto', padding: 10 }}>
-					<Typography variant="h6" component="h2">{userDetail.fullName}</Typography>
+			<Card elevation={3}>
+				<CardHeader title={userDetail.fullName} action={
+					<FormControlLabel style={{ marginLeft: 20, marginTop: 10 }} control={<Switch checked={state.checkedA} onChange={handleChange} name="checkedA" />} label={state.checkedA === true ? "ใช้งาน" : "ยกเลิก"} />
+				} />
+				<CardContent>
 					<Grid
 						container
 						direction="row"
-						justify="center"
+						justify="flex-start"
 						alignItems="center"
-					>
-						<Grid container spacing={1}>
-							<Grid item xs={12} lg={1}>
-								<FormikCheckBoxGroup
-									formik={formik}
-									name="rolesId"
-									label=""
-									displayFieldName="roleName"
-									data={role}
-								/>
+						spacing={3}>
+						{roleGroup.map((item) => (
+							<Grid item xs={6} lg={2} key={`product_${item.id}`}>
+								<Button variant="contained" style={{ backgroundColor: "#448aff" }} onClick={() => {
+									handleGet(item.id);
+								}}>
+									{item.name}
+								</Button>
 							</Grid>
-						</Grid>
-					</Grid>
+						))}
 
-					<Grid item xs={12} lg={12}>
-						<Grid
-							container
-							direction="row"
-							justify="center"
-							alignItems="center"
-						>
-							<CardActions>
-								<SaveButton
-									fullWidth
-									size="large"
-									type="submit"
-									onClick={formik.handleSubmit}
-									color="primary"
-								>
-									Save
-                    			</SaveButton>
-							</CardActions>
+						<Grid item xs={12} lg={12}>
+							<FormikCheckBoxGroup
+								formik={formik}
+								name="rolesId"
+								label=""
+								displayFieldName="roleName"
+								data={role}
+							/>
 						</Grid>
-					</Grid>
-				</Card>
-			</Grid>
+						<CardActions>
+							<SaveButton
+								fullWidth
+								size="large"
+								type="submit"
+								onClick={formik.handleSubmit}
+								color="primary"
+							>
+								Save
+                    			</SaveButton>
+						</CardActions>
+					</Grid >
+				</CardContent>
+			</Card>
 		</div >
 	)
 }

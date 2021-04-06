@@ -6,6 +6,7 @@ import { Grid, Button, Card, CardHeader, Checkbox, Divider, List, ListItem, List
 import FormikDropdown from "../../../modules/_FormikUseFormik/components/FormikDropdown";
 import { login, getRoleByUserId } from "../_redux/authCrud";
 import * as CONST from "../../../../Constants";
+import * as swal from "../../Common/components/SweetAlert";
 import Axios from "axios";
 
 import Switch from '@material-ui/core/Switch';
@@ -101,8 +102,6 @@ function AssignRoles() {
 				.then((res) => {
 					if (res.data.isSuccess) {
 
-
-
 					} else {
 						//Failed
 						setSubmitting(false);
@@ -124,13 +123,15 @@ function AssignRoles() {
 			.then((res) => {
 				if (res.data.isSuccess) {
 					setLeft(res.data.data);
-					console.log(res.data.data);
+
 				} else {
-					alert(res.data.message);
+
+					swal.swalError("Error", res.data.message);
 				}
 			})
 			.catch((err) => {
-				alert(err.message);
+
+				swal.swalError("Error", err.message);
 			});
 	};
 
@@ -141,11 +142,13 @@ function AssignRoles() {
 				if (res.data.isSuccess) {
 					setUser(res.data.data);
 				} else {
-					alert(res.data.message);
+
+					swal.swalError("Error", res.data.message);
 				}
 			})
 			.catch((err) => {
-				alert(err.message);
+
+				swal.swalError("Error", err.message);
 			});
 	};
 
@@ -162,11 +165,13 @@ function AssignRoles() {
 					console.log(flatData);
 					setRight(res.data.data);
 				} else {
-					alert(res.data.message);
+
+					swal.swalError("Error", res.data.message);
 				}
 			})
 			.catch((err) => {
-				alert(err.message);
+
+				swal.swalError("Error", err.message);
 			});
 	};
 

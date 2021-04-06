@@ -23,13 +23,6 @@ const initialAuthState = {
   employeeCode: 0,
   roleId: [],
 
-  editRoleId: 0,
-  editRoleName: "",
-
-  editSourceId: 0,
-  editSourceName: "",
-
-
 };
 
 export const reducer = persistReducer(
@@ -74,7 +67,7 @@ export const reducer = persistReducer(
       }
 
       case actionTypes.EditId: {
-        debugger
+
         return {
           ...state,
           userGuid: action.payload.userGuid,
@@ -83,28 +76,8 @@ export const reducer = persistReducer(
         };
       }
 
-      case actionTypes.EditRole: {
-        debugger
-        return {
-          ...state,
-          editRoleId: action.payload.roleId,
-          editRoleName: action.payload.roleName,
-
-        };
-      }
-
-      case actionTypes.EditSource: {
-        debugger
-        return {
-          ...state,
-          editSourceId: action.payload.sourceId,
-          editSourceName: action.payload.sourceName,
-
-        };
-      }
-
       case actionTypes.SaveRole: {
-        debugger
+
         return {
           ...state,
           roleId: [...action.payload],
@@ -126,7 +99,5 @@ export const actions = {
 
   //get assige role
   edit: (payload) => ({ type: actionTypes.EditId, payload }),
-  editRole: (payload) => ({ type: actionTypes.EditRole, payload }),
-  editSource: (payload) => ({ type: actionTypes.EditSource, payload }),
   saveRoles: (payload) => ({ type: actionTypes.SaveRole, payload }),
 };

@@ -72,9 +72,7 @@ function AddGroupRoleTeamPage() {
 			})
 			.catch((err) => {
 				alert(err.message);
-			})
-			.finally(() => {
-			})
+			});
 	};
 	return (
 		<form onSubmit={formik.handleSubmit}>

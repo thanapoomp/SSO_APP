@@ -48,15 +48,15 @@ export function QuickUserToggler() {
                     )})`
                   }} />
                   <i className="symbol-badge bg-success" />
-              </span>
+                </span>
               </>
-          </div>
+            </div>
           </div>
         </OverlayTrigger>
-  )
-}
+      )
+      }
 
-{ !layoutProps.offcanvas && <UserProfileDropdown /> }
+      { !layoutProps.offcanvas && <UserProfileDropdown />}
     </>
   );
 }

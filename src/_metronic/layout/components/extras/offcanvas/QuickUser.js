@@ -6,10 +6,12 @@ import { useHistory } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../../_helpers";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { getUserByCode } from "../../../../../app/modules/Auth/_redux/authCrud";
 
 export function QuickUser() {
   const authReducer = useSelector(({ auth }) => auth)
   const history = useHistory();
+  const [userDetail, setUserDetail] = React.useState([]);
 
   const logoutClick = () => {
     const toggle = document.getElementById("kt_quick_user_toggle");
@@ -29,6 +31,8 @@ export function QuickUser() {
     }
     return;
   }
+
+
 
   return (
     <div id="kt_quick_user" className="offcanvas offcanvas-right offcanvas p-10">
@@ -65,7 +69,7 @@ export function QuickUser() {
               href="#"
               className="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"
             >
-              {authReducer.user}
+
             </a>
             <div className="text-muted mt-1">User : {authReducer.user}</div>
             <div className="text-muted mt-1">Roles : {roles()}</div>

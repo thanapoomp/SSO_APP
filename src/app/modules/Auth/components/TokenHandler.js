@@ -47,7 +47,7 @@ function TokenHandler(props) {
       .renewToken()
       .then((res) => {
         if (res.data.isSuccess) {
-          debugger
+
           updateState(res.data.data);
         } else {
           swal.swalInfo("warning", res.data.message);

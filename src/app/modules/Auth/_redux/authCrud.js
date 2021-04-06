@@ -33,8 +33,10 @@ export const EDIT_SOURCE_URL = `${CONST.API_URL}/Auth/source/update`;
 //role
 export const ADD_ROLE_URL = `${CONST.API_URL}/Auth/role/add`;
 export const ADD_TEAM_PAGE_ROLE_URL = `${CONST.API_URL}/Auth/rolegroup/assign`;
+export const GET_TEAM_PAGE_ROLE_URL = `${CONST.API_URL}/Auth/rolegroup/get`;
 export const GET_ROLE_FILTER_URL = `${CONST.API_URL}/Auth/role/filter`;
 export const GET_ROLE_URL = `${CONST.API_URL}/Auth/role/get`;
+export const GET_ROLE_BYID_URL = `${CONST.API_URL}/Auth/role/getbyid`;
 export const DISABLE_ROLE_URL = `${CONST.API_URL}/Auth/role/disable`;
 export const ENABLE_ROLE_URL = `${CONST.API_URL}/Auth/role/enable`;
 export const EDIT_ROLE_URL = `${CONST.API_URL}/Auth/role/update`;
@@ -86,11 +88,11 @@ export function getUserByCode(id) {
 }
 
 export function disableUser(id) {
-  return axios.put(`${DISABLE_USER_URL}/${id}`, { headers: { 'Access-Control-Allow-Origin': '*' } });
+  return axios.put(`${DISABLE_USER_URL}/${id}`);
 }
 
 export function enableUser(id) {
-  return axios.put(`${ENABLE_USER_URL}/${id}`, { headers: { 'Access-Control-Allow-Origin': '*' } });
+  return axios.put(`${ENABLE_USER_URL}/${id}`);
 }
 
 export const getUserFilter = (orderingField, ascendingOrder, page, recordsPerPage, userName, sourceName, mapperId) => {
@@ -104,7 +106,7 @@ export const getUserFilter = (orderingField, ascendingOrder, page, recordsPerPag
     mapperId
   }
 
-  var r = axios.get(encodeURLWithParams(`${GET_USER_FILTER_URL}`, payload), { headers: { 'Access-Control-Allow-Origin': '*' } });
+  var r = axios.get(encodeURLWithParams(`${GET_USER_FILTER_URL}`, payload));
   return r;
 };
 //-------end User---------//
@@ -128,8 +130,16 @@ export function getRole() {
   return axios.get(`${GET_ROLE_URL}`);
 }
 
+export function getRoleGroup() {
+  return axios.get(`${GET_TEAM_PAGE_ROLE_URL}`);
+}
+
 export function editRole(id, payload) {
   return axios.put(`${EDIT_ROLE_URL}/${id}`, payload);
+}
+
+export function getRoleById(id) {
+  return axios.get(`${GET_ROLE_BYID_URL}/${id}`);
 }
 
 export function disableRole(id) {
@@ -144,8 +154,8 @@ export function addRoles(roleName) {
   return axios.post(ADD_ROLE_URL, { roleName });
 }
 
-export function addRolesGroup(roleGroupName, rolesId) {
-  return axios.post(ADD_TEAM_PAGE_ROLE_URL, { roleGroupName, rolesId });
+export function addRolesGroup(groupRoleName, roleId) {
+  return axios.post(ADD_TEAM_PAGE_ROLE_URL, { groupRoleName, roleId });
 }
 
 //--------------end Role-------------------//

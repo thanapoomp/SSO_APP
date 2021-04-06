@@ -4,28 +4,35 @@ import React from 'react'
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { useHistory, useParams } from "react-router-dom";
-import { Grid, TextField, Card, CardContent, Button } from "@material-ui/core/";
-import { editSource, getSourceByid } from "../_redux/authCrud";
+import { Grid, TextField, Card, CardContent, FormControlLabel, Switch } from "@material-ui/core/";
+import { editSource, getSourceByid, disableSource, enableSource } from "../_redux/authCrud";
 import * as swal from "../../Common/components/SweetAlert";
 import SaveButton from "../../Common/components/Buttons/SaveButton";
 
 function AddSource() {
 
+	const [state, setState] = React.useState({
+		checkedA: false,
+	});
 	const authReducer = useSelector(({ auth }) => auth)
-	var sourceName = authReducer.editSourceName;
-	var sourceId = authReducer.editSourceId;
 
 	const history = useHistory();
 
-	const [roleName, setRoleName] = React.useState([]);
+	const [dataSource, setDataSource] = React.useState({ sourceName: "" })
+
+	let { id } = useParams();
+	var sourceId = id;
+
 
 	React.useEffect(() => {
 
 		if (sourceId === 0) {
 			history.push("/User/SourceTable");
+		} else {
+			handleGet(sourceId)
 		}
 
-	}, [authReducer.editSourceId])
+	}, [sourceId])
 
 	const formik = useFormik({
 		enableReinitialize: true,
@@ -37,12 +44,74 @@ function AddSource() {
 			return errors;
 		},
 		initialValues: {
-			sourceName: authReducer.editSourceName
+			sourceName: dataSource.sourceName
 		},
 		onSubmit: (values, { setSubmitting, resetForm }) => {
 			handleSave({ setSubmitting, resetForm }, values);
 		},
 	});
+
+	//disable enable source
+	const handleChange = (event) => {
+		setState({ ...state, [event.target.name]: event.target.checked });
+
+		if (event.target.checked) {
+
+			enableSource(sourceId)
+				.then((res) => {
+					if (res.data.isSuccess) {
+
+						return true;
+					} else {
+
+						swal.swalError("Error", res.data.message);
+					}
+				})
+				.catch((error) => {
+					swal.swalError("Error", error.message);
+				});
+
+		} else if (event.target.checked === false) {
+
+			disableSource(sourceId)
+				.then((res) => {
+					if (res.data.isSuccess) {
+
+						return true;
+					} else {
+
+						swal.swalError("Error", res.data.message);
+					}
+				})
+				.catch((error) => {
+					swal.swalError("Error", error.message);
+				});
+
+		} else {
+			swal.swalError("Error", "Status Undefined");
+
+		}
+
+	};
+
+	//get source from api
+	const handleGet = (id) => {
+		getSourceByid(id)
+			.then((res) => {
+				if (res.data.isSuccess) {
+
+					setDataSource({ ...dataSource, sourceName: res.data.data[0].sourceName });
+					setState({ ...state, checkedA: res.data.data[0].isActive })
+
+				} else {
+					swal.swalError("Error", res.data.message);
+				}
+			})
+			//network error
+			.catch((err) => {
+				swal.swalError("Error", err.message);
+			});
+	}
 
 	const handleSave = ({ setSubmitting, resetForm }, values) => {
 
@@ -54,20 +123,21 @@ function AddSource() {
 			.then((res) => {
 				if (res.data.isSuccess) {
 					setSubmitting(false);
-					swal.swalSuccess("Success", `success.`);
-					history.push("/User/SourceTable");
+					swal.swalSuccess("Success", `success.`).then(() => {
+						history.push("/User/SourceTable");
+					});
 					resetForm(true);
 				} else {
 					swal.swalError("Error", res.data.message);
 				}
 			})
+			//network error
 			.catch((err) => {
-				//network error
 				swal.swalError("Error", err.message);
 			});
 
 	}
-	let { id } = useParams();
+
 
 	return (
 		<form onSubmit={formik.handleSubmit}>
@@ -86,6 +156,10 @@ function AddSource() {
 								error={(formik.errors.sourceName && formik.touched.sourceName)}
 								helperText={(formik.errors.sourceName && formik.touched.sourceName) && formik.errors.sourceName}
 							/>
+						</Grid>
+						<Grid item xs={12} lg={3}>
+
+							<FormControlLabel control={<Switch checked={state.checkedA} onChange={handleChange} name="checkedA" />} label={state.checkedA === true ? "ใช้งาน" : "ยกเลิก"} />
 						</Grid>
 						<Grid
 							container

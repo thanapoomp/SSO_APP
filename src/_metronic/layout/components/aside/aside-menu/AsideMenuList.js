@@ -65,16 +65,16 @@ export function AsideMenuList({ layoutProps }) {
         </li> */}
 
         {/* begin::section */}
-        {isShowMenu([ROLES.developer]) && (
+        {/* {isShowMenu([ROLES.developer]) && (
           <>
             <li className="menu-section ">
               <h4 className="menu-text">UseFormik</h4>
               <i className="menu-icon flaticon-more-v2"></i>
-            </li>
+            </li> */}
 
-            {/* end:: section */}
-            {/*begin::1 newEmployee*/}
-            <li
+        {/* end:: section */}
+        {/*begin::1 newEmployee*/}
+        {/* <li
               className={`menu-item ${getMenuItemActive("/useFormik/all", false)}`}
               aria-haspopup="true"
             >
@@ -84,12 +84,12 @@ export function AsideMenuList({ layoutProps }) {
                 </span>
                 <span className="menu-text">All</span>
               </NavLink>
-            </li>
-            {/*End::1 newEmployee*/}
+            </li> */}
+        {/*End::1 newEmployee*/}
 
 
-            {/*begin::1 newEmployee*/}
-            <li
+        {/*begin::1 newEmployee*/}
+        {/* <li
               className={`menu-item ${getMenuItemActive("/useFormik/textfield", false)}`}
               aria-haspopup="true"
             >
@@ -99,11 +99,11 @@ export function AsideMenuList({ layoutProps }) {
                 </span>
                 <span className="menu-text">Text field</span>
               </NavLink>
-            </li>
+            </li> */}
 
-            {/*End::1 newEmployee*/}
-            {/*begin::1 newEmployee*/}
-            <li
+        {/*End::1 newEmployee*/}
+        {/*begin::1 newEmployee*/}
+        {/* <li
               className={`menu-item ${getMenuItemActive("/useFormik/dropdown", false)}`}
               aria-haspopup="true"
             >
@@ -116,7 +116,7 @@ export function AsideMenuList({ layoutProps }) {
             </li>
 
           </>
-        )}
+        )} */}
 
         {/*End::1 newEmployee*/}
 

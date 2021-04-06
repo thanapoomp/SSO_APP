@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { connect } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
-import { login, getUserByToken, getExp, getRoles, getUserGuidByToken } from "../_redux/authCrud";
+import { login, getUserByToken, getExp, getRoles, getUserGuidByToken, getUserByCode } from "../_redux/authCrud";
 import * as CONST from "../../../../Constants";
 import Axios from "axios";
 
@@ -34,6 +34,7 @@ function Login_new(props) {
   const api_get_source_url = `${CONST.API_URL}/Auth/source/get`;
 
   const [sourceList, setSourceList] = React.useState([]);
+  const [userDetail, setUserDetail] = React.useState([]);
   const { intl } = props;
   const [loading, setLoading] = useState(false);
   const LoginSchema = Yup.object().shape({

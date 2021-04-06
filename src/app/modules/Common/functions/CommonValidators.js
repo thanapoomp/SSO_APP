@@ -21,7 +21,7 @@ export const validateThaiCitizenID = (id) => {
 
 export const validatePhoneNumber = (id) => {
   //todo replace -
-  debugger;
+
   if (id) {
     id = id.replaceAll("-", "").trim();
     if (id.length !== 10) {
