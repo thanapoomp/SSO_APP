@@ -174,11 +174,11 @@ export function getSourceByid(id) {
 }
 
 export function disableSource(id) {
-  return axios.put(`${DISABLE_SOURCE_URL}/${id}`);
+  return axios.put(`${DISABLE_SOURCE_URL}/${id}`, { headers: { 'Access-Control-Allow-Origin': '*' } });
 }
 
 export function enableSource(id) {
-  return axios.put(`${ENABLE_SOURCE_URL}/${id}`);
+  return axios.put(`${ENABLE_SOURCE_URL}/${id}`, { headers: { 'Access-Control-Allow-Origin': '*' } });
 }
 
 export function getSource() {
@@ -217,12 +217,12 @@ export function getRoles(token) {
     return []
   }
 
+  //push role ลง array(fix bug role --> "r","o","l","e")
   if (Array.isArray(decoded.role)) {
     result = decoded.role
   } else {
     result.push(decoded.role)
   }
 
-  //push role ลง array(fix bug role --> "r","o","l","e")
   return result;
 }

@@ -48,45 +48,45 @@ function EditRoles(props) {
 	const handleChange = (event) => {
 		setState({ ...state, [event.target.name]: event.target.checked });
 
-		if (event.target.checked) {
-			enableRole(roleId)
-				.then((res) => {
-					if (res.data.isSuccess) {
+		// if (event.target.checked) {
+		// 	enableRole(roleId)
+		// 		.then((res) => {
+		// 			if (res.data.isSuccess) {
 
-						// alert("ok true")
-						return true;
-					} else {
-
-
-						swal.swalError("Error", res.data.message);
-					}
-				})
-				.catch((error) => {
-					swal.swalError("Error", error.message);
-				});
-
-		} else if (event.target.checked === false) {
-
-			disableRole(roleId)
-				.then((res) => {
-					if (res.data.isSuccess) {
-
-						// alert("ok false")
-						return true;
-					} else {
+		// 				// alert("ok true")
+		// 				return true;
+		// 			} else {
 
 
-						swal.swalError("Error", res.data.message);
-					}
-				})
-				.catch((error) => {
-					swal.swalError("Error", error.message);
-				});
+		// 				swal.swalError("Error", res.data.message);
+		// 			}
+		// 		})
+		// 		.catch((error) => {
+		// 			swal.swalError("Error", error.message);
+		// 		});
 
-		} else {
-			swal.swalError("Error", "Status Undefined");
+		// } else if (event.target.checked === false) {
 
-		}
+		// 	disableRole(roleId)
+		// 		.then((res) => {
+		// 			if (res.data.isSuccess) {
+
+		// 				// alert("ok false")
+		// 				return true;
+		// 			} else {
+
+
+		// 				swal.swalError("Error", res.data.message);
+		// 			}
+		// 		})
+		// 		.catch((error) => {
+		// 			swal.swalError("Error", error.message);
+		// 		});
+
+		// } else {
+		// 	swal.swalError("Error", "Status Undefined");
+
+		// }
 	};
 
 	const handleGet = (id) => {
@@ -110,7 +110,8 @@ function EditRoles(props) {
 	const handleSave = ({ setSubmitting, resetForm }, values) => {
 
 		let playload = {
-			roleName: values.roleName
+			roleName: values.roleName,
+			isActive: values.checkedA
 		}
 		editRole(roleId, playload)
 			.then((res) => {

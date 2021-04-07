@@ -4,14 +4,14 @@
 import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { Grid, Card, CardActions, FormControlLabel, Switch, Button, CardContent, CardHeader } from '@material-ui/core';
-import { assignRoles, getRole, getUserByCode, getRoleByUserId, enableUser, disableUser, getRoleGroup } from "../_redux/authCrud";
+import { Grid, Card, CardActions, FormControlLabel, Switch, Button, CardContent, CardHeader, Typography } from '@material-ui/core';
+import { assignRoles, getRole, getUserByCode, getRoleByUserId, getRoleGroup } from "../_redux/authCrud";
 import FormikCheckBoxGroup from "../../../modules/_FormikUseFormik/components/FormikCheckBoxGroup";
 import SaveButton from "../../../modules/Common/components/Buttons/SaveButton";
 import * as swal from "../../Common/components/SweetAlert";
+import Divider from '@material-ui/core/Divider';
 import { useFormik } from "formik";
 import * as auth from "../_redux/authRedux";
-import { purple, blue } from '@material-ui/core/colors'
 
 function AssignRolesV2(props) {
 
@@ -74,8 +74,8 @@ function AssignRolesV2(props) {
 			userId: `${employeeCode} ${userDetail.fullName}`,
 
 			//default role user
-			// rolesId: [...authReducer.roleId]
-			rolesId: [...roleD]
+			rolesId: [...authReducer.roleId]
+			// rolesId: [...roleD]
 
 		},
 		validate: (values) => {
@@ -182,13 +182,15 @@ function AssignRolesV2(props) {
 				let objRole = roleGroup.find(obj => obj.id === id);
 
 				if (objRole !== null) {
-					let objRoleId = []
+					let objRoleId = [...authReducer.roleId]
 					objRole.roleGroupDetail.forEach(element => {
-						//push roleId 
+						//push roleId
 						objRoleId.push(element.role.id)
 					});
-					//set roleId เข้า state
+
 					setRoleD(objRoleId);
+					console.log("objRoleId", objRoleId)
+					formik.setFieldValue('rolesId', [...objRoleId])
 				}
 			}
 		}
@@ -242,10 +244,13 @@ function AssignRolesV2(props) {
 	return (
 		<div>
 			<Card elevation={3}>
-				<CardHeader title={userDetail.fullName} action={
-					<FormControlLabel style={{ marginLeft: 20, marginTop: 10 }} control={<Switch checked={state.checkedA} onChange={handleChange} name="checkedA" />} label={state.checkedA === true ? "ใช้งาน" : "ยกเลิก"} />
-				} />
+				<CardHeader title={userDetail.fullName} />
+				<Divider />
 				<CardContent>
+					<Typography variant="subtitle1" color="textSecondary" component="p">
+						Team Page
+        			</Typography>
+					<br />
 					<Grid
 						container
 						direction="row"
@@ -261,8 +266,10 @@ function AssignRolesV2(props) {
 								</Button>
 							</Grid>
 						))}
-
 						<Grid item xs={12} lg={12}>
+							<Typography variant="subtitle2" color="textSecondary" component="p">
+								Customize
+        					</Typography>
 							<FormikCheckBoxGroup
 								formik={formik}
 								name="rolesId"
