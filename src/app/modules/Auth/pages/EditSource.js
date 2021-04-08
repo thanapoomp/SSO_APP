@@ -55,42 +55,42 @@ function AddSource() {
 	const handleChange = (event) => {
 		setState({ ...state, [event.target.name]: event.target.checked });
 
-		if (event.target.checked) {
+		// if (event.target.checked) {
 
-			enableSource(sourceId)
-				.then((res) => {
-					if (res.data.isSuccess) {
+		// 	enableSource(sourceId)
+		// 		.then((res) => {
+		// 			if (res.data.isSuccess) {
 
-						return true;
-					} else {
+		// 				return true;
+		// 			} else {
 
-						swal.swalError("Error", res.data.message);
-					}
-				})
-				.catch((error) => {
-					swal.swalError("Error", error.message);
-				});
+		// 				swal.swalError("Error", res.data.message);
+		// 			}
+		// 		})
+		// 		.catch((error) => {
+		// 			swal.swalError("Error", error.message);
+		// 		});
 
-		} else if (event.target.checked === false) {
+		// } else if (event.target.checked === false) {
 
-			disableSource(sourceId)
-				.then((res) => {
-					if (res.data.isSuccess) {
+		// 	disableSource(sourceId)
+		// 		.then((res) => {
+		// 			if (res.data.isSuccess) {
 
-						return true;
-					} else {
+		// 				return true;
+		// 			} else {
 
-						swal.swalError("Error", res.data.message);
-					}
-				})
-				.catch((error) => {
-					swal.swalError("Error", error.message);
-				});
+		// 				swal.swalError("Error", res.data.message);
+		// 			}
+		// 		})
+		// 		.catch((error) => {
+		// 			swal.swalError("Error", error.message);
+		// 		});
 
-		} else {
-			swal.swalError("Error", "Status Undefined");
+		// } else {
+		// 	swal.swalError("Error", "Status Undefined");
 
-		}
+		// }
 
 	};
 
@@ -116,14 +116,15 @@ function AddSource() {
 	const handleSave = ({ setSubmitting, resetForm }, values) => {
 
 		let playload = {
-			sourceName: values.sourceName
+			sourceName: values.sourceName,
+			isActive: state.checkedA
 		}
-
+		debugger
 		editSource(sourceId, playload)
 			.then((res) => {
 				if (res.data.isSuccess) {
 					setSubmitting(false);
-					swal.swalSuccess("Success", `success.`).then(() => {
+					swal.swalSuccess("Success", "").then(() => {
 						history.push("/User/SourceTable");
 					});
 					resetForm(true);

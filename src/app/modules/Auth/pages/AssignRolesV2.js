@@ -2,9 +2,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
+import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { Grid, Card, CardActions, FormControlLabel, Switch, Button, CardContent, CardHeader, Typography } from '@material-ui/core';
+import { Grid, Card, CardActions, FormControlLabel, Switch, Button, CardContent, CardHeader, Typography, Popover } from '@material-ui/core';
 import { assignRoles, getRole, getUserByCode, getRoleByUserId, getRoleGroup } from "../_redux/authCrud";
 import FormikCheckBoxGroup from "../../../modules/_FormikUseFormik/components/FormikCheckBoxGroup";
 import SaveButton from "../../../modules/Common/components/Buttons/SaveButton";
@@ -13,8 +14,15 @@ import Divider from '@material-ui/core/Divider';
 import { useFormik } from "formik";
 import * as auth from "../_redux/authRedux";
 
+const useStyles = makeStyles((theme) => ({
+	typography: {
+		padding: theme.spacing(2),
+	},
+}));
+
 function AssignRolesV2(props) {
 
+	const classes = useStyles();
 	const authReducer = useSelector(({ auth }) => auth)
 
 	let { userGuid, employeeCode } = useParams();
@@ -26,10 +34,8 @@ function AssignRolesV2(props) {
 	const [userDetail, setUserDetail] = React.useState([]);
 	const [roleGroup, setRoleGroup] = React.useState([])
 	const [roleD, setRoleD] = React.useState([])
-
-	const [state, setState] = React.useState({
-		checkedA: false,
-	})
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const open = Boolean(anchorEl);
 
 	React.useEffect(() => {
 		getRoleGroup()
@@ -174,6 +180,23 @@ function AssignRolesV2(props) {
 			});
 	};
 
+	const handleClick = (event, id) => {
+		handleGet(id)
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
+	const handleReset = () => {
+		formik.setFieldValue('rolesId', [...[]])
+	};
+
+	const handleDefault = () => {
+		formik.setFieldValue('rolesId', [...authReducer.roleId])
+	};
+
 	const handleGet = (id) => {
 		if (roleGroup.length > 0) {
 			//เช็ค id roleGroup ต้อง != 0
@@ -183,68 +206,28 @@ function AssignRolesV2(props) {
 
 				if (objRole !== null) {
 					let objRoleId = [...authReducer.roleId]
+					let objRoleName = []
 					objRole.roleGroupDetail.forEach(element => {
 						//push roleId
 						objRoleId.push(element.role.id)
+						objRoleName.push(element.role.roleName)
 					});
 
-					setRoleD(objRoleId);
-					console.log("objRoleId", objRoleId)
+					setRoleD(objRoleName);
 					formik.setFieldValue('rolesId', [...objRoleId])
 				}
 			}
 		}
 	}
 
-	//disable enable source
-	const handleChange = (event) => {
-		setState({ ...state, [event.target.name]: event.target.checked });
-
-		// if (event.target.checked) {
-
-		// 	enableUser(userGuid)
-		// 		.then((res) => {
-		// 			if (res.data.isSuccess) {
-
-		// 				alert("true ok")
-		// 				return true;
-		// 			} else {
-
-		// 				swal.swalError("Error", res.data.message);
-		// 			}
-		// 		})
-		// 		.catch((error) => {
-		// 			swal.swalError("Error", error.message);
-		// 		});
-
-		// } else if (event.target.checked === false) {
-
-		// 	disableUser(userGuid)
-		// 		.then((res) => {
-		// 			if (res.data.isSuccess) {
-
-		// 				alert("false ok")
-		// 				return true;
-		// 			} else {
-
-		// 				swal.swalError("Error", res.data.message);
-		// 			}
-		// 		})
-		// 		.catch((error) => {
-		// 			swal.swalError("Error", error.message);
-		// 		});
-
-		// } else {
-		// 	swal.swalError("Error", "Status Undefined");
-
-		// }
-
-	};
-
 	return (
-		<div>
+		<div className={classes.root}>
 			<Card elevation={3}>
 				<CardHeader title={userDetail.fullName} />
+				<CardActions>
+					<Button variant="contained" style={{ backgroundColor: "#42a5f5" }} onClick={() => { handleReset() }}>RESET</Button>
+					<Button variant="contained" style={{ backgroundColor: "#42a5f5" }} onClick={() => { handleDefault() }}>Default Role User</Button>
+				</CardActions>
 				<Divider />
 				<CardContent>
 					<Typography variant="subtitle1" color="textSecondary" component="p">
@@ -259,11 +242,29 @@ function AssignRolesV2(props) {
 						spacing={3}>
 						{roleGroup.map((item) => (
 							<Grid item xs={6} lg={2} key={`product_${item.id}`}>
-								<Button variant="contained" style={{ backgroundColor: "#448aff" }} onClick={() => {
-									handleGet(item.id);
-								}}>
+								<Button variant="contained" style={{ backgroundColor: "#42a5f5" }} onClick={(event) => { handleClick(event, item.id) }}>
 									{item.name}
 								</Button>
+								<Popover
+									id={item.id}
+									open={open}
+									anchorEl={anchorEl}
+									onClose={handleClose}
+									anchorOrigin={{
+										vertical: 'bottom',
+										horizontal: 'center',
+									}}
+									transformOrigin={{
+										vertical: 'top',
+										horizontal: 'center',
+									}}
+								>
+									{(roleD.length <= 0 ? <Typography variant="subtitle2" color="textSecondary" component="p" className={classes.typography}></Typography> :
+										roleD.map((nameRole) => (
+											<Typography variant="subtitle2" color="textSecondary" component="p" className={classes.typography}>{nameRole}</Typography>
+										))
+									)}
+								</Popover>
 							</Grid>
 						))}
 						<Grid item xs={12} lg={12}>

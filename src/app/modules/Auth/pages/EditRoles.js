@@ -111,13 +111,13 @@ function EditRoles(props) {
 
 		let playload = {
 			roleName: values.roleName,
-			isActive: values.checkedA
+			isActive: state.checkedA
 		}
 		editRole(roleId, playload)
 			.then((res) => {
 				if (res.data.isSuccess) {
 					setSubmitting(false);
-					swal.swalSuccess("Success", `success.`).then(() => {
+					swal.swalSuccess("Success", "").then(() => {
 						history.push("/User/RoleTable");
 					});
 
