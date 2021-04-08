@@ -221,7 +221,7 @@ function AssignRolesV2(props) {
 	}
 
 	return (
-		<div className={classes.root}>
+		<div>
 			<Card elevation={3}>
 				<CardHeader title={userDetail.fullName} />
 				<CardActions>
