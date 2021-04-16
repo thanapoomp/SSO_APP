@@ -34,15 +34,17 @@ function AssignRolesV2(props) {
 	const [userDetail, setUserDetail] = React.useState([]);
 	const [roleGroup, setRoleGroup] = React.useState([])
 	const [roleD, setRoleD] = React.useState([])
+	const [roleId, setRoleId] = React.useState([])
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 
 	React.useEffect(() => {
+
 		getRoleGroup()
 			.then((res) => {
 
 				if (res.data.isSuccess) {
-
+					// setRoleId([...authReducer.roleId])
 					setRoleGroup(res.data.data)
 				} else {
 					//internal error
@@ -73,6 +75,11 @@ function AssignRolesV2(props) {
 		}
 	}, [authReducer.employeeCode]);
 
+	//set role ใหม่ทุกครั้ง ที่ state เปลี่ยน
+	React.useEffect(() => {
+		formik.setFieldValue('rolesId', [...roleId])
+	}, [roleId])
+
 
 	const formik = useFormik({
 		enableReinitialize: true,
@@ -81,7 +88,6 @@ function AssignRolesV2(props) {
 
 			//default role user
 			rolesId: [...authReducer.roleId]
-			// rolesId: [...roleD]
 
 		},
 		validate: (values) => {
@@ -97,6 +103,7 @@ function AssignRolesV2(props) {
 		},
 	});
 
+	//save role user
 	const handleSave = ({ setSubmitting }, values) => {
 
 		setSubmitting(false);
@@ -180,21 +187,27 @@ function AssignRolesV2(props) {
 			});
 	};
 
+	// open Popover
 	const handleClick = (event, id) => {
 		handleGet(id)
 		setAnchorEl(event.currentTarget);
 	};
 
+	//close Popover
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
 
+	//reset role user
 	const handleReset = () => {
 		formik.setFieldValue('rolesId', [...[]])
+		setRoleId([]);
 	};
 
+	//get role Default user
 	const handleDefault = () => {
 		formik.setFieldValue('rolesId', [...authReducer.roleId])
+		setRoleId([...authReducer.roleId]);
 	};
 
 	const handleGet = (id) => {
@@ -205,16 +218,28 @@ function AssignRolesV2(props) {
 				let objRole = roleGroup.find(obj => obj.id === id);
 
 				if (objRole !== null) {
-					let objRoleId = [...authReducer.roleId]
+
+					let objRoleId = []
+
 					let objRoleName = []
 					objRole.roleGroupDetail.forEach(element => {
-						//push roleId
-						objRoleId.push(element.role.id)
+
+						//find role
+						let i = roleId.indexOf(element.role.id);
+
 						objRoleName.push(element.role.roleName)
+						//get RoleName (Popover)
+						setRoleD(objRoleName)
+
+						//find ไม่เจอ role  //push roleId
+						if (i === -1) objRoleId.push(element.role.id)
+
+						//objRoleId ไม่เท่ากับ ว่าง set state
+						if (objRoleId !== []) setRoleId([...roleId, ...objRoleId]);
+
+
 					});
 
-					setRoleD(objRoleName);
-					formik.setFieldValue('rolesId', [...objRoleId])
 				}
 			}
 		}
@@ -241,7 +266,7 @@ function AssignRolesV2(props) {
 						alignItems="center"
 						spacing={3}>
 						{roleGroup.map((item) => (
-							<Grid item xs={6} lg={2} key={`product_${item.id}`}>
+							<Grid item xs={6} lg={2} key={`role_${item.id}`}>
 								<Button variant="contained" style={{ backgroundColor: "#42a5f5" }} onClick={(event) => { handleClick(event, item.id) }}>
 									{item.name}
 								</Button>
