@@ -1,19 +1,32 @@
 /* eslint-disable no-restricted-imports */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
+import { makeStyles } from '@material-ui/core/styles';
 import { connect, useDispatch } from "react-redux";
 import { injectIntl } from "react-intl";
 import UserTables from "mui-datatables";
 import { useHistory } from "react-router-dom";
 import { disableUser, getUserFilter, enableUser, reSetPassword } from "../_redux/authCrud";
 import * as auth from "../_redux/authRedux";
-import { Button, Grid, Typography, FormControlLabel, Switch, CircularProgress, Card, CardContent } from "@material-ui/core";
+import { Grid, Typography, Fab, CircularProgress, Card, CardContent } from "@material-ui/core";
 import * as swal from "../../Common/components/SweetAlert";
 import UserSearch from "../components/UserSearch";
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import { red, blue } from '@material-ui/core/colors';
+import { red, blue, orange } from '@material-ui/core/colors';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import EditIcon from '@material-ui/icons/Edit';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		'& > *': {
+			margin: theme.spacing(1),
+		},
+	},
+	extendedIcon: {
+		marginRight: theme.spacing(1),
+	},
+}));
 
 var flatten = require("flat");
 require("dayjs/locale/th");
@@ -21,6 +34,8 @@ var dayjs = require("dayjs");
 dayjs.locale("th");
 
 function UserTable(props) {
+
+	const classes = useStyles();
 
 	const dispatch = useDispatch()
 	const history = useHistory()
@@ -379,28 +394,45 @@ function UserTable(props) {
 							justify="center"
 							alignItems="center"
 						>
-							<Button
+							<Fab
+								variant="extended"
+								aria-label="add"
+								size="small"
 								style={{ backgroundColor: blue[400] }}
-								variant="contained"
-								startIcon={<SupervisorAccountIcon />}
 								color="secondary"
 								onClick={() => {
 									// handleEdit(data[dataIndex].id, data[dataIndex].mapperId, data);
 									history.push(`/User/EditRoles/${data[dataIndex].id}/${data[dataIndex].mapperId}`)
 								}}
 							>
+								<SupervisorAccountIcon />
 								Assign Role
-		                  </Button>
+		                  </Fab>
 
-							<Button
-								startIcon={<RotateLeftIcon />}
+							<Fab
+								variant="extended"
+								aria-label="add"
+								size="small"
 								style={{ backgroundColor: red[200], marginLeft: 10 }}
 								onClick={() => {
 									handleReset(data[dataIndex].id, data[dataIndex].mapperId, data[dataIndex]["person.title"], data[dataIndex]["person.firstName"], data[dataIndex]["person.lastName"]);
 								}}
 							>
+								<RotateLeftIcon />
 								Reset Password
-		                  </Button>
+		                  </Fab>
+
+							<Fab
+								size="small"
+								color="secondary"
+								aria-label="add"
+								style={{ backgroundColor: orange[400], marginLeft: 10 }}
+								onClick={() => {
+									handleReset(data[dataIndex].id, data[dataIndex].mapperId, data[dataIndex]["person.title"], data[dataIndex]["person.firstName"], data[dataIndex]["person.lastName"]);
+								}}
+							>
+								<EditIcon />
+							</Fab>
 						</Grid>
 					);
 				},

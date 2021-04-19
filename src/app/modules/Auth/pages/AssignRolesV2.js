@@ -224,14 +224,14 @@ function AssignRolesV2(props) {
 					let objRoleName = []
 					objRole.roleGroupDetail.forEach(element => {
 
+						//setState RoleName (Popover)
+						objRoleName.push(element.role.roleName)
+						setRoleD(objRoleName)
+
 						//find role
 						let i = roleId.indexOf(element.role.id);
 
-						objRoleName.push(element.role.roleName)
-						//get RoleName (Popover)
-						setRoleD(objRoleName)
-
-						//find ไม่เจอ role  //push roleId
+						//find ไม่เจอ role push roleId
 						if (i === -1) objRoleId.push(element.role.id)
 
 						//objRoleId ไม่เท่ากับ ว่าง set state
